@@ -1,0 +1,54 @@
+/* pages/course/coursedetail/courseDetail.wxss */
+.video-top-bar {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.video-top-1 {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 25rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.video-top-1 .back-icon-box{
+ width: 40rpx;
+ height: 100%;
+ display: flex;
+ align-items: center;
+}
+.video-top-1 .back-icon-box .back-icon{
+   width: 40rpx;
+   height: 40rpx;
+}
+.video-top-1 .left {
+  flex: 1;
+  text-align: left;
+  font-size: 30rpx;
+  line-height: 100%;
+  margin-left: 10rpx;
+  color: white;
+}
+
+.video-top-1 .right {
+  flex: 1;
+  text-align: right;
+  line-height: 100%;
+  font-size: 30rpx;
+  margin-right: 15rpx;
+  color: white;
+}
+
+.web-view {
+  width: 100rpx;
+  height: 300rpx;
+  background-color: yellow;
+}

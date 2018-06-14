@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "发票配送信息",
+  "usingComponents": {
+    "address-choose-picker": "/component/addressChoosePicker/addressChoosePicker"
+  },
+  "enablePullDownRefresh": false
+}

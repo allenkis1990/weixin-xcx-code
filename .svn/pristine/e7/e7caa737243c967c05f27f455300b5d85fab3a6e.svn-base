@@ -1,0 +1,42 @@
+var getShowPersonNameValue = function (invoiceInfo) {
+  if (invoiceInfo.titleType == undefined || invoiceInfo.invoiceType == undefined) {
+    return ''
+  }
+  if ((invoiceInfo.invoiceType == 1 || invoiceInfo.invoiceType == 2 || invoiceInfo.invoiceType == 4) && invoiceInfo.titleType == 1) {
+    if (invoiceInfo.title !== undefined && invoiceInfo.title.length) {
+      return invoiceInfo.title
+    } else {
+      return ''
+    }
+  } else {
+    return ''
+  }
+}
+var getShowUnitNameValue = function (invoiceInfo) {
+  if (invoiceInfo.titleType == undefined || invoiceInfo.invoiceType == undefined) {
+    return ''
+  }
+  if ((invoiceInfo.invoiceType == 1 || invoiceInfo.invoiceType == 2 || invoiceInfo.invoiceType == 4) && invoiceInfo.titleType == 2) {
+    if (invoiceInfo.title !== undefined && invoiceInfo.title.length) {
+      return invoiceInfo.title
+    } else {
+      return ''
+    }
+  } else {
+    return ''
+  }
+}
+var getShowUnitClassString = function (selectedInvoiceTitleType) {
+  if (selectedInvoiceTitleType == undefined) {
+    return ''
+  }
+  if (selectedInvoiceTitleType == 4) {
+    return 'bor-b20'
+  }
+  return ''
+}
+module.exports = {
+  getShowPersonNameValue: getShowPersonNameValue,
+  getShowUnitNameValue: getShowUnitNameValue,
+  getShowUnitClassString: getShowUnitClassString
+}

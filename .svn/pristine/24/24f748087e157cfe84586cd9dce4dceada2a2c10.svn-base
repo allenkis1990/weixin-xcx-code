@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "班级详情",
+  "usingComponents": {
+    "course-list":"../courseComponent/courseComponent",
+    "class-information": "../classInformationComponent/classInformationComponent",
+    "mealTicket":"/pages/linetrainclass/mealTicketComponent/mealTicketComponent",
+    "assess-condition": "../assessConditionComponent/assessConditionComponent",
+    "wxtab":"/component/tab/tab"
+  },
+  "enablePullDownRefresh": true
+}

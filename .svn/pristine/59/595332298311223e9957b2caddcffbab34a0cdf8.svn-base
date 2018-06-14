@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText":"班级详情",
+  "usingComponents": {
+    "course": "/pages/trainclass/course/courseComponent",
+    "exam":"/pages/trainclass/exam/examComponent",
+    "test": "/pages/trainclass/testComponent/testComponent",
+    "alert": "/component/alert/alert"
+  },
+  "enablePullDownRefresh": false
+}

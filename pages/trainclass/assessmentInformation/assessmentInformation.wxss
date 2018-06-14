@@ -1,0 +1,6 @@
+/* pages/trainclass/assessmentInformation.wxss */
+@import "/app.wxss";
+
+.contain {
+  position:static;  
+}

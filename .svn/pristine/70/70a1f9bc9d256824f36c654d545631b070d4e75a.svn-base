@@ -1,0 +1,27 @@
+<!-- 0查看卷子  1考试 -->
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<view wx:if="{{!showResultCard&&!showAnswerCard}}" class="contain hb-box" bindtouchmove='swipeView'>
+  <judge id="judge" wx:if="{{currentAnswerQuestion.questionType == 1}}" question="{{currentAnswerQuestion}}" showAnswer="{{showAnswer}}" showDescription="{{showDescription}}" showResult="{{showResult}}" currentQuestionIndex="{{currentQuestionIndex}}" allQuestionIndex="{{allQuestionIndex}}" bind:switchShowAnswer="openAnswerEvent" examOrCheckResult="{{examOrCheckResult}}"></judge>
+  <single id="single" wx:if="{{currentAnswerQuestion.questionType == 2}}" question="{{currentAnswerQuestion}}" showAnswer="{{showAnswer}}" showDescription="{{showDescription}}" showResult="{{showResult}}" currentQuestionIndex="{{currentQuestionIndex}}"
+    allQuestionIndex="{{allQuestionIndex}}" bind:switchShowAnswer="openAnswerEvent" examOrCheckResult="{{examOrCheckResult}}"></single>
+  <multi id="multi" wx:if="{{currentAnswerQuestion.questionType == 3}}" question="{{currentAnswerQuestion}}" showAnswer="{{showAnswer}}" showDescription="{{showDescription}}" showResult="{{showResult}}" currentQuestionIndex="{{currentQuestionIndex}}" allQuestionIndex="{{allQuestionIndex}}" bind:switchShowAnswer="openAnswerEvent" examOrCheckResult="{{examOrCheckResult}}"></multi>
+  <view class="hb-tabbar hb-tabbar-1">
+    <view class="hb-btn-1 {{currentQuestionIndex ===0 ? 'disabled' : ''}}" bindtap='previousQuestion'>
+      <view class="ico">
+        <image class="img" src="/image/exam-prev.png" wx:if="{{currentQuestionIndex !==0}}"/>
+        <image class="img" src="/image/exam-prev-disabled.png" wx:if="{{currentQuestionIndex ===0}}"/>
+      </view>
+      <text>上一题</text>
+    </view>
+    <view class="hb-btn-1 {{currentQuestionIndex ===allQuestionIndex-1 ? 'disabled' : ''}}" bindtap='nextQuestion'>
+      <text>下一题</text>
+      <view class="ico ico-next">
+        <view class="ico">
+          <image class="img" src="/image/exam-next.png" wx:if="{{currentQuestionIndex !==allQuestionIndex-1}}"/>
+          <image class="img" src="/image/exam-next-disabled.png" wx:if="{{currentQuestionIndex ===allQuestionIndex-1}}"/>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,14 @@
+/* pages/mine/personInfo/personInfo.wxss */
+
+.picker{
+  padding: 19rpx 26rpx;
+  background-color: #FFFFFF;
+}
+::-webkit-scrollbar{
+display:none;
+}
+.publish-time {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}

@@ -1,0 +1,12 @@
+<!--pages/exam/examPreview/examPreview.wxml-->
+<view class="contain exam-enter-panel">
+  <view class="p25" wx:for="{{examList}}" wx:for-item="item" wx:key="examRoundId">
+    <image class="exam-img" src="/image/exam-enter-icon.png" />
+    <view class="exam-name">{{item.examRoundName}}</view>
+    <view class="exam-info">
+      <text class="ico ico-time">考试时长：{{item.examLength}}分钟</text>
+      <text class="ico ico-num">考试剩余次数：{{item.allowExamCount - item.alreadyExamCount}}次</text> {{item.examScore}} {{item.condition}}
+    </view>
+    <view class="btn-full">进入考试</view>
+  </view>
+</view>

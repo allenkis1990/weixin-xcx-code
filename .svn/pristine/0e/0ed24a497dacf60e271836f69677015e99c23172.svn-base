@@ -1,0 +1,128 @@
+const formatTime = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+
+function empty(str){
+  if (str === undefined || str.length === undefined || str === null || str.length === 0) {
+    return true
+  }
+  return false
+}
+
+function verIdentification(str) {
+  //  身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+  let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+  if (reg.test(str) === false) {
+    return false
+  }
+  return true
+}
+// resolve(resultData)
+function getStorageUnionIdAndOpenId(){
+  var result = { success: false }
+  var unionId=null
+  var openId=null
+  return new Promise((resolve, reject) => {
+    wx.getStorage({
+      key: 'unionId',
+      success: function (res) {
+        if (empty(res.data)) {
+          return resolve(result)
+        }
+        unionId = res.data
+        wx.getStorage({
+          key: 'openId',
+          success: function (res) {
+            if (empty(res.data)) {
+              return resolve(result)
+            }
+            openId = res.data
+            var successResult = { success: true, unionId: unionId, openId: openId}
+            return resolve(successResult)
+          }, fail: function (res) {
+            return resolve(result)
+          }
+        })
+      }, fail: function (res) {
+        return resolve(result)
+      }
+    })
+  })
+}
+
+function analysisUrl(url) {
+  try {
+    var reg = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+    var result = reg.exec(url)
+    var names = ["url", "scheme", "slash", "host", "port", "path", "query", "hash"]
+    let length = names.length
+    let ret = {}
+    for (var i = 0; i < length; i++) {
+      ret[names[i]] = result[i]
+    }
+    if (ret.port === undefined && ret.scheme !== undefined) {
+      if (ret.scheme.toLowerCase() === 'http') {
+        ret.port = '80'
+      } else if (ret.scheme.toLowerCase() === 'https') {
+        ret.port = '443'
+      }
+    }
+    var params = []
+    var queryArray = ret.query.split("&")
+    queryArray.forEach(function (item) {
+      var obj = {};
+      var value = item.split("=")[1];
+      var key = item.split("=")[0];
+      obj[key] = value;
+      params.push(obj);
+    })
+    ret["params"] = params
+    return ret
+  } catch (e) {
+    console.log(e)
+  }
+  return {}
+}
+
+
+function getLoginUserId(){
+  var obj={};
+  return new Promise(function(resolve,reject){
+      wx.getStorage({
+          key: 'loginUserId',
+          success: function(res) {
+              console.log(1)
+              obj.success=true;
+              obj.userId=res.data;
+              resolve(obj);
+          },
+          fail:function(){
+              console.log(2)
+              obj.success=false;
+              resolve(obj);
+          }
+      })
+  });
+}
+
+
+module.exports = {
+  formatTime: formatTime,
+  empty:empty,
+  verIdentification: verIdentification,
+  getStorageUnionIdAndOpenId: getStorageUnionIdAndOpenId,
+  analysisUrl:analysisUrl,
+  getLoginUserId:getLoginUserId
+}

@@ -1,0 +1,85 @@
+<!--获取sku值对比函数-->
+<wxs module="utils" src="../../../utils/commonUtil.wxs"></wxs>
+<wxs src="./assessmentInformation.wxs" module="assessmentUtils" />
+<view class="contain">
+  <view class="hb-box-bd">
+    <view class="views-block">
+      <image class="bg" src="/image/exam-detail-bg.png" alt=" " />
+      <view class="circle-process-box views-block-bd">
+        <!-- 环形进度条效果未实现 -->
+        <view class="process-items" wx:if="{{isShowProgressCircle}}">
+          <view class="circle-panel">
+            <view class="circle-num">{{trainDetail.completePercent==undefined?'0': trainDetail.completePercent}}
+              <text class="txt" style='font-size:24rpx'>%</text>
+            </view>
+            <canvas class='circle' style="width: 102px; height: 102px;" canvas-id="firstCanvas"></canvas>
+            <canvas class="circle" style="width: 98px; height: 98px;" canvas-id="secondCanvas"></canvas>
+          </view>
+          <view class="process-tit-box">
+            <view class="process-tit">已学进度</view>
+          </view>
+        </view>
+        <view class="process-items" wx:if='{{trainDetail.hasExamConfig}}'>
+          <view class="circle-panel">
+            <view class="circle-num">
+              <text style='font-size:34rpx;'>{{assessmentUtils.getShowScoreText(trainDetail.hasExamConfig,trainDetail.score)}}</text>
+              <text class='fs20'>/{{assessInformation.assessPassScore}}</text>
+            </view>
+            <canvas class='circle' style="width: 102px; height: 102px;" canvas-id="thirdCanvas"></canvas>
+            <canvas class="circle" style="width: 98px; height: 98px;" canvas-id="fourCanvas"></canvas>
+          </view>
+          <view class="process-tit-box">
+            <view class="process-tit">
+              <text wx:if='{{trainDetail.hasExamConfig}}'>考试得分/考核分数(分)</text>
+<!--
+              <text wx:if='{{!trainDetail.haveExam && trainDetail.havePopuPQuestionAssess}}'>练习得分/考核分数(分)</text>
+-->
+<!--
+              <text wx:if='{{trainDetail.haveExam && trainDetail.havePopuPQuestionAssess}}'>练习+考试得分/考核分数(分)</text>
+-->
+            </view>
+          </view>
+          <view class="status-label" wx:if="{{trainDetail.assessResult==1}}">
+            <image class="img" src="/image/pass-label.png" alt=" " />
+            <txet class="label-text">已达标</txet>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="block-position">
+      <view class="block-box situation-info-box">
+        <view class="info-tit">考核要求</view>
+        <view class="info-desc">
+          <text>课程学习进度={{trainDetail.assessInformation.assessTrainingComplete==undefined?'0':trainDetail.assessInformation.assessTrainingComplete}}%</text>
+          <text wx:if='{{(trainDetail.hasExamConfig)}}'>，</text>
+          <text wx:if="{{trainDetail.hasExamConfig}}">考试成绩≥{{trainDetail.assessInformation.assessPassScore==undefined?'0':trainDetail.assessInformation.assessPassScore}}分</text>
+<!--
+          <text wx:if="{{!trainDetail.haveExam && trainDetail.havePopuPQuestionAssess}}">练习成绩≥{{trainDetail.assessInformation.assessPassScore==undefined?'0':trainDetail.assessInformation.assessPassScore}}分</text>
+-->
+<!--
+          <text wx:if="{{trainDetail.haveExam && trainDetail.havePopuPQuestionAssess}}">练习+考试成绩≥{{trainDetail.assessInformation.assessPassScore==undefined?'0':trainDetail.assessInformation.assessPassScore}}(练习成绩占比{{assessInformation.popQuestionFullScore}}%,考试成绩占比{{assessInformation.examFullScore}}%)</text>
+-->
+        </view>
+      </view>
+      <view class="block-box situation-info-box" wx:if='{{trainDetail.hasSelectCourse}}'>
+        <view class="info-tit">选课要求</view>
+        <view class="info-desc">
+          <text class="cb">[要求]</text> 本班培训，选课学时数须 ≥{{trainDetail.assessInformation.trainHours}} 学时</view>
+        <view class="info-desc" wx:if='{{remainingPeriod>0}}'>
+          <text class="cb">[当前]</text> 已选{{selectedHours}}学时，
+          <text class="ci">还需 {{remainingPeriod}} 学时</text>。</view>
+        <view class="info-desc" wx:if='{{remainingPeriod<=0}}'>
+          <text class="cb">[当前]</text> 累计已选{{selectedHours}}学时，满足选课要求。</view>
+        <view class="tc">
+          <view class="btn" catchtap='goToSelectCourse'>去选课</view>
+        </view>
+      </view>
+      <view class="block-box situation-info-box">
+        <view class="info-tit">班级培训信息</view>
+        <view class="info-desc">年度：{{trainDetail.trainingYear}}年</view>
+        <view class="info-desc">科目：{{trainDetail.trainingSubject}}</view>
+        <view class="info-desc">学时：{{trainDetail.assessInformation.trainingYearCredit}}</view>
+      </view>
+    </view>
+  </view>
+</view>

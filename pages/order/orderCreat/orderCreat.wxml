@@ -1,0 +1,116 @@
+<!--确认订单-->
+<wxs module="orderCreatUtil" src="./orderCreatUtil.wxs"></wxs>
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">培训内容</view>
+      <view class="weui-panel__bd">
+        <view class="hb-media-box">
+          <view class="hb-media-box-hd">
+            <image class="hb-media-box-thumb" wx:if="{{firstTrainingItem.photoPath!== undefined}}" src="{{firstTrainingItem.photoPath}}" />
+          </view>
+          <view class="hb-media-box-bd">
+            <view class="hb-media-box-title">{{firstTrainingItem.trainingClassName}}</view>
+            <view class="hb-media-box-desc">年度：{{firstTrainingItem.skuPropertyNameList[0].skuPropertyValueName}}年</view>
+            <view class="hb-media-box-desc">科目：{{firstTrainingItem.skuPropertyNameList[1].skuPropertyValueName}}</view>
+            <view class="hb-media-box-desc">学时：{{firstTrainingItem.trainingPeriod}}</view>
+          </view>
+          <view class="price">￥
+            <text class="num">{{totoalPrice}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells" bindtap='goToTrainingContentListAction'>
+        <view class="weui-cell weui-cell_access" wx:if="{{isShowMoreTrainingContent}}">
+          <view class="weui-cell__bd"></view>
+          <view class="weui-cell__ft">{{showMoreTrainingContentText}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20" wx:if="{{orderCreatUtil.isShowInvoiceInfo(totoalPrice,preConditionInfo.type)}}">
+      <view class="weui-panel__hd">发票</view>
+      <view class="weui-cells">
+        <view class="weui-cell"  bindtap='changeIsNeedInvoiceAction'>
+          <view class="weui-cell__bd">
+            <view>索要发票</view>
+          </view>
+          <view class="weui-cell__ft hb-form-box">
+            <view class="hb-form">
+              <image class="img" src="/image/radio.png" alt=" " wx:if="{{!isNeedInvoice}}" />
+              <image class="img" src="/image/radio-checked.png" alt=" " wx:if="{{isNeedInvoice}}" />
+            </view>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_access" wx:if="{{isNeedInvoice}}" bindtap='chooseInvoiceTypeAction'>
+          <view class="weui-cell__bd">
+            <view class="to">
+              <text class="tit">发票</text>{{showInvoiceTypeText}}</view>
+          </view>
+          <view class="weui-cell__ft"></view>
+        </view>
+        <view class="weui-cell weui-cell_access" wx:if="{{isNeedInvoice && orderCreatUtil.isShowInvoiceSendCell(invoiceInfo.invoiceType)}}" bindtap='chooseInvoiceSendModeAction'>
+          <view class=" weui-cell__bd ">
+            <view class="to ">
+              <text class="tit ">发票配送</text>{{showInvoiceSendText}}</view>
+          </view>
+          <view class="weui-cell__ft "></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel hb-panel bor-b20 " wx:if="{{orderCreatUtil.isShowCertificateSendInfo(preConditionInfo.type)}}">
+      <view class="weui-panel__hd ">证明</view>
+      <view class="weui-cells ">
+        <view class="weui-cell weui-cell_access " bindtap='chooseCertificateSendModeAction'>
+          <view class="weui-cell__bd ">
+            <view class="to ">
+              <text class="tit ">证明配送</text>{{showCertificateSendText}}</view>
+          </view>
+          <view class="weui-cell__ft "></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel hb-panel " wx:if="{{orderCreatUtil.isShowGoodsSendInfo(totoalPrice,preConditionInfo.type)}}">
+      <view class="weui-panel__hd ">发票及证明</view>
+      <view class="weui-cells ">
+        <view class="weui-cell ">
+          <view class="weui-cell__bd ">
+            <view>索要发票</view>
+          </view>
+          <view class="weui-cell__ft hb-form-box ">
+            <view class="hb-form " bindtap='changeIsNeedInvoiceAction'>
+              <image class="img " src="/image/radio.png " alt=" " wx:if="{{!isNeedInvoice}}" />
+              <image class="img " src="/image/radio-checked.png " alt=" " wx:if="{{isNeedInvoice}}" />
+            </view>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_access " wx:if="{{isNeedInvoice}}" catchtap='chooseInvoiceTypeAction'>
+          <view class="weui-cell__bd ">
+            <view class="to ">
+              <text class="tit ">发票抬头</text>{{showInvoiceTypeText}}</view>
+          </view>
+          <view class="weui-cell__ft"></view>
+        </view>
+        <view class="weui-cell weui-cell_access " wx:if="{{isNeedInvoice}}" catchtap='chooseGoodsSendTypeAction'>
+          <view class="weui-cell__bd ">
+            <view class="to ">
+              <text class="tit ">物品配送</text>{{showInvoiceSendText}}</view>
+          </view>
+          <view class="weui-cell__ft "></view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+
+  <view class="hb-tabbar ">
+    <view class="left-box ">待付金额
+      <text class="ci fs40 ml20 ">￥{{orderCreatUtil.toDecimal2(totoalPrice)}}</text>
+    </view>
+    <view class="hb-btn {{orderCreatUtil.getShowSubmitButtonClass(preConditionInfo.type,totoalPrice,isNeedInvoice,invoiceInfo,certificateSendInfo,isCreatingOrder)}} " bindtap='creatOrderAction'>提交订单</view>
+  </view>
+</view>
+<custom-modal id="customModal" content="该订单为0元订单，无需支付!" confirm-text="查看订单详情" cancel-text="进入学习" is-show-cancel="{{true}}" bind:confirmAction="_modalConfirmAction" bind:cancelAction="_modalConfirmGotoStudyAction"></custom-modal>
+<alert id='alert'></alert>

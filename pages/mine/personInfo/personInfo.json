@@ -1,0 +1,8 @@
+
+{
+  "navigationBarTitleText": "个人信息",
+  "component": true,
+  "usingComponents": {
+    "address-choose-picker": "/component/addressChoosePicker/addressChoosePicker"
+  }
+}

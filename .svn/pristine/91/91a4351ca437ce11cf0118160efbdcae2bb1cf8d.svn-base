@@ -1,0 +1,96 @@
+<!--pages/course/courseDetail.wxml-->
+<import src="/component/wetoast/wetoast.wxml" />
+<wxs module="courseDetailUtil" src="./courseDetailUtil.wxs"></wxs>
+<template is="wetoast" data="{{...__wetoast__}}" />
+<course-video-player id="videoPlayer" bind:videoPlayEndEvent="_playEndAction" bind:startFirstPlayTapEvent="_startFirstPlayAction" bind:videoTimeUpdate="_videoTimeUpdate"></course-video-player>
+<popupQuestionContainer id="popupQuestionContainer" wx:if="{{showPopupQuestion}}"></popupQuestionContainer>
+<view class="hb-tab-tit">
+  <view class="tab-tit-items {{currentTab==0 ? 'current' : ''}}" data-current="0" bindtap="swichNav">课程目录</view>
+  <view class="tab-tit-items {{currentTab==1 ? 'current' : ''}}" data-current="1" bindtap="swichNav">课程信息</view>
+</view>
+<swiper current="{{currentTab}}" duration="300" style="height:{{winHeight - 90 - 400 - 20}}rpx;" bindchange="bindChange">
+  <!-- 课程目录页面 -->
+  <swiper-item>
+    <view>
+      <scroll-view scroll-y style="height: {{winHeight - 90 - 400 - 20}}rpx;">
+        <view class="contain">
+          <view class="course-catalog" style='top:0rpx;'>
+            <!-- 课件名称 -->
+            <view class="exam-panel-hd">
+              <view class="hd-info">{{courseInfo.courseName}}</view>
+            </view>
+            <view class="course-catalog-bd">
+              <view class="line"></view>
+              <!-- 章节 -->
+              <block wx:for="{{chapterList}}" wx:key="{{item.chapterName}}">
+                <view class="items">
+                  <view class="items-tit" catchtap="chapterTapAction" data-current-index="{{index}}">
+                    <view class="items-tit-hd">
+                      <text class="label" style='text-align:left; padding-left: 20rpx;'>章节</text>
+                      <text class="num">{{index +1}}</text>
+                    </view>
+                    <view class="items-tit-bd">{{item.chapterName}}</view>
+                  </view>
+
+                  <!-- 已学完 items-cont+course-ed 未学完 items-cont+course-ing 未学 items-cont-->
+                  <!-- 视频 src="../../../image/catalog-video.png" "../image/catalog-video-current.png" 课件 ../../../image/catalog-text-current.png  -->
+                  <block wx:for="{{item.coursewareList}}" wx:for-index="subIndex" wx:for-item="subItem" wx:key="{{subItem.coursewareId}}" wx:if="{{item.isOpen}}">
+                    <view class="items-cont {{courseDetailUtil.showChapterStyleClass(subItem.schedule)}} {{subItem.coursewareId == selectedCourseWare.coursewareId?'current':''}}" data-course-ware="{{subItem}}" bindtap="couseSelectedAction">
+                      <!-- current -->
+                      <view class="items-cont-hd">
+                        <text class="process-num">{{subItem.showSchedule}}%</text>
+                        <view class="process-circle">
+                          <view class="current"></view>
+                        </view>
+                      </view>
+                      <view class="items-cont-bd">{{subIndex +1 +"、"+subItem.coursewareName}}</view>
+                      <view class="items-cont-ft">
+                        <text wx:if="{{subItem.type!=1}}">{{subItem.totalTimeText}}</text>
+                        <!-- <image class="img" src="{{subItem.type == undefine ? '/image/catalog-text.png' : subItem.type == 1 ? subItem.coursewareId == selectedCourseWare.coursewareId ? '/image/catalog-text-current.png':'/image/catalog-text.png'  :  subItem.coursewareId == selectedCourseWare.coursewareId ?'/image/catalog-video-current.png' : '/image/catalog-video.png' }}" alt="" /> -->
+
+                        <image class="img" wx:if="{{subItem.type == undefine}}" src="/image/catalog-text.png" alt="" />
+                        <image class="img" wx:if="{{subItem.type != undefine &&subItem.type == 1 && subItem.coursewareId == selectedCourseWare.coursewareId}}" src="/image/catalog-text-current.png" alt="" />
+                        <image class="img" wx:if="{{subItem.type != undefine &&subItem.type == 1 && subItem.coursewareId != selectedCourseWare.coursewareId}}" src="/image/catalog-text.png" alt="" />
+                        <image class="img" wx:if="{{subItem.type != undefine &&subItem.type != 1 && subItem.coursewareId == selectedCourseWare.coursewareId}}" src="/image/catalog-video-current.png" alt="" />
+                        <image class="img" wx:if="{{subItem.type != undefine &&subItem.type != 1 && subItem.coursewareId != selectedCourseWare.coursewareId}}" src="/image/catalog-video.png" alt="" />
+
+                      </view>
+                    </view>
+                  </block>
+
+                </view>
+              </block>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </swiper-item>
+  <!-- 课程信息页面 -->
+  <swiper-item>
+    <view>
+      <scroll-view scroll-y style="height: {{winHeight - 85 - 400 - 20}}rpx;">
+        <view class="course-catalog" style='top:0rpx;'>
+          <view class="block-box situation-info-box">
+            <view class="info-tit">基础信息</view>
+            <view class="info-desc">课程名称：{{courseInfo.courseName}}</view>
+            <view class="info-desc">讲师：{{teachers}}</view>
+            <!-- <view class="info-desc">学时：{{courseInfo.courseCredit}}</view> -->
+            <view class="info-desc">创建时间：{{courseInfo.courseCreateTime}}</view>
+          </view>
+          <view class="block-box situation-info-box">
+            <view class="info-tit">课程介绍</view>
+            <view class="no-data-box" wx:if="{{courseInfo.courseAbouts == undefined || !courseInfo.courseAbouts.length}}">
+              <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+              <view class="no-data-txt" style='font-size: 28rpx;'>无课程简介</view>
+            </view>
+            <view class="info-desc info-desc-1" style='word-wrap:break-word;' wx:if="{{courseInfo.courseAbouts !== undefined && courseInfo.courseAbouts.length}}">{{courseInfo.courseAbouts}}
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </swiper-item>
+</swiper>
+<!-- http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400 -->
+<!-- http://recordcdn.quklive.com:80/broadcast/activity/1486031510804952/record.m3u8 -->

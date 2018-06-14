@@ -1,0 +1,10 @@
+<!--pages/course/popupQuestionComponent/popupQuestionContainer/popupQuestionContainer.wxml-->
+<judge wx:if="{{currentAnswerQuestion.questionType == 1}}" question="{{currentAnswerQuestion}}" index="{{index}}" can-answer-times="{{canAnswerTimes}}" is-finally-should-show-answer="{{isFinallyShouldShowAnswer}}" answer-need-param="{{answerNeedParam}}"
+  bind:closePopQuestionWindow="_closePopQuestionWindow"></judge>
+<single wx:if="{{currentAnswerQuestion.questionType == 2}}" question="{{currentAnswerQuestion}}" index="{{index}}" can-answer-times="{{canAnswerTimes}}" is-finally-should-show-answer="{{isFinallyShouldShowAnswer}}" answer-need-param="{{answerNeedParam}}"
+  bind:closePopQuestionWindow="_closePopQuestionWindow"></single>
+<multiple wx:if="{{currentAnswerQuestion.questionType == 3}}" question="{{currentAnswerQuestion}}" index="{{index}}" can-answer-times="{{canAnswerTimes}}" is-finally-should-show-answer="{{isFinallyShouldShowAnswer}}" answer-need-param="{{answerNeedParam}}"
+  bind:closePopQuestionWindow="_closePopQuestionWindow"></multiple>
+<canvas canvas-id="covercanvas" class='cover-cavas'>
+  <cover-view class='cover-context' bindtap='showTipToAnswerAction'></cover-view>
+</canvas>

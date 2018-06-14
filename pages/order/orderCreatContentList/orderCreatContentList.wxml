@@ -1,0 +1,35 @@
+<!--pages/order/orderCreatContentList/orderCreatContentList.wxml-->
+<wxs module="orderCreatContentListUtil" src="./orderCreatContentListUtil.wxs"></wxs>
+<view class="contain">
+  <!--班级列表-->
+  <view class="hb-wrap-box hb-wrap-box-4">
+    <view class="hb-panel">
+      <scroll-view class="hb-panel-bd">
+
+        <view class="hb-media-box" wx:for="{{traningShoopingItems}}" wx:key="{{item.skuId}}" bindtap='itemCellClickAction' data-current-item="{{item}}">
+          <view class="hb-media-box-hd">
+            <image class="hb-media-box-thumb" src="{{item.photoPath}}" />
+          </view>
+          <view class="hb-media-box-bd">
+            <view class="hb-media-box-title">{{item.skuName}}</view>
+            <view class="hb-media-box-desc">年度：{{orderCreatContentListUtil.getShowYearText(item)}}年</view>
+            <view class="hb-media-box-desc">科目：{{orderCreatContentListUtil.getSkuValueWithKeyFromSkuArray('trainingSubject',item.skuPropertyNameList)}}</view>
+            <view class="hb-media-box-desc">学时：{{item.trainingPeriod}}</view>
+          </view>
+          <view class="price">￥
+            <text class="num">{{item.originalPrice}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <!--/班级列表-->
+
+  <!--返回顶部-->
+  <view class="layer-box">
+    <view class="a-items">
+      <image class="img" src="/image/icon-top.png" alt=" " />
+    </view>
+  </view>
+  <!--/返回顶部-->
+</view>

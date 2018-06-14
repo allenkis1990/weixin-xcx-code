@@ -1,0 +1,398 @@
+// pages/mine/shippingAddress/shippingAddress.js
+let app = getApp();
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    recipient: {
+      addressDetails: "",
+      cityId: "",
+      cityName: "",
+      districtId: "",
+      districtName: "",
+      mobileNo: "",
+      postCode: "",
+      provinceId: "",
+      provinceName: "",
+      receiverId: "",
+      receiverName: ""
+    },
+    //收货地址编辑页
+    buttonStyleFlag: false,
+    areaInfo: {},
+    prePickerIndex: [],
+    //设置显示是否编辑收货地址 1.预览|2.编辑
+    currentNavtab: '1',
+    textAreaTop: 0
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function () {
+    let context = this
+    wx.getSystemInfo({
+      success: function (res) {
+        if (res.system.indexOf('iOS') >= 0) {
+          context.setData({
+            textAreaTop: -12
+          })
+        }
+      }
+    })
+    //var reciver = app.getUserReceiveAddress()
+
+    app.requestData(app.config.userReceiverAddress, {}, "GET").then(response => {
+      if (response.head.code === app.constant.network_result_success) {
+        //this.userReceiveAddress = response.data
+        var reciver=response.data;
+        console.log(reciver);
+        if (reciver != undefined && reciver != '' && reciver != null) {
+          let userReceiveInfoString = JSON.stringify(reciver)
+          let newUserReceiveInfo = JSON.parse(userReceiveInfoString)
+          context.setData({
+            recipient: newUserReceiveInfo
+          })
+        }
+        var temp = 1
+        if (context.data.recipient.receiverId != undefined && context.data.recipient.receiverId != '' && context.data.recipient.receiverId != null) {
+          temp = 1
+        } else {
+          temp = 2
+        }
+        context.setData({
+          currentNavtab: temp
+        })
+        //console.log(this.data.recipient);
+        context.setAreaInfo()
+        context.setUserAddressInfo()
+
+        //第一次导入数据判断是不是完整信息
+
+        if (context.data.recipient.receiverName.length > 0 && context.data.recipient.mobileNo.length > 0 && context.data.recipient.provinceId.length > 0 && context.data.recipient.cityId.length > 0 && context.data.recipient.districtId.length > 0 && context.data.recipient.addressDetails.length > 0 && context.data.recipient.postCode.length > 0) {
+          context.setData({
+            buttonStyleFlag: true
+          })
+        }
+        //console.log(this.userReceiveAddress);
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  /**
+    * 点击事件--修改收货地址
+    */
+  shippingAddressOnclick() {
+    this.setData({
+      currentNavtab: 2
+    })
+  },
+
+  /**
+    * 读取页面输入值
+    */
+  inputStringOclick: function (e) {
+    switch (e.currentTarget.dataset.inputKey) {
+      case 'inputUserName':
+        var recipients = "recipient.receiverName"
+        this.setData({
+          [recipients]: e.detail.value
+        })
+        break
+      case 'inputPhoneNumber':
+        var phoneNumber = "recipient.mobileNo"
+        this.setData({
+          [phoneNumber]: e.detail.value
+        })
+        break
+      case 'inputAddress':
+        var address = "recipient.addressDetails"
+        this.setData({
+          [address]: e.detail.value
+        })
+        break
+      case 'inputPostalCode':
+        var postalCode = "recipient.postCode"
+        this.setData({
+          [postalCode]: e.detail.value
+        })
+        break
+    }
+
+    this.judgeButtonStyle()
+  },
+
+  _pickerConfirmAction(event) {
+    let ids = event.detail.ids
+    let names = event.detail.names
+    var provinceId = "recipient.provinceId"
+    var cityId = "recipient.cityId"
+    var districtId = "recipient.districtId"
+    var provinceName = "recipient.provinceName"
+    var cityName = "recipient.cityName"
+    var districtName = "recipient.districtName"
+    this.setData({
+      [cityId]: ids[0],
+      [districtId]: ids[1],
+      [cityName]: names[0],
+      [districtName]: names[1]
+    })
+  },
+
+  /**
+    * 判断是否按钮灰显
+    */
+  judgeButtonStyle: function () {
+    if (this.data.recipient.receiverName.length > 0 && this.data.recipient.mobileNo.length > 0 && this.data.recipient.provinceId.length > 0 && this.data.recipient.cityId.length > 0 && this.data.recipient.districtId.length > 0 && this.data.recipient.addressDetails.length > 0 && this.data.recipient.postCode.length > 0) {
+      this.setData({
+        buttonStyleFlag: true
+      })
+    } else {
+      this.setData({
+        buttonStyleFlag: false
+      })
+    }
+  },
+
+  /**
+ * 设置用户收货地址
+ */
+  setUserAddressInfo() {
+    let context = this
+    let userReceiveAddress = this.data.recipient
+    //console.log(userReceiveAddress);
+    if (userReceiveAddress !== undefined && this.data.recipient != '' && this.data.recipient != undefined) {
+      // 获取选择当前选中地区的index
+
+      let selectedIndex = [0, 0]
+      console.log(userReceiveAddress);
+      console.log(context.data.areaInfo);
+      if (userReceiveAddress.cityId.length && userReceiveAddress.districtId.length) {
+        //console.log(1111111111111111);
+        for (let i = 0; i < context.data.areaInfo.cities.length; i++) {
+          let cityObject = context.data.areaInfo.cities[i]
+          if (cityObject.cityCode == userReceiveAddress.cityId) {
+            selectedIndex[0] = i
+            for (let j = 0; j < cityObject.districts.length; j++) {
+              let countyObject = cityObject.districts[j]
+              if (countyObject.id == userReceiveAddress.districtId) {
+                selectedIndex[1] = j
+                break
+              }
+            }
+            break
+          }
+        }
+
+        context.setData({
+          prePickerIndex: selectedIndex
+        })
+      }
+    }
+  },
+  /**
+   * 设置地区选择
+   */
+  setAreaInfo() {
+    //debugger
+    let regionData = app.getRegionData()
+    if (regionData !== undefined && regionData.cities !== undefined && regionData.cities.length) {
+      this.setData({
+        areaInfo: regionData
+      })
+    }
+  },
+
+  /**
+   *提交收货地址信息
+   */
+  editShippingAddressOnclick() {
+    console.log(this.data.recipient.receiverName);
+    if (this.data.recipient.receiverName.length > 0 && this.data.recipient.mobileNo.length > 0 && this.data.recipient.provinceId.length > 0 && this.data.recipient.cityId.length > 0 && this.data.recipient.districtId.length > 0 && this.data.recipient.addressDetails.length > 0 && this.data.recipient.postCode.length > 0) {
+      var context = this
+      var regu = "^[ ]+$";
+      var myreg = "^[\\d]{11}$";
+      var myreg1 = "^[\\d]{6}$";
+
+      var re = new RegExp(regu);
+      var phone = new RegExp(myreg);
+      var postCode = new RegExp(myreg1);
+
+      if (re.test(context.data.recipient.receiverName) || context.data.recipient.receiverName.length <= 0) {
+        return wx.showToast({
+          title: '请填写姓名',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.mobileNo) || context.data.recipient.mobileNo.length <= 0) {
+        return wx.showToast({
+          title: '请填写手机号',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.receiverName) || context.data.recipient.receiverName.length <= 0) {
+        return wx.showToast({
+          title: '请填写姓名',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.provinceId) || context.data.recipient.provinceId.length <= 0) {
+        return wx.showToast({
+          title: '请选择收件地区--省份',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.cityId) || context.data.recipient.cityId.length <= 0) {
+        return wx.showToast({
+          title: '请选择收件地区--城市',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.districtId) || context.data.recipient.districtId.length <= 0) {
+        return wx.showToast({
+          title: '请选择收件地区--区县',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.addressDetails) || context.data.recipient.addressDetails.length <= 0) {
+        return wx.showToast({
+          title: '请填写详细地址',
+          icon: 'none'
+        })
+      }
+
+      if (re.test(context.data.recipient.postCode) || context.data.recipient.postCode.length <= 0) {
+        return wx.showToast({
+          title: '请填写邮政编码',
+          icon: 'none'
+        })
+      }
+
+      if (context.data.recipient.mobileNo.length != 11 || !phone.test(context.data.recipient.mobileNo)) {
+        return wx.showToast({
+          title: '请填写格式正确的11位手机号',
+          icon: 'none'
+        })
+      }
+
+      if (context.data.recipient.postCode.length != 6 || !postCode.test(context.data.recipient.postCode)) {
+        return wx.showToast({
+          title: '请输入6位邮政编码',
+          icon: 'none'
+        })
+      }
+
+      context.requestChangeShippingAddress()
+
+    } else {
+      return
+    }
+
+  },
+
+  /**
+   * 网络请求--修改收货地址
+   */
+  requestChangeShippingAddress() {
+    var context = this
+    wx.showLoading({ title: '加载中......', mask: true })
+    var param = {
+      "addressDetails": context.data.recipient.addressDetails,
+      "cityId": context.data.recipient.cityId,
+      "cityName": context.data.recipient.cityName,
+      "districtId": context.data.recipient.districtId,
+      "districtName": context.data.recipient.districtName,
+      "mobileNo": context.data.recipient.mobileNo,
+      "postCode": context.data.recipient.postCode,
+      "provinceId": context.data.recipient.provinceId,
+      "provinceName": context.data.recipient.provinceName,
+      "receiverId": context.data.recipient.receiverId,
+      "receiverName": context.data.recipient.receiverName
+    }
+    app.requestData(app.config.userReceiverAddressUpdate, param, "POST").then(data => {
+      wx.hideLoading()
+      if (data.head.code !== app.constant.network_result_success) {
+        //网络请求失败
+        return wx.showToast({
+          title: data.head.message,
+          icon: 'none'
+        })
+      } else {
+        wx.showToast({
+          title: '修改成功！',
+          icon: 'succes',
+          mask: true
+        })
+
+        app.userReceiveAddress = data.data;
+        context.setData({
+          currentNavtab: 1
+        })
+      }
+
+    }).catch(e => {
+      wx.hideLoading()
+      console.log(e)
+    })
+  }
+})

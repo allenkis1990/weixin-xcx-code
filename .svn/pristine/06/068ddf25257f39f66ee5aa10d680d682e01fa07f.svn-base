@@ -1,0 +1,63 @@
+<!--pages/linetrainclass/lineCourseDetail/lineCourseDetail.wxml-->
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<wxs src="./lineCourseDetailUtils.wxs" module="tools" />
+
+<view class="hb-tab-tit">
+    <view class="tab-tit-items {{currentTab==0 ? 'current' : ''}}" data-current="0" bindtap="swichNav">参考资料</view>
+    <view class="tab-tit-items {{currentTab==1 ? 'current' : ''}}" data-current="1" bindtap="swichNav">课程简介</view>
+</view>
+
+<swiper current="{{currentTab}}" duration="300" style="height:{{winHeight-90}}rpx;" bindchange="bindChange">
+  <!-- 课程目录页面 -->
+  <swiper-item>
+    <view>
+      <scroll-view scroll-y style="height: {{winHeight-90}}rpx;">
+      <view class="contain">
+        <view class="course-detail-tab-bd course-detail-tab-bd-3">
+            <!--空数据-->
+            <view class="no-data-box" wx:if="{{refenceMateriaList.length == 0}}">
+              <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+              <view class="no-data-txt">本课程暂无参考资料</view>
+            </view>
+            <!--空数据-->
+            <view class="download-list" wx:for="{{refenceMateriaList}}" data-item="{{item}}" wx:key="{{item.refenceMaterialName}}" 
+             wx:if="{{refenceMateriaList.length != 0}}" bindtap='chickItem'  data-item="{{item}}">
+                <view class="download-items">
+                    <view class="bd">{{item.refenceMaterialName}}</view>
+                    <view class="file-size">{{tools.conver(item.refenceMaterialSize)}}</view>
+                    <image class="img" wx-if="{{tools.changeItemUI(item, drowloadRefenceMateriaList)==false}}" 
+                    src="/image/icon-download.png" alt=" "/>
+
+                    <image class="img" wx-if="{{tools.changeItemUI(item, drowloadRefenceMateriaList)}}" 
+                    src="/image/icon-open.png" alt=" "/>
+                </view>
+            </view>
+
+        </view>
+      </view>
+      </scroll-view>
+    </view>
+  </swiper-item>
+  <!-- 课程信息页面 -->
+  
+  <swiper-item>
+    <view>
+      <scroll-view scroll-y style="height: {{winHeight-90}}rpx;">
+      <view class="contain">
+          <view class="course-detail-tab-bd course-detail-tab-bd-3">
+              <view class="situation-info-box">
+                  <view class="info-tit">授课老师</view>
+                  <view class="info-desc">授课老师：{{lineCourseDetailInfo.lecturerList[0].lecturerName}}</view>
+                  <view class="info-desc" wx:if="{{lineCourseDetailInfo.lecturerList[0].lecturerIntroduction.length > 0}}">老师简介：{{lineCourseDetailInfo.lecturerList[0].lecturerIntroduction}}</view>
+              </view>
+              <view class="situation-info-box" wx:if="{{lineCourseDetailInfo.courseAbouts.length > 0}}">
+                  <view class="info-tit">课程简介</view>
+                  <view class="info-desc">{{lineCourseDetailInfo.courseAbouts}}</view>
+              </view>
+          </view>
+      </view>
+      </scroll-view>
+    </view>
+  </swiper-item>
+</swiper>

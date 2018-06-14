@@ -1,0 +1,69 @@
+/* pages/findtraining/trainingDetail/yearPickerComponent/yearPickerComponent.wxss */
+
+.dialog-mask {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
+.picker-view {
+  width: 100%;
+  display: flex;
+  z-index: 12;
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  height: 570rpx;
+  transform: translateY(100%);
+}
+
+
+.top-box {
+  display: flex;
+  z-index: 100;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+.top-box .item-left {
+  width: 100rpx;
+  text-align: center;
+  font-size: 34rpx;
+  color: #888888;
+}
+
+.top-box .item-right {
+  text-align: center;
+  width: 100rpx;
+  font-size: 34rpx;
+  color: #09bb07;
+}
+
+.top-box .item-center {
+  flex: 1;
+  text-align: center;
+  line-height: 100%;
+  vertical-align: middle;
+  font-size: 36rpx;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+
+}
+.picker-item {
+  line-height: 70rpx;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  text-align: center;
+}
+

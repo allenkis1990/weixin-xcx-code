@@ -1,0 +1,16 @@
+<!--pages/order/orderList/paidListComponent/paidListComponent.wxml-->
+<!-- <scroll-view scroll-y style='width:100%;height:100%;'> -->
+
+<view class="no-data-box" wx:if="{{dataSource !== undefined && dataSource.length == 0}}">
+  <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+  <view class="no-data-txt">亲爱的学员，暂时没有订单哦~</view>
+</view>
+
+<list-cell wx:for="{{dataSource}}" order-item='{{item}}' wx:key="{{index}}" bind:seeRefundEvent="_seeRefundAction" bind:changeClassRecordEvent="_changeClassRecordAction" bind:relevanceOrderEvent="_relevanceOrderAction" bind:completeInfoEvent="_completeInfoAction"></list-cell>
+
+<view class="loading-tips" wx:if="{{dataSource !== undefined && dataSource.length}}">
+  <text class="line"></text>
+  <text class="txt" wx:if='{{isFinish==false}}'>上拉加载更多</text>
+  <text class="txt" wx:if='{{isFinish}}'>已经到最底部啦</text>
+  <text class="line"></text>
+</view>

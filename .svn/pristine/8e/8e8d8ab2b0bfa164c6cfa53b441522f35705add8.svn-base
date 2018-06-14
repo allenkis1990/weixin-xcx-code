@@ -1,0 +1,10 @@
+<view class="ml10">
+  <block wx:for="{{stars}}" wx:key='idx'>
+    <image class="star-img-s {{item>0?'ml5':''}}" style="width: {{size}}rpx;height: {{size}}rpx;position:relative" src="{{key > item ?(key-item == 0.5?halfSrc:selectedSrc) : normalSrc}}">
+      <view class='item-box'>
+        <view style="width: {{size/2}}rpx;height: {{size}}rpx" data-key="{{item+0.5}}" bindtap="selectLeft"></view>
+        <view style="width: {{size/2}}rpx;height: {{size}}rpx" data-key="{{item+1}}" bindtap="selectRight"></view>
+      </view>
+    </image>
+  </block>
+</view>

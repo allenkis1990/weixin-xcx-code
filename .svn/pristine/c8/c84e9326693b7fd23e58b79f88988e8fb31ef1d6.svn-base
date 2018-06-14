@@ -1,0 +1,20 @@
+<!--弹窗样式3-->
+<view class="hd-dialog" wx:if="{{isShow}}" catchlongtap='doNoting'>
+    <view class="weui-mask"></view>
+    <view class="weui-dialog">
+        <view class="weui-dialog__hd">
+            <view class="weui-dialog__title">微信授权</view>
+        </view>
+        <view class="weui-dialog__bd">
+            <image class="authorization-logo" src="{{image}}"/>
+            <view class="authorization-text">
+                <view class="txt">{{title}}</view>
+                <view class="txt txt-1">{{content}}</view>
+            </view>
+        </view>
+        <view class="weui-dialog__ft">
+            <view class="weui-dialog__btn weui-dialog__btn_default" catchtap='_refuselEvent'>拒绝</view>
+            <button open-type="getUserInfo" class="weui-dialog__btn weui-dialog__btn_primary" bindgetuserinfo='_allowEvent'>允许</button>
+        </view>
+    </view>
+</view>

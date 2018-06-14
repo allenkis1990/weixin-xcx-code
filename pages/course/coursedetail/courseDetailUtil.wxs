@@ -1,0 +1,17 @@
+var showChapterStyleClass = function (schedule) {
+  if (schedule == undefined) {
+    return ''
+  }
+  if (parseInt(schedule) == 0) {
+    return ''
+  }
+  if (parseInt(schedule) > 50) {
+    return 'course-ed'
+  } else {
+    return 'course-ing'
+  }
+  return ''
+}
+module.exports = {
+  showChapterStyleClass: showChapterStyleClass
+}

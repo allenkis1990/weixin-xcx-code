@@ -1,0 +1,12 @@
+/* pages/course/popupQuestionComponent/multiple/multiple.wxss */
+@import "/app.wxss";
+.pop-questions-box {
+  width: 100%;
+  position: fixed;
+  top: 400rpx;
+  background-color: white;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+}
+

@@ -1,0 +1,366 @@
+//获取应用实例
+const app = getApp()
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    accountInformation: {
+      userName: '',
+      identityCardID: '',
+      phoneNum: '',
+      imageValidateCode: '',
+      smsValidateCode: ''
+    },
+    readArgreement: false,
+    time: 60,
+    isCounting: false,
+    imageCodeUrl:'',
+    hide:false
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    // 初始化toast
+    new app.WeToast()
+  },
+  onReady:function(){
+    this.requestImgCode()
+  },
+  /**
+     * 生命周期函数--监听页面显示
+     */
+  onShow: function () {
+    this.requestCode()
+  },
+  /**
+   * 监听页面隐藏
+   *
+   */
+  onHide: function () {
+    
+  },
+  /**
+   * 姓名输入监听
+   */
+  nameInput(e) {
+    this.setData({ ['accountInformation.userName']: e.detail.value })
+  },
+  /**
+   * 身份证输入监听
+   */
+  identityCardIDInput(e) {
+    this.setData({ ['accountInformation.identityCardID']: e.detail.value })
+  },
+  /**
+   * 手机号输入监听
+   */
+  phoneNumInput(e) {
+    this.setData({ ['accountInformation.phoneNum']: e.detail.value })
+  },
+  /**
+   * 图形验证码输入监听
+   */
+  imageValidateCodeInput(e) {
+    this.setData({ ['accountInformation.imageValidateCode']: e.detail.value })
+  },
+  /**
+   * 短信验证码输入监听
+   */
+  smsValidateCodeInput(e) {
+    this.setData({ ['accountInformation.smsValidateCode']: e.detail.value })
+  },
+  /**
+   * 完善提交点击事件
+   */
+  submitClick() {
+    if (app.utils.empty(this.data.accountInformation.userName)) {
+      return this.wetoast.toast({ title: '请输入真实姓名！' })
+    }
+    if (app.utils.empty(this.data.accountInformation.identityCardID)) {
+      return this.wetoast.toast({ title: '请输入身份证号！' })
+    }
+    if (app.utils.empty(this.data.accountInformation.phoneNum)) {
+      return this.wetoast.toast({ title: '请输入请输入手机号！' })
+    }
+    if (app.utils.empty(this.data.accountInformation.imageValidateCode)) {
+      return this.wetoast.toast({ title: '请输入请输入图形验证码！' })
+    }
+    if (app.utils.empty(this.data.accountInformation.smsValidateCode)) {
+      return this.wetoast.toast({ title: '请输入短信验证码！' })
+    }
+    if (!app.utils.verIdentification(this.data.accountInformation.identityCardID)) {
+      return this.wetoast.toast({ title: '请输入正确的身份证号！' })
+    }
+    if (!(this.data.accountInformation.phoneNum.length == 11)) {
+      return this.wetoast.toast({ title: "请输入正确的手机号！" })
+    }
+    if (!this.data.readArgreement) {
+      return this.wetoast.toast({ title: '请阅读注册协议！' })
+    }
+
+    this.requestAccountLegal()
+  },
+  /**
+   * 是否勾选协议
+   */
+  checkArgreementState() {
+    this.setData({ readArgreement: !this.data.readArgreement })
+  },
+  /**
+   * 协议点击查看事件
+   */
+  argreementClick() {
+    wx.navigateTo({
+      url: '/pages/account/argreement/argreenment',
+    })
+    this.setData({ readArgreement: true })
+  },
+  /**
+   * 短信发送点击事件
+   */
+  smsCodeClick() {
+    if (app.utils.empty(this.data.accountInformation.phoneNum)) {
+      return this.wetoast.toast({ title: '请输入请输入手机号！' })
+    }
+    if (app.utils.empty(this.data.accountInformation.imageValidateCode)) {
+      return this.wetoast.toast({ title: '请输入请输入图形验证码！' })
+    }
+    this.requestSmsCode()
+  },
+  /**
+   * 图片点击事件
+   */
+  imageCodeClick() {
+    this.requestImgCode()
+  },
+  /**
+   * 开启计时器
+   */
+  startCountDownTime() {
+    var that = this
+    this.setData({ isCounting: true })
+    var timer = setInterval(() => {
+      if (this.data.time > 0) {
+        var time = that.data.time - 1
+        that.setData({ time: time })
+      } else {
+        that.setData({ time: 60 })
+        that.setData({ isCounting: false })
+        clearInterval(timer)
+      }
+    }, 1000)
+  },
+  /**
+   * 网络请求 图片验证码
+   */
+  requestImgCode() {
+    var params = {
+      type: 2
+    }
+    var url = app.config.imageValidateCode + app.requestUtils.requestGetParamStr(params)
+    debugger
+    this.setData({ imageCodeUrl: url })
+  },
+  /**
+   * 网络请求  注册
+   */
+  requestPerfectInfo() {
+    var that = this
+    console.log("全局取值>>>>>>>>" + "unionId" + app.config.casConfig.unionId + "；openId:" + app.config.casConfig.openId + ";accessToken:" + app.config.casConfig.accessToken)
+    var unionId = app.config.casConfig.unionId
+    var openId = app.config.casConfig.openId
+    var accessToken = app.config.casConfig.accessToken
+    console.log('unionId:' + unionId + ";openId:" + openId + ";accessToken:" + accessToken)
+    if (unionId === undefined || openId == undefined || unionId === '' || openId === '' || accessToken===undefined){
+      return this.requestCode();
+    }
+    let params = {
+      phoneNum: this.data.accountInformation.phoneNum,
+      identityCardNo: this.data.accountInformation.identityCardID,
+      userName: this.data.accountInformation.userName,
+      imageValidateCode: this.data.accountInformation.imageValidateCode,
+      smsValidateCode: this.data.accountInformation.smsValidateCode,
+      unionId: unionId,
+      openId: openId,
+      accessToken: accessToken,
+      type:1
+    }
+    app.requestData(app.config.perfectInformation, params, 'POST').then(data => {
+      if (data.head.code != app.constant.network_result_success) {
+        return that.wetoast.toast({ title: data.head.message })
+      } else {
+        that.wetoast.toast({ title: '注册成功！' })
+        that.login()
+      }
+    })
+  },
+  /**
+   * 网络请求  账号是否合法
+   */
+  requestAccountLegal() {
+    var that = this
+    let params = {
+      phoneNum: this.data.accountInformation.phoneNum,
+      identityCardNo: this.data.accountInformation.identityCardID
+    }
+    app.requestData(app.config.hasLegal, params, 'GET').then(data => {
+      if (data.head.code == 801) {
+        return that.requestPerfectInfo()
+        // return that.wetoast.toast({ title: '当前账号已经注册过！' })
+      } else if (data.head.code == 802) {
+        return that.wetoast.toast({ title: '已有单位管理员为您报名，与您填写的信息不一致，请联系您的单位管理员核对后，再进行注册！' })
+      } else if (data.head.code == 803) {
+        return that.wetoast.toast({ title: '已有单位管理员为您报名，与您填写的信息不一致，请联系您的单位管理员核对后，再进行注册！' })
+      } else if (data.head.code == 804) {
+        return that.wetoast.toast({ title: '当前手机号已被注册使用，请更换其他手机号！' })
+      } else if (data.head.code == 805) {
+        return that.wetoast.toast({ title: '当前身份证已被注册使用，请更换其他身份证号！' })
+      } else if (data.head.code == 806) {
+        return that.requestPerfectInfo()
+      }
+    })
+  },
+  /**
+   * 网络请求  短信验证码获取
+   */
+  requestSmsCode() {
+    var context=this
+    var params = {
+      type: 2,
+      telNumber: this.data.accountInformation.phoneNum,
+      imageValidateCode: this.data.accountInformation.imageValidateCode
+    }
+    app.requestData(app.config.smsValidateCode, params, 'GET').then(data => {
+      if (data.head.code != app.constant.network_result_success) {
+        return context.wetoast.toast({ title: data.head.message })
+      } else {
+        context.startCountDownTime()
+        return context.wetoast.toast({ title: '验证码已发送成功，请查看手机' })
+      }
+    })
+  },
+  /**
+* 登录流程结果回调
+* state: 0 成功；1帐号或密码不对；-1 网络请求异常
+*/
+  loginResultCallback(state, message) {
+    switch (state) {
+      case 0: {
+        console.log('TODO 登录成功')
+        var param = {
+        }
+        const app = getApp()
+        app.requestData(app.config.getUserInfo, param, "GET").then(data => {
+          wx.hideLoading()
+          if (data.head.code != app.constant.network_result_success) {
+            console.log('获取用户信息失败')
+            return this.wetoast.toast({ title: '登录失败' })
+          } else {
+            console.log('获取用户信息成功跳转班级首页')
+            wx.reLaunch({
+              url: '/pages/trainclass/trainingClassList/trainingClassList',
+            })
+          }
+        }).catch(e => {
+          wx.hideLoading()
+          console.log("获取用户信息异常>>>>"+e)
+        })
+        break;
+      }
+      case 1: {
+        wx.hideLoading()
+        console.log('TODO 帐号信息有误')
+        break;
+      }
+      case -1: {
+        wx.hideLoading()
+        console.log('TODO 网络请求异常')
+        break;
+      }
+    }
+  },
+  /**
+   * 登录
+   */
+  login() {
+    let loginResultCallback = this.loginResultCallback
+    wx.showLoading({ title: '登录中......', mask: true })
+    require('../../../utils/casLogin.js').loginWithWX(loginResultCallback)
+  },
+  /**
+   * 获取code
+   */
+  requestCode() {
+    var context = this
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        if (res.code) {
+          app.config.casConfig.code = res.code
+          wx.getUserInfo({
+            success: function (res) {
+              context.requestUnionIdAndOpenId(app.config.casConfig.code, res.encryptedData, res.iv)
+            }
+          })
+        }
+      }
+    })
+  },
+  /**
+  * 网络请求 获取unionid和openid
+  * @param code 
+  * @param encryptedData  包括敏感数据在内的完整用户信息的加密数据
+  * @param iv 加密算法的初始向量
+  */
+  requestUnionIdAndOpenId(code, encryptedData, iv) {
+    var _this = this
+    var params = {
+      code: code,
+      encryptedData: encryptedData,
+      iv: iv,
+      type: 1
+    }
+    wx.showLoading({ title: '加载中......', mask: true })
+    app.requestData(app.config.wxInfoUrl, params, "POST").then(data => {
+      wx.hideLoading()
+      if (data.head.code == app.constant.network_result_success) {
+        //保存本地
+        _this.saveStorageUnionIdAndeOpenId(data.data.unionId, data.data.openId,data.data.accessToken)
+        //赋值全局
+        console.log("赋值全局>>>>>>>>" + "unionId" + data.data.unionId + "；openId:" + data.data.openId + ";accessToken:" + data.data.accessToken)
+        app.config.casConfig.unionId = data.data.unionId
+        app.config.casConfig.openId = data.data.openId
+        app.config.casConfig.accessToken = data.data.accessToken
+      } else {
+        _this.setData({ isShowLoginFailUI: true })
+        return _this.wetoast.toast({ title: data.head.message })
+      }
+    }).catch(e => {
+      wx.hideLoading()
+      console.log(e)
+      _this.setData({ isShowLoginFailUI: true })
+    })
+  },
+  /**
+  * 保存到本地缓存
+  */
+  saveStorageUnionIdAndeOpenId(unionId, openId, accessToken) {
+    wx.setStorage({
+      key: 'unionId',
+      data: unionId,
+    })
+    wx.setStorage({
+      key: 'openId',
+      data: openId,
+    })
+    wx.setStorage({
+      key: 'accessToken',
+      data: accessToken,
+    })
+  },
+})

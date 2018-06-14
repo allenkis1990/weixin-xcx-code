@@ -1,0 +1,273 @@
+//===========================判断是否显示控件方法========================
+//是否显示底部条  
+var isShowBottomBar = function (item) {
+  if (item == undefined || item.status == undefined) {
+    return false
+  }
+  // 除交易关闭的情况下不显示，其余情况都显示
+  if (item.status === 7) {
+    return false
+  } else {
+    return true
+  }
+}
+// 是否显示取消订单按钮
+var isShowCancelOrderButton = function (item) {
+  if (item == undefined || item.status == undefined) {
+    return false
+  }
+  if (item.status === 1 || item.status === 2 || item.status === 8) {
+    return true
+  } else {
+    return false
+  }
+}
+//是否显示立即支付按钮
+var isShowGoToPayButton = function (item) {
+  if (item == undefined || item.status == undefined) {
+    return false
+  }
+  if (item.status === 1 || item.status === 2 || item.status === 8) {
+    return true
+  } else {
+    return false
+  }
+}
+// 在订单状态为开通中和交易成功的情况下，并且收货地址未完善的情况下，显示该按钮
+var isShowcompleteDistributionInfoButtton = function (item) {
+  if (item == undefined || item.status == undefined) {
+    return false
+  }
+  if ((item.status === 3 || item.status === 4 || item.status === 5 || item.status === 6) && !item.deleiverInfoComplete) {
+    return true
+  } else {
+    return false
+  }
+}
+// 本应该在子订单上进行显示，但有此状态的主订单只可能有一个子订单，故直接在主cell上进行显示
+// 因此只有在订单状态为SWAP_PART或者SWAP_COMPLETE时进行显示
+// 关联订单按钮
+var isShowRelevanceOrder = function (item) {
+  // let subItem = this.item.subOrderList[0]    (判断条件) && subItem.swapOut === false
+  if (item == undefined) {
+    return false
+  }
+  if ((item.businessType === 'SWAP_IN' || item.businessType === 'SWAP_IN_AND_OUT')) {
+    return true
+  } else {
+    return false
+  }
+}
+// 显示查看退款按钮，当子订单状态为退货中的时候，显示该按钮
+var isShowSeeRefundButtton = function (item) {
+  if (item == undefined) {
+    return false
+  }
+  if (item.subOrderList == undefined || !item.subOrderList.length) {
+    return false
+  }
+  if (item.subOrderList.length == 1) {
+    var subItem = item.subOrderList[0]
+    if (subItem.status == 8 || subItem.status == 9 || subItem.exitRefundOrder) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+  return false
+
+}
+// 显示换班记录,当子订单状态为退货中的时候，显示该按钮
+var isShowChangeClassRecordButton = function (item) {
+  if (item == undefined) {
+    return false
+  }
+  if (item.subOrderList == undefined || !item.subOrderList.length) {
+   return false
+  }else{
+    if (item.subOrderList.length == 1) {
+      var subItem = item.subOrderList[0]
+      if ((item.businessType == 'NORMAL' || item.businessType == 'SWAP_OUT' || item.businessType == 'SWAP_IN_AND_OUT') && subItem.swapOut) {
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  }
+  return false
+
+}
+// 是否显示查看更多
+var isShowSeeMoreSubOrder = function (itemsArray) {
+  if (itemsArray == undefined) {
+    return false
+  }
+  if (itemsArray.length >= 3) {
+    return true
+  } else {
+    return false
+  }
+}
+// 是否显示子item底下的面板
+var isShowSubBottomBar = function (subItem, subItems) {
+  if (subItem == undefined || subItems == undefined) {
+    return false
+  }
+  if ((subItem.subOrderStatus === 7 || subItem.swapOut) && subItems.length > 1) {
+    return true
+  }
+  return false
+}
+// 是否显示子item底下的查看退款按钮
+var isShowSubRefundButton = function (subItem, subItems) {
+  if (subItem == undefined || subItems == undefined) {
+    return false
+  }
+  if (subItems.length > 1 && (subItem.status == 8 || subItem.status == 9 || subItem.exitRefundOrder)) {
+    return true
+  } else {
+    return false
+  }
+}
+// 是否显示子item底下的换班记录按钮
+var isShowSubChangeClassRecordButton = function (subItem, subItems) {
+  if (subItem == undefined || subItems == undefined) {
+    return false
+  }
+  if (subItems.length > 1 && (item.businessType == 'NORMAL' || item.businessType == 'SWAP_OUT' || item.businessType == 'SWAP_IN_AND_OUT') && subItem.swapOut) {
+    return true
+  } else {
+    return false
+  }
+}
+var isShowYearText = function (item) {
+  if (item == undefined || item.schemeType == undefined) {
+    return false
+  }
+  if (item.categoryType == 'COURSE_SUPERMARKET_GOODS' && getSkuValueWithKeyFromSkuArray('trainingSubject', item.skuPropertyNameList) == '专业课') {
+    return false
+  } else {
+    return true
+  }
+  return true
+
+}
+//===========================获取显示控件文本方法========================
+// 获取订单状态方法
+var getOrderStatusText = function (item) {
+  if (item == undefined) {
+    return ''
+  }
+  switch (item.status) {
+    case 1: {
+      return '未支付'
+    }
+    case 2: {
+      return '未支付'
+    }
+    case 3: {
+      return '开通中'
+    }
+    case 4: {
+      return '开通中'
+    }
+    case 5: {
+      return '开通中'
+    }
+    case 6: {
+      return '交易成功'
+    }
+    case 7: {
+      return '交易关闭'
+    }
+    case 8: {
+      return '支付中'
+    }
+  }
+}
+// 获取支付文本
+var getTotalPriceText = function (item) {
+  if (item == undefined) {
+    return ''
+  }
+  if (item.status === 1 || item.status === 2 || item.status === 7 || item.status === 8) {
+    return '总价'
+  } else {
+    return '实付'
+  }
+}
+//获取sku文本
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray == undefined || skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyName === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var checkHasChooseItem = function (itemsArray) {
+  for (var index = 0; index < itemsArray.length; index++) {
+    var item = itemsArray[index]
+    if (item.isSelected) {
+      return true
+    }
+  }
+  return false
+}
+//===========================获取class类方法========================
+// 获取顶部top类
+var getTopBarClass = function (item) {
+  if (item == undefined || item.status == undefined) {
+    return ''
+  }
+  if (!item.deleiverInfoComplete && (item.status === 3 || item.status === 4 || item.status === 5 || item.status === 6)) {
+    return 'undo'
+  } else {
+    return ''
+  }
+}
+//===========================获取数据========================
+// 获取显示的子订单数据列表
+var getShowSubOrderItemsArray = function (subItemsArray) {
+  if (subItemsArray == undefined || !subItemsArray.length) {
+    return []
+  }
+  if (subItemsArray.length >= 3) {
+    return [subItemsArray[0]]
+  } else {
+    return subItemsArray
+  }
+}
+
+module.exports = {
+  //是否显示
+  isShowBottomBar: isShowBottomBar,
+  isShowCancelOrderButton: isShowCancelOrderButton,
+  isShowGoToPayButton: isShowGoToPayButton,
+  isShowcompleteDistributionInfoButtton: isShowcompleteDistributionInfoButtton,
+  isShowRelevanceOrder: isShowRelevanceOrder,
+  isShowSeeRefundButtton: isShowSeeRefundButtton,
+  isShowChangeClassRecordButton: isShowChangeClassRecordButton,
+  isShowSeeMoreSubOrder: isShowSeeMoreSubOrder,
+  isShowSubBottomBar: isShowSubBottomBar,
+  isShowSubRefundButton: isShowSubRefundButton,
+  isShowSubChangeClassRecordButton: isShowSubChangeClassRecordButton,
+  isShowYearText: isShowYearText,
+  // 文本
+  getOrderStatusText: getOrderStatusText,
+  getTotalPriceText: getTotalPriceText,
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  // 获取class
+  getTopBarClass: getTopBarClass,
+  //获取数据
+  getShowSubOrderItemsArray: getShowSubOrderItemsArray
+}

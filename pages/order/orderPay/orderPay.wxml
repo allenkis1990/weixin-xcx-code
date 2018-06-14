@@ -1,0 +1,98 @@
+<!--pages/order/orderPay/orderPay.wxml-->
+<!--结算-->
+<wxs module="orderPayUtil" src="./orderPayUtil.wxs"></wxs>
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="hb-warm-tips">
+      <image class="ico-tips" src="/image/icon-tips.png" />
+      <text class="tips-txt">下单后，请在24小时内完成支付。超出24小时再支付可能导致购买失败，需重新下单购买。</text>
+    </view>
+    <view class="weui-cells hb-panel bor-b20">
+      <view class="weui-cell hb-order-status">
+        <view class="weui-cell__hd">
+          <image class="hb-ico" src="/image/status-pay-wait.png" />
+        </view>
+        <view class="weui-cell__bd">
+          <view class="fs30">订单状态：
+            <text class="ci">{{orderPayUtil.getOrderStatusText(payOrderInfo.status)}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">订单信息</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view>
+              <text class="tit">订单号</text>{{orderNo}}</view>
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view>
+              <text class="tit">下单时间</text>{{payOrderInfo.createTime}}
+              <!-- <text class="ml10">19:23:23</text> -->
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">培训内容</view>
+      <view class="weui-panel__bd" wx:for="{{payOrderInfo.subOrderList}}" wx:key='{{item.subOrderNo}}' wx:if="{{index == 0 || (index>=1 && isOpenMoreContent && isShowMoreTrainingContent)}}">
+        <view class="hb-media-box">
+          <view class="hb-media-box-hd">
+            <image class="hb-media-box-thumb" src="{{item.photoPath}}" />
+          </view>
+          <view class="hb-media-box-bd">
+            <view class="hb-media-box-title">{{item.skuName}}</view>
+            <view class="hb-media-box-desc">年度：{{item.skuPropertyNameList[0].skuPropertyValueName}}年</view>
+            <view class="hb-media-box-desc">科目：{{item.skuPropertyNameList[1].skuPropertyValueName}}</view>
+            <view class="hb-media-box-desc">学时：{{item.trainingPeriod}}</view>
+          </view>
+          <view class="price">￥
+            <text class="num">{{item.totalAmount}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells"  wx:if="{{isShowMoreTrainingContent && !isOpenMoreContent}}" catchtap='changeIsOpenMoreContentAction'>
+        <view class="weui-cell weui-cell_access">
+          <view class="weui-cell__bd"></view>
+          <view class="weui-cell__ft weui-cell__ft-1">查看更多</view>
+        </view>
+      </view>
+      <view class="weui-cells"  wx:if="{{isShowMoreTrainingContent && isOpenMoreContent}}" catchtap='changeIsOpenMoreContentAction'>
+        <view class="weui-cell weui-cell_access">
+          <view class="weui-cell__bd"></view>
+          <view class="weui-cell__ft weui-cell__ft-2">收起</view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="bor-t sum-bar tr">本订单需支付
+        <text class="ci ml10">￥{{orderPayUtil.priceChangetoDecimal2(payOrderInfo.totalAmount)}}</text>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel">
+      <view class="weui-panel__hd">支付方式</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <image class="hb-pay-img" src="/image/icon-pay-wx.jpg" />
+          </view>
+          <view class="weui-cell__ft">
+            <view class="hb-form">
+              <!--<image class="img" src="/image/radio.png" alt=" " />-->
+              <image class="img" src="/image/radio-checked.png" alt=" " />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="hb-tabbar" bindtap='confirmPayAction'>
+    <view class="hb-btn hb-btn-3">确认支付</view>
+  </view>
+</view>

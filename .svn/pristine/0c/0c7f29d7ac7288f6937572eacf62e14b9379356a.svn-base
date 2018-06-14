@@ -1,0 +1,45 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyName === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+
+var isShowInvoiceInfo = function (totolPrice, canSendType) {
+  if (totolPrice !== undefined && totolPrice !== 0 && canSendType !== undefined && (canSendType == 1 || canSendType == 4)) {
+    return true
+  }
+  return false
+}
+var isShowCertificateSendInfo = function (canSendType) {
+  if (canSendType !== undefined && (canSendType == 2 || canSendType == 4)) {
+    return true
+  }
+  return false
+}
+var isShowGoodsSendInfo = function (totolPrice, canSendType) {
+  if (totolPrice !== undefined && totolPrice !== 0 && canSendType !== undefined && canSendType == 3) {
+    return true
+  }
+  return false
+}
+var isShowInvoiceSendCell = function (invoiceType) {
+  if (invoiceType !== undefined && invoiceType == 2) {
+    return false
+  }
+  return true
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  isShowInvoiceInfo: isShowInvoiceInfo,
+  isShowCertificateSendInfo: isShowCertificateSendInfo,
+  isShowGoodsSendInfo: isShowGoodsSendInfo,
+  isShowInvoiceSendCell: isShowInvoiceSendCell
+}

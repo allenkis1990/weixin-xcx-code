@@ -1,0 +1,61 @@
+<!--我的线下班-班级详情页-扫码签到-->
+<view class="contain">
+  <view class="course-detail-tab-bd course-detail-tab-bd-5">
+    <view class="pt15 tc">
+      <view class="sign-in-list-2">
+        <view wx:if="{{!hasAutomaticSign}}">
+          <image class="sign-in-pass" src="/image/signin-ico.png" alt=" " />
+          <view style='height:70rpx'></view>
+        </view>
+        <view wx:if="{{hasAutomaticSign}}">
+          <image class="sign-in-pass" src="/image/sign-in-pass.png" alt=" " wx:if="{{hasSuccessful === 1}}" />
+          <image class="sign-in-pass" src="/image/sign-in-fail.png" alt=" " wx:if="{{hasSuccessful ===0 }}" />
+          <image class="sign-in-pass" src="/image/signin-ico.png"  alt=" "   wx:if="{{hasSuccessful ===-1 }}"/>
+          <view class="tc fs16 mb20 cb" wx:if="{{classCourseInfo.courseList.length==0}}">
+            <text class="mr15">无签到/签退要求</text>
+          </view>
+          <view class="tc fs16 mb20 cb" wx:if="{{signState==10}}">
+            <text class="mr15">签到成功</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==11}}">
+            <text class="mr15">已签到</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==12}}">
+            <text class="mr15">当前不在可签到时段</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==13}}">
+            <text class="mr15">班级签到失败，我们将尽快为您处理，请稍后再试</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==14}}">
+            <text class="mr15">班级签到失败</text>
+          </view>
+          <view class="tc fs16 mb20 cb" wx:if="{{signState==20}}">
+            <text class="mr15">签退成功</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==21}}">
+            <text class="mr15">已签退</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==22}}">
+            <text class="mr15">当前不在可签退时段</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==23}}">
+            <text class="mr15">班级签退失败，我们将尽快为您处理，请稍后再试</text>
+          </view>
+          <view class="tc fs16 mb20 ci" wx:if="{{signState==24}}">
+            <text class="mr15">班级签退失败</text>
+          </view>
+          <view class="tc fs16 mb10 ci" wx:if="{{signState==5}}">
+            <text class="mr15">很抱歉，二维码已过期,请重新扫码</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="sign-in-list mt15">
+      <view class="sign-in-items-2">
+        <view class="fs16">
+          <text class="b">当前教室：</text>{{classCourseInfo.classRoomAddress}}</view>
+      </view>
+    </view>
+    <course-list courseList="{{classCourseInfo.courseList}}" lng="{{classCourseInfo.locationX}}" lat="{{classCourseInfo.locationY}}" hasAutomaticSign="{{hasAutomaticSign}}" id="courseList" bind:signResultState="signResultStateCallBack"></course-list>
+  </view>
+</view>

@@ -1,0 +1,18 @@
+.ml10 {
+  margin-left: 20rpx;
+}
+.star-img-s {
+  width: 30rpx;
+  height: 30rpx;
+}
+.ml5 {
+  margin-left: 10rpx;
+}
+.item-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+}

@@ -1,0 +1,6 @@
+ <view class="p25">
+    <view class="no-data-box">
+      <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+      <view class="no-data-txt">选修课程已经都被您选走咯，暂时没有更多…</view>
+    </view>
+  </view>

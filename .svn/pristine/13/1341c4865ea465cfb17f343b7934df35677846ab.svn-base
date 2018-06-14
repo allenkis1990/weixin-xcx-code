@@ -1,0 +1,20 @@
+<!--我的班级-培训班列表空数据-->
+<view class="contain">
+    <view class="p25">
+        <view class="no-data-box">
+            <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+            
+            <view class="fs14 c9 tc mt8">亲爱的学员，您还没有班级哦，现在去挑选班级吧</view>
+            <view class="btn-full tc mt25" bindtap='goFindTrainingAction'>报名培训</view>
+        </view>
+             
+    </view>
+
+    <!--扫一扫-->
+    <!-- <view class="layer-box" bindtap='scanClick'>
+        <view class="a-items">
+            <image class="img" src="/image/icon-scan.png" alt=" " />
+        </view>
+    </view> -->
+    <!--/扫一扫-->
+</view>

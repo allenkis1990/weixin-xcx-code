@@ -1,0 +1,33 @@
+<wxs module="utils" src="../../../utils/commonUtil.wxs"></wxs>
+<view class="contain">
+  <view class="hb-panel">
+    <view class="hb-panel-bd">
+      <!--空数据-->
+      <view class="no-data-box .center" wx:if="{{cerlistData.length == 0}}">
+        <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+        <view class="no-data-txt">亲爱的学员，</view>
+        <view class="no-data-txt2">您还没有证明哦~</view>
+      </view>
+      <!--空数据-->
+      <view class="hb-media-box" wx:for="{{cerlistData}}" wx:for-index="idx" wx:key="key" bindtap='itemClickAction' data-item="{{item}}">
+        <view class="hb-media-box-hd">
+          <image class="hb-media-box-thumb" src="/image/prove-img.jpg" />
+        </view>
+        <view class="hb-media-box-bd">
+          <view class="hb-media-box-title-2">
+            <!--<text class="classup-tip">{{item.type==0?'线上班':'线下班'}}</text>-->{{item.certificateName}}</view>
+          <view class="hb-media-box-desc">年度：{{item.year}}年</view>
+          <view class="hb-media-box-desc">班级：{{item.certificateName}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!--返回顶部-->
+  <view class="layer-box" bindtap='scrollToTopAction'>
+    <view class="a-items">
+      <image class="img" src="/image/icon-top.png" alt=" " />
+    </view>
+  </view>
+  <!--/返回顶部-->
+</view>
+<custom-modal id="modal" title="温馨提示" content="{{tipMessage}}" bindconfirmAction="modalConfirmAction" bindcancelAction="modalCancelAction" cancel-text="{{cancelText}}" confirm-text="{{confirmText}}" is-show-cancel="{{isShowCancel}}"></custom-modal>

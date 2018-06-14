@@ -1,0 +1,8 @@
+<!--pages/certificate/certificateDetail.wxml-->
+<view>
+  <view class="image-box">
+    <image class="image-content" src="{{certificateImageUrl}}" bindtap='saveCertificateToAlbumAction'></image>
+  </view>
+  <!-- <button bindtap='showModalAction'>点击我</button> -->
+</view>
+

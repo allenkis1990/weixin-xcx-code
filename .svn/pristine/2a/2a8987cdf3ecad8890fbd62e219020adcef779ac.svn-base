@@ -1,0 +1,17 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuKey == undefined || skuPropertyArray == undefined || skuPropertyArray.length == 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyName == skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray
+}

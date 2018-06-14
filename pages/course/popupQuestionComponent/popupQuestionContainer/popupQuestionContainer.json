@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "judge": "../judge/judge",
+    "single": "../single/single",
+    "multiple": "../multiple/multiple"
+  }
+}

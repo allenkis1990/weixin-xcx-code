@@ -1,0 +1,32 @@
+<!--我的-个人信息-->
+<wxs module="utils" src="../../../utils/commonUtil.wxs"></wxs>
+<view class="contain hb-box">
+    <view class="hb-box-bd">
+        <view class="weui-panel hb-panel">
+            <view class="weui-cells">
+                <view class="weui-cell weui-cell_access">
+                  <view class="weui-cell__hd"><text class="tit-2">学员姓名</text></view>
+                  <view class="weui-cell__bd">{{userInfo.userName}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                  <view class="weui-cell__hd"><text class="tit-2">登录账号</text></view>
+                  <view class="weui-cell__bd">{{userInfo.account}}</view>
+                </view>
+              
+                <view class="weui-cell weui-cell_access">
+                  <view class="weui-cell__hd"><text class="tit-2">学员性别</text></view>
+                  <view class="weui-cell__bd">{{userInfo.sex === 1 ? '男' : '女'}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                  <view class="weui-cell__hd"><text class="tit-2">手机号码</text></view>
+                  <view class="weui-cell__bd">{{userInfo.phoneNumber}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit-2">邮箱</text></view>
+                    <view class="weui-cell__bd">{{userInfo.email}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+</view>

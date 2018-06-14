@@ -1,0 +1,20 @@
+<!--pages/order/orderStatus/orderStatus.wxml-->
+<wxs module="orderStatusChangeLogUtil" src="./orderStatusChangeLogUtil.wxs"></wxs>
+<view class="contain">
+  <view class="hb-timeline-box bor-b20">
+    <view class="hb-timeline">
+    
+      <view class="timeline-items" wx:for="{{statusLogList}}" wx:key="{{item.status}}">
+        <view class="hb-ico">
+          <image class="img" src="{{orderStatusChangeLogUtil.getStatusImageSrc(item.status)}}" />
+        </view>
+        <view class="items-bd">
+          <view class="items-info">{{orderStatusChangeLogUtil.getStatusText(item.status)}}</view>
+          <view class="sub-info">{{item.operateTime}}</view>
+          <view class="sub-info" wx:if="{{item.status == 0}}">订单号：{{orderNo}}</view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</view>

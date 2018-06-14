@@ -1,0 +1,26 @@
+<wxs src="./testComponent.wxs" module="testComponent" />
+<view class="course-detail-tab-bd b0">
+  <view class="block-box fs30">练习</view>
+  <view class="course-detail-exam-info block-box">
+    <view class="info-bd">
+      <view>练习次数不限，已答
+        <text class="cb">{{testComponent.judgeFristUI(trainDetail.practiceHistoryNum)}}</text> 题</view>
+    </view>
+  </view>
+  <view class="block-box">
+    <view class="exam-enter-box">
+      <view class="exam-enter" bindtap='practiceClick'>
+        <view class="ico">
+          <image class="img" src="/image/icon-test-enter.png" alt=" " />
+        </view>
+        <view>进入练习</view>
+      </view>
+      <view class="exam-enter" bindtap='practiceHistoryClick'>
+        <view class="ico">
+          <image class="img" src="/image/icon-test-history.png" alt=" " />
+        </view>
+        <view>历史练习</view>
+      </view>
+    </view>
+  </view>
+</view>

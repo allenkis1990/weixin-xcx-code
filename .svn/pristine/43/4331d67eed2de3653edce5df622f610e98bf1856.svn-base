@@ -1,0 +1,53 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+
+var getSkuCodeValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray == undefined || skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyVlueCode = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyVlueCode = skuPropertyObject.skuPropertyValueCode
+    }
+  }
+  return propertyVlueCode
+}
+var getShowSkuName = function (item) {
+  if (item == undefined || item.categoryType == undefined) {
+    return ''
+  }
+  if (item.categoryType == 'COURSE_SUPERMARKET_GOODS') {
+    return item.courseName
+  } else if (item.categoryType == 'TRAINING_CLASS_GOODS') {
+    return item.skuName
+  }
+}
+var getShowYearText = function (item) {
+  if (item == undefined || item.categoryType == undefined) {
+    return ''
+  }
+  if (item.categoryType == 'COURSE_SUPERMARKET_GOODS' && getSkuCodeValueWithKeyFromSkuArray('trainingSubject', item.skuPropertyNameList) == 'profession') {
+    return item.yearOptionValue
+  } else {
+    return getSkuValueWithKeyFromSkuArray('trainingYear', item.skuPropertyNameList)
+  }
+  return ''
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  getShowYearText:getShowYearText,
+  getShowSkuName: getShowSkuName
+}

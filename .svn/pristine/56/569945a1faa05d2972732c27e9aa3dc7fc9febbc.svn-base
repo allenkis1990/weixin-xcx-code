@@ -1,0 +1,73 @@
+<!--单选题-->
+<scroll-view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="exam-panel-hd">
+      <view class="hd-info">单选题</view>
+      <view class="question-num cb" bindtap='switchShowAnswer' wx:if="{{examOrCheckResult==1}}">{{showAnswer==true?'显示答案':'答题模式'}}</view>
+    </view>
+    <view class="exam-panel exam-panel-1">
+      <view class="exam-panel-bd">
+        <!--题目 UI START-->
+        <view style="display:flex;align-items: flex-start;line-height: 1.8;">
+          <view>{{currentQuestionIndex + 1}}/{{allQuestionIndex}}、</view>
+          <rich-text class="question-tit" nodes="{{question.topic}}"></rich-text>
+        </view>
+        <!--题目 UI END-->
+        <view class="question-select">
+          <!--作答 选项UI START-->
+          <view wx:if="{{!showAnswer}}">
+            <view class="{{userAnswer === item.optionId?'select-items selected':'select-items'}}" wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" data-result="{{item.optionId}}" bindtap="chooseItem">
+              <view class="items-num">{{EnglishArray[index]}}</view>
+              <rich-text class="items-txt" nodes="{{item.content}}"></rich-text>
+            </view>
+          </view>
+          <!--作答 选项UI END  -->
+          <!--解析 选项UI START-->
+          <view wx:if="{{showAnswer}}">
+            <view class="{{userAnswer === correctAnswer?userAnswer === item.optionId?'select-items right':'select-items':userAnswer === item.optionId?'select-items wrong':showResult?correctAnswer ===item.optionId?'select-items right':'select-items':'select-items'}}"
+              wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}">
+              <view class="items-num">{{EnglishArray[index]}}</view>
+              <rich-text class="items-txt" nodes="{{item.content}}"></rich-text>
+            </view>
+          </view>
+          <!--解析 选项UI END-->
+        </view>
+      </view>
+      <!--解析UI START  -->
+      <view class="question-analysis" wx:if="{{showDescription}}">
+        <view class="question-analysis-bd">
+          <view class="flex mb10">
+            <!--是否显示正确答案UI START-->
+            <view class="question-result right" wx:if="{{!showResult}}">
+              <view wx:if="{{userAnswer === correctAnswer}}" class="flex">
+                <image class="img" src="/image/icon-right.png" alt=" " />回答正确
+              </view>
+              <view wx:if="{{userAnswer !== correctAnswer}}" class="flex">
+                <image class="img" src="/image/icon-error.png" alt=" " />回答错误
+              </view>
+            </view>
+            <!--是否显示正确答案UI END-->
+            <!--正确答案UI START-->
+            <view wx:if="{{showResult}}">
+              <text class="c9">正确答案</text>
+              <text wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" class="cb ml10" wx:if="{{correctAnswer === item.optionId}}">{{EnglishArray[index]}}</text>
+            </view>
+            <!--正确答案UI END-->
+            <!--我的答案UI START-->
+            <view>
+              <text class="c9 ml30">我的答案</text>
+              <text wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" wx:if="{{userAnswer === item.optionId?true:false}}" class="{{userAnswer === correctAnswer?'cb ml10':'ci ml10'}}">{{EnglishArray[index]}}</text>
+              <text wx:if="{{userAnswer.length == 0|| userAnswer == 'null'?true:false}}" class="ci ml10">无</text>
+            </view>
+            <!--我的答案UI END-->
+          </view>
+          <view class="mt10">
+            <view class="c9">解析</view>
+            <rich-text class="analysis-txt" nodes="{{question.description}}"></rich-text>
+          </view>
+        </view>
+      </view>
+      <!--解析UI END  -->
+    </view>
+  </view>
+</scroll-view>

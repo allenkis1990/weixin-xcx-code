@@ -1,0 +1,109 @@
+
+/**
+ * 练习卷得分为-1：练习未答。UI控制“-”
+ */
+var changeExercisesScoreUI = function (score) {
+  if (score == undefined){
+    return '-'
+  }
+  if (score == -1) {
+    return "-"
+  } else {
+    return score
+  }
+}
+
+var calculationExercisesScore = function (examScore, exercisesScore, popQuestionRequireScore, assessmentScore) {
+  if (examScore == -1 && exercisesScore == -1) {
+    return "-"
+  } else if (examScore >= 0 && exercisesScore == -1) {
+    return examScore
+  } else if (examScore == -1 && exercisesScore >= 0) {
+    return exercisesScore
+  } else {
+    if (exercisesAssessmentScore > popQuestionRequireScore && examAssessmentScore < assessmentScore) {
+      return popQuestionRequireScore + examAssessmentScore
+    } else if (exercisesAssessmentScore < popQuestionRequireScore && examAssessmentScore > assessmentScore) {
+      return exercisesAssessmentScore + assessmentScore
+    } else {
+      return exercisesAssessmentScore + examAssessmentScore
+    }
+  }
+}
+/**
+ * 改变scroll高度
+ */
+var changeScrollHeight = function (height, studyAgain) {
+  if (studyAgain) {
+    return height - 100
+  } else {
+    return height
+  }
+}
+
+/**
+* 动态修改底部边距
+*/
+var changeStyle = function (studyAgain) {
+  if (studyAgain) {
+    return 'hb-box-bd'
+  } else {
+    return 'hb-box-bd1'
+  }
+}
+
+var calculationSelectedHours = function (selectedHours, compulsoryCourseRequireHours) {
+  if (selectedHours >= 0 && compulsoryCourseRequireHours >= 0) {
+    return selectedHours + compulsoryCourseRequireHours
+  } else if (selectedHours >= 0 && compulsoryCourseRequireHours < 0) {
+    return selectedHours
+  } else if (selectedHours < 0 && compulsoryCourseRequireHours >= 0) {
+    return compulsoryCourseRequireHours
+  } else {
+    return 0
+  }
+}
+
+var getShowScoreText = function (haveExam, havePopuPQuestionAssess, examScore, popQuestionScore) {
+  if (haveExam == undefined || havePopuPQuestionAssess == undefined) {
+    return '-'
+  }
+  if (haveExam && !havePopuPQuestionAssess) {
+    if (examScore == -1) {
+      return '-'
+    } else {
+      return examScore
+    }
+  } else if (!haveExam && havePopuPQuestionAssess) {
+    if (popQuestionScore == -1) {
+      return '-'
+    } else {
+      return popQuestionScore
+    }
+  } else if (haveExam && havePopuPQuestionAssess) {
+    if (examScore == -1 && popQuestionScore == -1) {
+      return '-'
+    } else if (examScore == -1 && popQuestionScore != -1) {
+      return popQuestionScore
+    } else if (examScore != -1 && popQuestionScore == -1) {
+      return examScore
+    } else if (examScore != -1 && popQuestionScore != -1) {
+      return examScore + popQuestionScore
+    } else {
+      return '-'
+    }
+  } else {
+    return '-'
+  }
+
+}
+
+
+module.exports = {
+  changeExercisesScoreUI: changeExercisesScoreUI,
+  calculationExercisesScore: calculationExercisesScore,
+  changeScrollHeight: changeScrollHeight,
+  changeStyle: changeStyle,
+  calculationSelectedHours: calculationSelectedHours,
+  getShowScoreText: getShowScoreText
+};

@@ -1,0 +1,11 @@
+<view class="hd-dialog" wx:if="{{isShow}}">
+  <view class="weui-mask"></view>
+  <view class="weui-dialog">
+    <view class="weui-dialog__hd">
+      <view class="ico">
+        <image class="img" src="/image/icon-warning.png" alt=" " />
+      </view>
+    </view>
+    <view class="weui-dialog__bd">{{content}}</view>
+  </view>
+</view>

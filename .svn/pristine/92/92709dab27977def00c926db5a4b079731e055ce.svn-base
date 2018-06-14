@@ -1,0 +1,11 @@
+<!--pages/mine/commonProblem/commonProblemDetail/commonProblemDetail.wxml-->
+<import src="../../../../component/wxParse/wxParse.wxml" />
+<view class="detail text-center">
+  <view class="title">{{messageDetail.noticeTitle}}</view>
+  <view class="time"><image class="publish-time" src="../../../../image/clock-ico.png"></image>{{messageDetail.publicTime}}</view>
+  <view class="line"></view>
+   <view  class="content">
+    <!-- 不使用富文本组件的原因：当文本内容有左右引号（&ldquo;、&rdquo;）时组件会报错 -->
+    <template is="wxParse" data="{{wxParseData:noticeContent.nodes}}" />
+  </view> 
+</view>

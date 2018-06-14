@@ -1,0 +1,14 @@
+<view class="select-box" wx:if="{{hasShow}}" bindtap="close">
+  <view class="select-mask"></view>
+  <view class="select-panel">
+    <view class="select-bd">
+      <view class="items {{item.electiveWrapId==currentWrapId ? 'current':''}} {{item.hourStandard ? '':'warning-bg'}}" wx:for="{{courseWrapList}}" wx:for-index="idx" wx:key="key" data-item="{{item}}" data-idx="{{idx}}" catchtap='itemClick'>
+        <view class="txt">{{item.electiveWrapName}}</view>
+      </view>
+    </view>
+    <view class="select-ft" wx:if="{{optionalPackageRequires}}">
+      <view class="ci">说明：</view>
+      <view class="warning-bg"></view>选课未达标
+    </view>
+  </view>
+</view>

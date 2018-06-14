@@ -1,0 +1,146 @@
+<!--pages/order/orderInvoice/orderInvoice.wxml-->
+<!--发票-->
+<wxs module="orderInvoiceUtil" src="./orderInvoiceUtil.wxs"></wxs>
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">开票方式</view>
+      <view class="weui-cells">
+        <view class="weui-cell pbr0">
+          <view class="weui-cell__bd">
+            <view wx:for="{{invoiceTypeItemsArray}}" wx:key="{{item.invoiceTypeValue}}" class="hb-btn-s w1 {{item.invoiceTypeValue == selectedInvoiceType ? 'current':''}}" bindtap='invoiceTypeItemClickAction' data-item="{{item}}">{{item.invoiceTypeTitle}}</view>
+          </view>
+        </view>
+        <view class="p20 fs26 ci" wx:if="{{selectedInvoiceType ==1}}">提示：纸质发票配送暂仅支持货到付款。
+        </view>
+        <view class="p20 fs26 c9" wx:if="{{selectedInvoiceType ==2}}">电子发票即增值税普通发票的电子版本，可支持报销入账，其法律效力、基本用途及使用规定和纸质发票相同。</view>
+        <view class="p20 fs26 c9" wx:if="{{selectedInvoiceType ==3}}">我公司依法开具发票，请您按照税法规定使用发票。</view>
+        <view class="p20 fs26 c9" wx:if="{{selectedInvoiceType==4}}">非税务票是财政投放的票据，行政事业单位收取行政事业性收费开具的票据，是正式票据，可以作为报销凭证。</view>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20" wx:if="{{selectedInvoiceType ==1 || selectedInvoiceType ==2 || selectedInvoiceType ==4 }}">
+      <view class="weui-panel__hd">发票抬头</view>
+      <view class="weui-cells">
+        <view class="weui-cell" wx:for="{{invoiceTitleTypeItemsArray}}" wx:key="{{item.invoiceTitleTypeValue}}" bindtap='chooseInvoiceTitleTypeAction' data-item="{{item}}">
+          <view class="weui-cell__bd flex">
+            <view class="hb-form">
+              <image class="img" src="/image/radio.png" alt=" " wx:if="{{selectedInvoiceTitleType != item.invoiceTitleTypeValue}}" />
+              <image class="img" src="/image/radio-checked.png" alt=" " wx:if="{{selectedInvoiceTitleType == item.invoiceTitleTypeValue}}" />
+            </view>
+            <view class="ml20">{{item.invoiceTitleTypeTitle}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!--个人-->
+    <view class="weui-panel hb-panel bor-b20" hidden="{{!(selectedInvoiceTitleType ==1 && (selectedInvoiceType ==1 || selectedInvoiceType == 2 || selectedInvoiceType == 4))}}">
+      <view class="weui-cells weui-cells_form">
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>个人姓名</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写个人姓名" bindblur="inputeAction" data-input-key="personName" value="{{orderInvoiceUtil.getShowPersonNameValue(preInvoiceInfo)}}" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--/个人-->
+
+    <!--单位-->
+    <view class="weui-panel hb-panel {{orderInvoiceUtil.getShowUnitClassString(selectedInvoiceType)}}" hidden="{{!(selectedInvoiceTitleType ==2 && (selectedInvoiceType ==1 || selectedInvoiceType == 2 || selectedInvoiceType == 4))}}">
+      <view class="weui-cells weui-cells_form">
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>单位全称</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写单位全称" bindblur="inputeAction" data-input-key="unitName" value="{{orderInvoiceUtil.getShowUnitNameValue(preInvoiceInfo)}}" />
+          </view>
+        </view>
+        <view  hidden='{{selectedInvoiceType == 4}}'>
+          <view class="weui-cell">
+            <view class="weui-cell__hd">
+              <view class="weui-label">
+                <text class="star">*</text><text class="label-w1">社会统一信用代码</text></view>
+            </view>
+            <view class="weui-cell__bd">
+              <input class="weui-input" type="text" placeholder="请输入18位社会统一信用代码" bindblur="inputeAction" data-input-key="taxNumber" value="{{preInvoiceInfo.taxpayerNo}}" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view hidden='{{selectedInvoiceType == 4}}' class="c9 fs26 p20" >按照国税总局公告，自2017年7月1日起，企业索取的增值税发票需填写纳税人识别号，不符合规定的发票，不得作为合法的税收凭证。</view>
+    </view>
+    <!--/单位-->
+
+    <!--增票资质-->
+    <view class="weui-panel hb-panel" hidden="{{!(selectedInvoiceType == 3)}}">
+      <view class="weui-panel__hd">增票资质</view>
+      <view class="weui-cells weui-cells_form">
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>单位全称</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写单位全称" bindblur="inputeAction" data-input-key="ZunitName" value="{{preInvoiceInfo.increasedTicket == undefined?'':preInvoiceInfo.increasedTicket.unitName}}" />
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>纳税人识别号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写纳税人识别号" bindblur="inputeAction" data-input-key="ZtaxNumber" value="{{preInvoiceInfo.increasedTicket == undefined?'':preInvoiceInfo.increasedTicket.taxpayerNo}}" />
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>注册地址</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写注册地址" bindblur="inputeAction" data-input-key="ZregisterAddress" value="{{preInvoiceInfo.increasedTicket == undefined?'':preInvoiceInfo.increasedTicket.registerAddress}}" />
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>注册电话</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写注册电话" bindblur="inputeAction" data-input-key="ZregisterPhoneNumber" value="{{preInvoiceInfo.increasedTicket == undefined?'':preInvoiceInfo.increasedTicket.registerTelNumber}}" />
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>开户银行</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写开户银行" bindblur="inputeAction" data-input-key="ZregisterBank" value="{{preInvoiceInfo.increasedTicket == undefined?'':preInvoiceInfo.increasedTicket.bankTitle}}" />
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>银行账号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写银行账号" bindblur="inputeAction" data-input-key="ZbankNumber" value="{{preInvoiceInfo.increasedTicket == undefined?'':preInvoiceInfo.increasedTicket.bankAccount}}" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--/增票资质-->
+  </view>
+
+  <view class="hb-tabbar">
+    <view class="hb-btn hb-btn-3" bindtap='saveInvoiceInfo'>保 存</view>
+  </view>
+</view>

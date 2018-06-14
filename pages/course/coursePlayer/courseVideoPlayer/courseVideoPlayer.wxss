@@ -1,0 +1,12 @@
+/* pages/course/courseVideoPlayer/courseVideoPlayer.wxss */
+@import "../../../../component/wetoast/wetoast.wxss";
+.myVideo {
+  width: 100%;
+  height: 400rpx;
+}
+.cover-view {
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: #000000;
+}

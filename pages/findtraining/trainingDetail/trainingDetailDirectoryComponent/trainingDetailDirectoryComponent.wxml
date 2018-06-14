@@ -1,0 +1,32 @@
+<!--pages/findtraining/trainingDetail/trainingDetailDirectoryCompoment/trainingDetailDirectoryCompoment.wxml-->
+
+<wxs module="trainingDetailDirectoryComponentUtil" src="./trainingDetailDirectoryComponentUtil.wxs"></wxs>
+<scroll-view scroll-y style='width:100%;height:100%;'>
+  <view class="class-directory-box">
+    <view class="line"></view>
+
+    <view class="class-directory">
+
+      <view class="directory-li" wx:for = "{{coursePackageList}}" wx:key = "{{item.courseWrapId}}">
+        <view class="items-tit" catchtap='cousePackageItemClickAction' data-current-index="{{index}}" data-current-item="{{item}}">
+          <text class="dot"></text>
+          <text class="label">{{trainingDetailDirectoryComponentUtil.getRequirePackageTypeText(item.type)}}</text>{{item.courseWrapName}}
+        </view>
+        <view class="sub-items">
+
+          <view class="sub-items-bd" wx:for="{{item.courseList}}" wx:for-index="subIndex" wx:for-item="subItem" wx:key="{{subItem.courseId}}" wx:if="{{item.isOpen}}" catchtap='couseItemClickAction' data-current-index="{{index}}" data-current-sub-index="{{subIndex}}">
+            <view class="bd">
+              <text class="dot"></text>
+              <text class="label">{{subItem.period}}学时</text>{{subItem.courseName}}
+            </view>
+            <view class="ft" wx:if="{{subItem.supportListen}}">
+              <image class="img" src="/image/icon-play.png" />
+            </view>
+          </view>
+
+        </view>
+      </view>
+
+    </view>
+  </view>
+</scroll-view>

@@ -1,0 +1,19 @@
+
+/**
+ * 培训状态转化
+ */
+var changeTrainClassState = function (state) {
+  if (state == 0){
+    return "未开始"
+  } else if (state == 1){
+    return "进行中"
+  } else if (state == 2){
+    return "已结束"
+  }else{
+    return "未知"
+  }
+}
+
+module.exports = {
+  changeTrainClassState: changeTrainClassState
+};

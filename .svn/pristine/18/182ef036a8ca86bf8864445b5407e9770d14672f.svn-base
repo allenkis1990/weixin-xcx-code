@@ -1,0 +1,62 @@
+<wxs src="./lineTrainClassUtils.wxs" module="tools" />
+<view class="contain">
+
+  <!--年度选择-->
+  <view class="hb-year-box">
+    <view class="year-tit">年度</view>
+    <view class="year-bd">
+      <text class="items {{currentNavtab==idx ? 'current' : ''}}" wx:for="{{yearList}}" wx:for-index="idx" wx:key="key" data-idx="{{idx}}" data-item='{{item}}' bindtap='yearItemClick'>{{item.skuPropertyValueName}}</text>
+    </view>
+  </view>
+  <!--/年度选择-->
+
+  <!--班级列表-->
+  <view class="hb-wrap-box" style='position:relative;top:0rpx;'>
+    <view class="hb-panel-1">
+      <!--空数据-->
+      <view class="no-data-box .center" wx:if="{{trainingList.length == 0}}">
+        <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+        <view class="no-data-txt">亲爱的学员，您还没有线下培训班哦~</view>
+      </view>
+      <!--空数据-->
+      <view class="hb-panel-bd" wx:if="{{trainingList.length != 0}}">
+        <view class="hb-media-box" wx:for="{{trainingList}}" wx:for-index="idx" wx:key="key" data-item="{{item}}" bindtap='itemClick'>
+          <view class="course-detail-hd">
+            <view class="course-detail-img">
+              <image class="img" wx:if="{{item.trainingClassImg==undefined}}" src="/image/course-img.jpg" data-err-img="{{item.trainingClassImg}}" data-err-idx="{{idx}}" />
+              <image class="img" wx:if="{{item.trainingClassImg!=undefined}}" src="{{item.trainingClassImg}}" data-err-img="{{item.trainingClassImg}}" data-err-idx="{{idx}}" />
+            </view>
+
+            <view class="status-label-box ing">{{tools.changeTrainClassState(item.trainingState)}}</view>
+
+            <view class="seal" hidden="{{item.assessResult==1 ? '' : true}}">
+              <image class="img" src="/image/seal-pass.png" alt=" " />
+            </view>
+
+            <view class="course-info">
+              <image class="mask" src="/image/course-img-mask.png" alt=" " />
+              <view class="course-name">{{item.trainingClassName}}</view>
+            </view>
+          </view>
+          <view class="hb-media-ft">培训时间：{{item.trainingStartTime}} 至 {{item.trainingEndTime}}</view>
+        </view>
+        <view class="loading-tips">
+          <text class="line"></text>
+          <text class="txt" wx:if='{{isFinish==false}}'>上拉加载更多</text>
+          <text class="txt" wx:if='{{isFinish}}'>已经到最底部啦</text>
+          <text class="line"></text>
+        </view>
+      </view>
+
+    </view>
+  </view>
+  <!--扫一扫-->
+  <view class="layer-box">
+    <view class="a-items" bindtap='scanClick'>
+      <image class="img" src="/image/icon-scan.png" alt=" " />
+    </view>
+  </view>
+  <!--/扫一扫-->
+  <!--/班级列表-->
+  <alert id='alert'></alert>
+</view>

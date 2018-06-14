@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "training-detail-info": "./trainingDetailInfoComponent/trainingDetailInfoComponent",
+    "training-detail-directory": "./trainingDetailDirectoryComponent/trainingDetailDirectoryComponent",
+    "training-detail-course-directory":"./trainingDetailCourseDirectoryComponent/trainingDetailCourseDirectoryComponent",
+    "year-picker":"./yearPickerComponent/yearPickerComponent"
+  },
+  "enablePullDownRefresh": false
+}

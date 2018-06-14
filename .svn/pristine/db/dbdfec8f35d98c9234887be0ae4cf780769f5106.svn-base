@@ -1,0 +1,7 @@
+/* pages/mine/personInfo/personInfo.wxss */
+
+.picker{
+  padding: 19rpx 26rpx;
+  background-color: #FFFFFF;
+}
+

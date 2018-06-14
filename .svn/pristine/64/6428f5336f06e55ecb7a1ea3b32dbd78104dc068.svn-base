@@ -1,0 +1,57 @@
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="warning-box">
+      <view class="tl">兴趣课程不纳入本班考核。请根据实际需要选课，选课成功后无法删除。</view>
+    </view>
+    <!--兴趣包-->
+    <view class="hb-year-box hb-year-box-2">
+    <!--bindscrolltolower="scrollLeft" bindscrolltoupper="scrollRight" bindscroll="scroll"  -->
+      <scroll-view class="year-bd" scroll-x="true">
+        <view class="items {{currentWrapIndex==idx ? 'current':''}}" wx:for="{{courseWrapList}}" wx:for-index="idx" wx:index="idx" data-item="{{item}}" data-idx="{{idx}}" wx:key="key" bindtap='courseWrapItemClick'>{{item.packageName}}</view>
+      </scroll-view>
+       <view class="change-label-2">
+        <view class="arrow"></view>
+      </view> 
+    </view>
+    <!--/兴趣包-->
+    <view class="hb-wrap-box hb-wrap-box-2">
+      <!--空数据-->
+      <view class="p25" wx:if="{{courseList.length==0}}">
+        <view class="no-data-box">
+          <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+          <view class="no-data-txt">兴趣课程已经都被您选走咯，暂时没有更多…</view>
+        </view>
+      </view>
+      <!--/空数据-->
+       <!--课程列表数据-->
+      <view class="course-detail-list" wx:if="{{courseWrapList.length!=0}}">
+        <view class="list-items" bindtap='courseItemClick' wx:for="{{courseList}}" wx:for-index="idx" data-item="{{item}}" data-idx="{{idx}}" wx:key="key">
+          <view class="items-hd">
+            <view class="hb-form">
+              <image class="img" src="/image/radio.png" alt=" " wx:if="{{!item.checkState}}" />
+              <image class="img" src="/image/radio-checked.png" alt=" " wx:if="{{item.checkState}}" />
+            </view>
+          </view>
+          <view class="items-bd">
+            <view class="items-bd-tit">{{item.courseName}}</view>
+            <view class="items-bd-desc">
+              <!-- <view class="pr20">讲师：{{item.teacherName}}</view> -->
+              <view>时长：{{item.timeLength}}</view>
+            </view>
+          </view>
+          <view class="items-ft items-ft-1" bindtap='playCourseClick' data-item="{{item}}">
+            <view class="course-play">
+              <image class="img" src="/image/icon-play.png" alt=" " />
+            </view>
+          </view>
+        </view>
+      </view>
+       <!--/课程列表数据-->
+    </view>
+  </view>
+  <view class="hb-tabbar">
+    <view class="left-box">已选
+      <text class="ci">{{selectedcourseNum}}</text> 门兴趣课程</view>
+    <view class="hb-btn" bindtap='confirmClick'>确认选择</view>
+  </view>
+</view>

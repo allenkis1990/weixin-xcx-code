@@ -1,0 +1,8 @@
+<!--登录失败提示-->
+<view class="contain"  wx:if="{{isShowLoginFailUI}}">
+    <view class="p25 tc">
+        <image class="login-img" src="/image/login-bg.png" alt=" " />
+        <view class="fs16">登录失败，请重新操作</view>
+        <view class="btn-full mt30" catchtap='LoginClick'>重新登录</view>
+    </view>
+</view>

@@ -1,0 +1,95 @@
+var getStatusImageSrc = function (status) {
+  var src = ""
+  // | 1:退款申请审核中，2:退款审核通过，3:退款申请被拒绝，4:退款处理中，5:退款成功，6:退款失败，7:取消退款；
+  switch (status) {
+    case 1: {
+      src = '/image/record-submit.png'
+      break
+    }
+    case 2: {
+      src = '/image/record-pass.png'
+      break
+    }
+    case 3: {
+      src = '/image/record-refused.png'
+      break
+    }
+    case 4: {
+      src = '/image/record-submit.png'
+      break
+    }
+    case 5: {
+      src = '/image/record-success.png'
+      break
+    }
+    case 6: {
+      src = '/image/record-refused.png'
+      break
+    }
+    case 7:{
+      src = '/image/record-submit.png'
+      break
+    }
+    default:
+      break
+  }
+  return src
+}
+// | 1:退款申请审核中，2:退款审核通过，3:退款申请被拒绝，4:退款处理中，5:退款成功，6:退款失败，7:取消退款；
+var getStatusText = function (status) {
+  var str = ''
+  switch (status) {
+    case 1: {
+      str = '退款提交申请'
+      break
+    }
+    case 2: {
+      str = '退款申请审核通过'
+      break
+    }
+    case 3: {
+      str = '退款申请被拒绝'
+      break
+    }
+    case 4: {
+      str = '退款处理中'
+      break
+    }
+    case 5: {
+      str = '退款成功'
+      break
+    }
+    case 6: {
+      str = '退款处理中'
+      break
+    }
+    case 7: {
+      str = '取消退款'
+      break
+    }
+    default:
+      break
+  }
+  return str
+}
+var getRefundTypeText = function (refundType) {
+  var str = ''
+  switch (refundType) {
+    case 1: {
+      str = '线上退款'
+      break
+    }
+    case 2: {
+      str = '线下退款'
+      break
+    }
+    default:
+      break
+  }
+  return str
+}
+module.exports = {
+  getStatusImageSrc: getStatusImageSrc,
+  getStatusText: getStatusText,
+  getRefundTypeText: getRefundTypeText
+}

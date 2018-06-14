@@ -1,0 +1,16 @@
+<!--component/customModal/customModal.wxml-->
+<view animation="{{animationData}}" class="contain" wx:if="{{isShow}}">
+  <view class="hd-dialog">
+    <view class="weui-mask"></view>
+    <view class="weui-dialog weui-dialog-1">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">{{title}}</view>
+      </view>
+      <rich-text class="weui-dialog__bd" nodes="{{content}}" style='font-size:{{contentFontSizeString}}'></rich-text>
+      <view class="weui-dialog__ft">
+        <view class="weui-dialog__btn weui-dialog__btn_default" bindtap='_cancelButtonAction' style='font-size:{{buttonFontSizeString}}' wx:if="{{isShowCancel && modalType == 'modal'}}">{{cancelText}}</view>
+        <view class="weui-dialog__btn weui-dialog__btn_primary" bindtap='_confirmButtonAction' style='font-size:{{buttonFontSizeString}}'>{{confirmText}}</view>
+      </view>
+    </view>
+  </view>
+</view>

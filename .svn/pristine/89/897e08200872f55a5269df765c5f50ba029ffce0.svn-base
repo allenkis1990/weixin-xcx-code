@@ -1,0 +1,32 @@
+<!--我的-修改密码-->
+
+<view class="contain hb-box">
+    <view class="hb-box-bd">
+        <view class="weui-panel hb-panel">
+            <view class="weui-cells" >
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit">当前密码</text></view>
+                    <view class="weui-cell__bd"><input type="text" placeholder="请输入当前密码" bindinput="oldPasswordOclick" class="weui-input" /></view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit">新密码</text></view>
+                    <view class="weui-cell__bd"><input type="text" placeholder="6~18位由字母、数字组成的密码" bindinput="newPasswordOclick" class="weui-input" /></view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit">确认密码</text></view>
+                    <view class="weui-cell__bd"><input type="text" placeholder="请再次输入密码" bindinput="againPasswordOclick" class="weui-input" /></view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="hb-tabbar" catchtap='sureChangeClick'>
+        <view class="{{buttonStyleFlag?'hb-btn hb-btn-3':'hb-btn-3 btn'}}">确定修改</view>
+    </view>
+</view>
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+<view class="circle-wrap">
+    <canvas class="cir" style="width:{{circleSize * 2 + 2}}px;height:{{circleSize * 2 + 2}}px;" canvas-id="canvasArc">
+    </canvas>
+</view>

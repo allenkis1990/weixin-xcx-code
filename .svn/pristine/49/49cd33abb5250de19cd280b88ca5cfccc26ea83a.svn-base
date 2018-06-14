@@ -1,0 +1,86 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray == undefined || skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var isShowYearText = function (item) {
+  if (item == undefined) {
+    return true
+  }
+  if (item.categoryType == 2 && getSkuValueWithKeyFromSkuArray('科目', itme.skuPropertyNameList) == '专业课') {
+    return false
+  }
+  return true
+}
+var priceChangetoDecimal2 = function (x) {
+  if (x == undefined) {
+    return '0.00'
+  }
+  var f = parseFloat(x);
+  if (isNaN(f)) {
+    return false;
+  }
+  var f = Math.round(x * 100) / 100;
+  var s = f.toString();
+  var rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= rs + 2) {
+    s += '0';
+  }
+  return s;
+}
+var getOrderStatusText = function (status) {
+  switch (status) {
+    case 1: {
+      return '未支付'
+    }
+    case 2: {
+      return '未支付'
+    }
+    case 3: {
+      return '开通中'
+    }
+    case 4: {
+      return '开通中'
+    }
+    case 5: {
+      return '开通中'
+    }
+    case 6: {
+      return '交易成功'
+    }
+    case 7: {
+      return '交易关闭'
+    }
+    case 8: {
+      return '支付中'
+    }
+  }
+}
+var getConfirmPayButtonClass = function (isPaying) {
+  if (isPaying == undefined) {
+    return ''
+  }
+  if (isPaying) {
+    return 'disabled'
+  }
+  return ''
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  isShowYearText: isShowYearText,
+  priceChangetoDecimal2: priceChangetoDecimal2,
+  getOrderStatusText: getOrderStatusText,
+  getConfirmPayButtonClass: getConfirmPayButtonClass
+}

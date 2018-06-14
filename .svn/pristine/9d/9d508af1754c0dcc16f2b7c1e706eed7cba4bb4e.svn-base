@@ -1,0 +1,183 @@
+//app.js
+let { WeToast } = require('./component/wetoast/wetoast.js')
+let { HintDialog } = require('./component/hintDialog/hintDialog.js')
+let { AlertMessage } = require('./component/alertMessage/alertMessage.js')
+let { forceUpdate } = require('./utils/wxUpdateManager.js')
+
+App({
+  WeToast,   // 后面可以通过app.WeToast访问
+  AlertMessage,
+  HintDialog,
+  onLaunch: function (options) {
+    forceUpdate()
+    console.log(options)
+    console.log("[onLaunch] 场景值:", options.scene)
+    this.scene = options.scene //保存场景值
+    var openIdUrl = require('./config.js').openIdUrl
+    // 展示本地存储能力
+    var logs = wx.getStorageSync('logs') || []
+    logs.unshift(Date.now())
+    wx.setStorageSync('logs', logs)
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        //console.log(res);
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              // 可以将 res 发送给后台解码出 unionId 
+              // this.userInfo = res.userInfo
+
+              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+              // 所以此处加入 callback 以防止这种情况
+              this.wxUserInfo = res.userInfo
+              if (this.userInfoReadyCallback) {
+                this.userInfoReadyCallback(res)
+              }
+            }
+          })
+        }
+      }
+    })
+    this.getServeContextInfo() // 读取配置参数
+    // this.getRegionData()
+    this.getAllRegionData();
+    this.getWXSystemInfo()
+  },
+  // 服务地址信息
+  serveContextInfo: {},
+  wxUserInfo: null,//用户微信个人信息
+  userReceiveAddress: null,//收货地址
+
+  //当前登录的用户信息
+  userInfo: null,
+  //场景值
+  scene: 10001,
+  refreshMyTraining:false,
+  config: require('./config.js'),
+  constant: require('./utils/constant.js'),
+  utils: require('./utils/util.js'),
+  requestUtils: require('./utils/requestUtil.js'),
+  questionsRequestUtil: require('./utils/questionsRequestUtil.js'),
+  /**
+   * 接口公共访问方法
+   * @param  requestUrl  请求地址
+   * @param  param      请求参数
+   * @param  requestType 请求方式  GET POST
+   */
+  requestData(requestUrl, param, requestType) {
+    return require('./utils/requestUtil.js').getData(requestUrl, param, requestType)
+  },
+
+  /**
+   * 读取服务后端的配置参数
+   */
+  getServeContextInfo() {
+    //读取系统配置参数    
+    if (this.serveContextInfo === undefined || this.serveContextInfo.platformId === undefined) {
+      //获取培训平台系统配置参数
+      this.requestData(this.config.serveContextInfoUrl, {}, 'GET').then(data => {
+        if (data.head.code == this.constant.network_result_success) {
+          this.serveContextInfo = data.data
+        }
+      })
+      return {}
+    } else {
+      return this.serveContextInfo
+    }
+  },
+  /**
+    * 获取地区选择的省市县信息
+    */
+  getRegionData() {
+    if (this.regionData == undefined || this.regionData.cities == undefined) {
+      this.requestData(this.config.regionInfo, {
+        parentId:'350500'
+      }, "POST").then(response => {
+        if (response.head.code === this.constant.network_result_success) {
+          var citiesArray = [{
+            cityCode:'350500',
+            cityName:'泉州市',
+            districts: response.data.areas
+          }]
+          var regionData = {
+            cities: citiesArray
+          }
+          this.regionData = regionData
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+      return {}
+    } else {
+      return this.regionData
+    }
+  },
+
+    getAllRegionData: function () {
+        if (this.regionAllData == undefined || this.regionAllData == null || this.regionAllData.provinces == undefined) {
+            this.requestData(this.config.getAllRegion, {}, "GET").then(response => {
+                if (response.head.code === this.constant.network_result_success) {
+                    this.regionAllData = response.data
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+            return {}
+        } else {
+            return this.regionAllData
+        }
+    },
+  /**
+  * 获取当前登录用户的收货地址信息
+  */
+  getUserReceiveAddress() {
+    if (this.userReceiveAddress == undefined || this.userReceiveAddress == null || this.userReceiveAddress.receiverId == undefined) {
+      this.requestData(this.config.userReceiverAddress, {}, "GET").then(response => {
+        if (response.head.code === this.constant.network_result_success) {
+          this.userReceiveAddress = response.data
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+      return {}
+    } else {
+      return this.userReceiveAddress
+    }
+  },
+  /**
+   * 获取当前登录的用户信息
+   */
+  getUserInfo() {
+    //读取系统配置参数    
+    if (this.userInfo === undefined || this.userInfo === null || this.userInfo.userId === undefined) {
+      //尝试读取用户信息
+      this.requestData(this.config.getUserInfo, {}, "GET").then(data => {
+        if (data.head.code === this.constant.network_result_success) {
+          this.userInfo = data.data.userInfo
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+      return {}
+    } else {
+      return this.userInfo
+    }
+  },
+  onShow: function (options) {
+    console.log("[onLaunch] 场景值:", options.scene)
+    this.scene = options.scene //保存场景值
+  },
+  /**
+  * 获取微信系统
+  */
+  getWXSystemInfo() {
+    var _this = this
+    wx.getSystemInfo({
+      success: function (res) {
+        _this.wxSystemInfo = res
+      },
+    })
+  }
+})

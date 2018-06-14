@@ -1,0 +1,28 @@
+<!--pages/findtraining/trainingDetail/trainingDetailCourseDirectoryCompoment/trainingDetailCourseDirectoryCompoment.wxml-->
+<!--发现培训-课程详情-目录-->
+<scroll-view scroll-y style='width:100%;height:100%;'>
+  <view class="class-directory-box">
+    <view class="line"></view>
+    <view class="class-directory">
+
+      <view class="directory-li" wx:for="{{chapterList}}" wx:key="{{item.chapterName}}">
+        <view class="items-tit" catchtap='chapterClickAction' data-current-index="{{index}}">
+          <text class="dot"></text>
+          <text class="ml20">{{item.chapterName}}</text>
+        </view>
+        <view class="sub-items" wx:for="{{item.coursewareList}}" wx:for-index="subIndex" wx:for-item="subItem" wx:key="{{subItem.coursewareId}}" wx:if="{{item.isOpen}}" catchtap='couseWareSelectedAction' data-course-ware="{{subItem}}">
+          <view class="sub-items-bd">
+            <view class="bd">
+              <text class="dot"></text>
+              <text class="ml20">{{subIndex +1 +"、"+subItem.coursewareName}}</text>
+            </view>
+            <view class="time">{{subItem.totalTimeText}}</view>
+            <view class="ft">
+              <image wx:if="{{subItem.supportListen}}" class="img" src="/image/icon-play.png" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

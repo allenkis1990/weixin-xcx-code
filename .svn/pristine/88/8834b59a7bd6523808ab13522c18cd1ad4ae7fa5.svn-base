@@ -1,0 +1,9 @@
+/* pages/map/assessConditionComponent/assessConditionComponent.wxss */
+@import "/app.wxss";
+.center{
+  position: fixed;
+  top: 38%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

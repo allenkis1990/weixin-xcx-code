@@ -1,0 +1,35 @@
+/* pages/linetrainclass/lineTrainClassList/lineTrainClassList.wxss */
+.center{
+  position: fixed;
+  top: 38%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.course-name{
+    position: relative;
+  z-index: 2;
+  flex: 1;
+  /* overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.loading-tips {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+}
+.loading-tips .line {
+  flex: 1;
+  margin: 0 20rpx;
+  height: 1rpx;
+  background-color: #ddd;
+}
+.loading-tips .txt {
+  font-size: 26rpx;
+  color: #999;
+}

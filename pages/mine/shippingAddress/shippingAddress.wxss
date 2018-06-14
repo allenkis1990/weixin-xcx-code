@@ -1,0 +1,9 @@
+/* pages/mine/shippingAddress/shippingAddress.wxss */
+.btn{
+  width: 250rpx;
+  height: 100rpx;
+  font-size: 32rpx;
+  text-align: center;
+  background-color: #bbb;
+  color: #666;
+}

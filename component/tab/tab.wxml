@@ -1,0 +1,3 @@
+<view class="hb-tab-tit">
+  <view class="tab-tit-items {{idx===currentIndex?'current':''}}" wx:for="{{navTab}}" wx:for-index="idx" wx:key="key" data-idx="{{idx}}" bindtap='tabClick'>{{item.name}}</view>
+</view>

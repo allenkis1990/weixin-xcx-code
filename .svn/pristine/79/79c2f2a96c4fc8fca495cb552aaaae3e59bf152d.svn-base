@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "课程详情",
+  "usingComponents": {
+    "course-video-player": "../coursePlayer/courseVideoPlayer/courseVideoPlayer",
+    "popupQuestionContainer": "../popupQuestionComponent/popupQuestionContainer/popupQuestionContainer",
+    "star": "/component/star/star"
+  },
+  "enablePullDownRefresh": false
+}

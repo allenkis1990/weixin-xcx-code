@@ -1,0 +1,73 @@
+<!--pages/exam/singleComponent/singleComponent.wxml-->
+<scroll-view class="hb-box-bd" style='height:100%;'>
+  <view class="exam-panel-hd">
+    <view class="hd-info">{{index==0?'一、':index==1?'二、':index==2?'三、':''}}{{title.name}}(共{{title.count}}题，每题{{title.score/title.count}}分，共{{title.score}}分）</view><view class="question-num">
+      <text class="cb">{{currentQuestionIndex}}/{{allQuestionIndex}}</text>
+    </view>
+  </view>
+  <view class="exam-panel exam-panel-1">
+    <view class="exam-panel-bd">
+      <view style="display:flex;align-items: flex-start;line-height: 1.8;">
+        <view>{{subIndex + 1}}/{{title.count}}、 </view>
+        <rich-text class="question-tit" nodes="{{question.topic}}({{question.score}}分)"></rich-text> 
+      </view>
+      <!--多选题添加 multiple-choice-->
+      <view class="question-select" wx:if="{{!showAnswer}}">
+        <!--选中的选项添加 selected-->
+        <view class="{{userAnswer === item.optionId?'select-items selected':'select-items'}}" wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" data-result="{{item.optionId}}" bindtap="chooseItem">
+          <!-- <view class="items-num">{{EnglishArray[index]}}</view>
+          <view class="items-txt">{{item.content}}</view> -->
+          <view class="items-num">{{EnglishArray[index]}}</view> 
+          <rich-text class="items-txt" nodes="{{item.content}}"></rich-text> 
+        </view>
+      </view>
+      <view class="question-select" wx:if="{{showAnswer}}">
+        <!--选中的选项添加 selected-->
+        <view wx:if="{{showResult}}">
+          <view class="{{correctAnswer === item.optionId?'select-items right':userAnswer === item.optionId?'select-items wrong':'select-items'}}" wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}">
+            <!-- <view class="items-num">{{EnglishArray[index]}}</view> -->
+            <!-- <view class="items-txt">{{item.content}}</view> -->
+            <view class="items-num">{{EnglishArray[index]}}</view> 
+            <rich-text class="items-txt" nodes="{{item.content}}"></rich-text> 
+          </view>
+        </view>
+        <view wx:if="{{!showResult}}">
+          <view class="{{userAnswer === correctAnswer?userAnswer === item.optionId?'select-items right':'select-items':userAnswer === item.optionId?'select-items wrong':'select-items'}}" wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}">
+            <view class="items-num">{{EnglishArray[index]}}</view>
+            <view class="items-txt">{{item.content}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="question-analysis" wx:if="{{showDescription}}">
+      <view class="question-analysis-bd">
+        <view class="flex mb10">
+          <view class="question-result right" wx:if="{{!showResult}}">
+            <view wx:if="{{userAnswer === correctAnswer}}"  class="flex">
+              <image class="img" src="/image/icon-right.png" alt=" " />回答正确
+            </view>
+            <view wx:if="{{userAnswer !== correctAnswer}}" class="flex">
+              <image class="img" src="/image/icon-error.png" alt=" " />回答错误
+            </view>
+          </view>
+          <view wx:if="{{showResult}}">
+            <text class="c9">正确答案</text>
+            <text wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" class="cb ml10" wx:if="{{correctAnswer === item.optionId}}">{{EnglishArray[index]}}</text>
+          </view>
+          <view>
+            <text class="c9 ml30">我的答案</text>
+            <text wx:for="{{question.configurationItems}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" wx:if="{{userAnswer === item.optionId?true:false}}" class="{{userAnswer === correctAnswer?'cb ml10':'ci ml10'}}">{{EnglishArray[index]}}</text>
+            <text wx:if="{{userAnswer.length == 0|| userAnswer == 'null'?true:false}}" class="ci ml10">无</text>
+          </view>
+
+        </view>
+        <view class="mt10">
+          <view class="c9">解析</view>
+          <!-- <view class="analysis-txt">{{question.description}}</view> -->
+          <rich-text class="analysis-txt" nodes="{{question.description}}"></rich-text>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

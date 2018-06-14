@@ -1,0 +1,27 @@
+<wxs module="m1" src="./course.wxs">
+</wxs>
+<view class="sign-in-list">
+  <view class="sign-in-items" wx:for="{{courseList}}" wx:index="idx" wx:key="key" data-item="{{item}}">
+    <view class="sign-in-hd">{{item.trainingClassName}}</view>
+    <view class="sign-in-bd">
+      <view class="label">课程名称</view>
+      <view class="bd">{{item.courseName}}</view>
+    </view>
+    <view class="sign-in-bd" wx:if="{{item.signType==1}}">
+      <view class="label">签到时间</view>
+      <view class="bd">{{item.signStartTime}}-{{item.signEndTime}}</view>
+      <view wx:if="{{!hasAutomaticSign}}">
+        <view class="hb-btn" bindtap='signInClick' data-item="{{item}}" wx:if="{{item.signState==0}}">签到</view>
+        <view class="hb-btn" bindtap='signInClick' data-item="{{item}}" wx:if="{{item.signState==1}}">已签到</view>
+      </view>
+    </view>
+    <view class="sign-in-bd" wx:if="{{item.signType==2}}">
+      <view class="label">签退时间</view>
+      <view class="bd">{{item.signStartTime}}-{{item.signEndTime}}</view>
+      <view wx:if="{{!hasAutomaticSign}}">
+        <view class="hb-btn"  bindtap='signOutClick' data-item="{{item}}" wx:if="{{item.signState==0}}">签退</view>
+        <view class="hb-btn"  bindtap='signOutClick' data-item="{{item}}" wx:if="{{item.signState==1}}">已签退</view>
+      </view>
+    </view>
+  </view>
+</view>

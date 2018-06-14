@@ -1,0 +1,7 @@
+.circle-wrap{
+  position: relative;
+}
+.cir {
+  display: inline-block;
+  transform: rotate(-90deg);
+}

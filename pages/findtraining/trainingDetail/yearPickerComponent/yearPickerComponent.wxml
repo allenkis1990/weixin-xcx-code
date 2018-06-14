@@ -1,0 +1,17 @@
+<!--pages/findtraining/trainingDetail/yearPickerComponent/yearPickerComponent.wxml-->
+
+<view class="dialog-mask " style="visibility:{{addressMenuIsShow ? 'visible': 'hidden'}}" catchtap="hideAction">
+  <view class="picker-view" animation="{{animationAddressMenu}}" style="visibility:{{addressMenuIsShow ? 'visible':'hidden'}}" catchtap="pickerViewClickAction">
+    <view style="height:80rpx;width:100%;" class='top-box'>
+      <text catchtap="canceleAction" class='item-left'>取消</text>
+      <view class='item-center'>请选择专业课认定的继续教育年度</view>
+      <text catchtap="confirmAction" class='item-right'>确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 490rpx;" bindchange="valueChangeAction" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{yearDataSource}}" class="picker-item" wx:key="{{index}}">
+          {{item.skuPropertyValueName}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+</view>

@@ -1,0 +1,106 @@
+<!--pages/order/goodsSend/goodsSend.wxml-->
+<!--发票配送-->
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">开票方式</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view wx:for="{{deliverTypeItemsArray}}" wx:key="{{item.deliverTypeValue}}" class="hb-btn-s mr20 {{item.deliverTypeValue == selectedDeliverType?'current':''}}" bindtap='chooseDeliverTypeAction' data-deliver-item='{{item}}'>{{item.deliverTypeName}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel hb-panel" hidden='{{selectedDeliverType!=1}}'>
+      <view class="weui-cells bor-b20" wx:for="{{selfPickerAddressList}}" wx:key="{{item.selfStorageId}}">
+        <view class="weui-cell flex" bindtap='selectSelfPickerItemAction' data-picker-address-item="{{item}}">
+          <view class="hb-form" >
+            <image wx:if='{{item.selfStorageId != selectedSelfPickerAddress.selfStorageId}}' class="img" src="/image/radio.png" alt=" " />
+            <image wx:if='{{item.selfStorageId == selectedSelfPickerAddress.selfStorageId}}' class="img" src="/image/radio-checked.png" alt=" " />
+          </view>
+          <view class="ml20">{{(index+1)+"、" + item.selfStorageName}}</view>
+        </view>
+        <view class="hb-info-cells">
+          <view class="hb-info-cell">
+            <view class="hb-info-cell__bd">
+              <text>自取地点</text>
+            </view>
+            <view class="hb-info-cell__ft">{{item.selfStoragePickupAddress}}</view>
+          </view>
+          <view class="hb-info-cell">
+            <view class="hb-info-cell__bd">
+              <text>领取时间</text>
+            </view>
+            <view class="hb-info-cell__ft">{{item.selfStoragePickupDate}}</view>
+          </view>
+          <view class="hb-info-cell">
+            <view class="hb-info-cell__bd">
+              <text>备注</text>
+            </view>
+            <view class="hb-info-cell__ft">{{item.comment}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+    <!--邮寄-->
+    <view class="weui-panel hb-panel" hidden='{{selectedDeliverType!=2}}'>
+      <view class="weui-cells weui-cells_form">
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>姓名</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写收件人姓名" bindblur="inputeAction" data-input-key="receiverName" value='{{userAddressInfo.receiverName}}'/>
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>手机号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写收件人手机号" bindblur="inputeAction" data-input-key="mobileNo" value='{{userAddressInfo.mobileNo}}'/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_access">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>收件地区</view>
+          </view>
+          <view class="weui-cell__bd">
+            <address-choose-picker area-info="{{areaInfo}}" bindconfirmAction="_pickerConfirmAction" pre-slected-index="{{prePickerIndex}}"></address-choose-picker>
+          </view>
+          <view class="weui-cell__ft"></view>
+        </view>
+        <view class="weui-cell weui-cell-start">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>详细地址</view>
+          </view>
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="请填写收件详细地址" style='position:relative; top: {{textAreaTop}}rpx;' bindblur="inputeAction" data-input-key="addressDetails" value='{{userAddressInfo.addressDetails}}'></textarea>
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <view class="weui-label">
+              <text class="star">*</text>邮政编码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="请填写邮政编码" bindblur="inputeAction" data-input-key="postCode" value='{{userAddressInfo.postCode}}'/>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--/邮寄-->
+  </view>
+
+  <view class="hb-tabbar">
+    <view class="hb-btn hb-btn-3" bindtap='saveAction'>保 存</view>
+  </view>
+</view>

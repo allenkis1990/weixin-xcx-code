@@ -1,0 +1,38 @@
+<wxs module="assessCondition" src="./assessCondition.wxs">
+</wxs>
+<scroll-view scroll-y class="course-detail-tab-bd {{hasExam ? 'course-detail-tab-bd-1' : 'course-detail-tab-bd-2'}}" bindscroll="scrollingAction">
+  <view class="situation-info-box" wx:if="{{classInfo.assessInformation.classAssessObj.assessMode == 0 || classInfo.assessInformation.classAssessObj.assessMode == 2}}">
+    <view class="info-tit">签到与签退规则</view>
+    <view class="info-desc" wx:if="{{classInfo.assessInformation.signRulesObj.hasSignIn}}">
+      <text class="cb">[签到要求]</text> {{assessCondition.getSignInConditionText(classInfo.assessInformation.signRulesObj.signInRuleType)}}
+      <text class="ci" wx:if="{{assessCondition.isShowSignInText(classInfo.assessInformation.signRulesObj.signInRuleType)}}">{{classInfo.assessInformation.signRulesObj.beforeSignInMin}}</text>
+      <text wx:if="{{assessCondition.isShowSignInText(classInfo.assessInformation.signRulesObj.signInRuleType)}}"> 分钟内，需签到 1 次</text>
+    </view>
+    <view class="info-desc" wx:if="{{classInfo.assessInformation.signRulesObj.hasSignOut}}">
+      <text class="cb">[签退要求]</text> {{assessCondition.getSignOutConditionText(classInfo.assessInformation.signRulesObj.signOutRuleType)}}
+      <text class="ci" wx:if="{{assessCondition.isShowSignOutText(classInfo.assessInformation.signRulesObj.signOutRuleType)}}">{{classInfo.assessInformation.signRulesObj.afterSignOutMin}}</text>
+      <text wx:if="{{assessCondition.isShowSignOutText(classInfo.assessInformation.signRulesObj.signOutRuleType)}}"> 分钟内，需签到 1 次</text>
+    </view>
+  </view>
+  <view class="situation-info-box" wx:if="{{classInfo.assessInformation.classAssessObj.assessMode == 0 || classInfo.assessInformation.classAssessObj.assessMode == 1 || classInfo.assessInformation.classAssessObj.assessMode == 2}}">
+    <view class="info-tit">班级考核要求</view>
+    <view class="info-desc" wx:if="{{classInfo.assessInformation.classAssessObj.assessMode == 0 || classInfo.assessInformation.classAssessObj.assessMode == 2}}">
+      1.
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignIn}}">签到次数>=</text>
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignIn}}" class="ci">{{classInfo.assessInformation.classAssessObj.signInCount}}</text>
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignIn}}"> 次</text>
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignIn && classInfo.assessInformation.signRulesObj.hasSignOut}}">，</text>
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignOut}}">签退次数>=</text>
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignOut}}" class="ci">{{classInfo.assessInformation.classAssessObj.signOutCount}}</text>
+      <text wx:if="{{classInfo.assessInformation.signRulesObj.hasSignOut}}"> 次</text>
+    </view>
+    <view class="info-desc" wx:if="{{classInfo.assessInformation.classAssessObj.assessMode == 1 || classInfo.assessInformation.classAssessObj.assessMode == 2}}">{{assessCondition.getExamAssessConditionIndex(classInfo.assessInformation.classAssessObj.assessMode)}} 线下考试分数达到
+      <text class="ci">{{classInfo.assessInformation.classAssessObj.assessPassScore}}</text> 分，方可获得通过。
+    </view>
+  </view>
+
+  <view class="no-data-box .center" style='margin-top:150rpx;top:50%;' wx:if="{{classInfo.assessInformation.classAssessObj.assessMode == -1 }}">
+    <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+    <view class="no-data-txt">本班暂无考核要求！</view>
+  </view>
+</scroll-view>

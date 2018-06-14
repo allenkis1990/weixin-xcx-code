@@ -1,0 +1,253 @@
+const app = getApp()
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    trainDetail: {},
+    remainingPeriod: 0,
+    selectedHours: 0,
+    trainingClassId: '',
+    courseCompletePercent: 0,
+    examPercent: 0,
+    assessInformation: {},
+    isShowProgressCircle: true,
+    isShowExamPassCircle: true
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    new app.WeToast()
+    this.setData({
+      trainingClassId: options.trainingClassId
+    })
+    this.trainDetail()
+  },
+  onShow() {
+    this.requestSelectedCourseInfo()
+  },
+  /**
+  * 生命周期函数--监听页面初次渲染完成
+  */
+  onReady: function () {
+
+  },
+  /**
+   * 网络请求   班级详情数据
+   */
+  trainDetail() {
+    var context = this
+    var param = {
+      trainingClassId: context.data.trainingClassId
+    }
+    wx.showLoading({ title: '加载中...', mask: true })
+    app.requestData(app.config.trainingClassDetail, param, "GET").then(data => {
+      wx.hideLoading()
+      if (data.head.code !== app.constant.network_result_success) {
+        //网络请求失败
+        return this.wetoast.toast({ title: data.head.message })
+      }
+
+      var score = data.data.score
+      var passScore = data.data.assessInformation.assessPassScore
+      // context.filledDataFortab(data.data)
+      var examPercent = 0
+      if (score == null || score == undefined) {
+        examPercent == 0
+      } else if (score >= passScore) {
+        examPercent = 100
+      } else if (score == -1 || score == 0) {
+        examPercent = 0
+      } else if (passScore <= 0) {
+        examPercent = 100
+      } else {
+        examPercent = (score / passScore).toFixed(2) * 100
+      }
+      //数据赋值
+      context.setData({
+        trainDetail: data.data,
+        courseCompletePercent: data.data.completePercent,
+        examPercent: Math.floor(examPercent),
+        assessInformation: data.data.assessInformation
+      })
+      this.drawCircle()
+      this.setData({ examPassScore: data.data.assessInformation.assessPassScore })
+    }).catch(e => {
+      wx.hideLoading()
+      console.log(e)
+    })
+  },
+  /**
+   * 网络请求    培训班课程选课学时信息
+   */
+  requestSelectedCourseInfo() {
+    var param = {
+      trainingClassId: this.data.trainingClassId
+    }
+    app.requestData(app.config.trainingClassSelectedInfo, param, "GET").then(data => {
+      if (data.head.code !== app.constant.network_result_success) {
+        //网络请求失败
+        return this.wetoast.toast({ title: data.head.message })
+      }
+      //数据赋值
+      this.setData({
+        remainingPeriod: data.data.remainingHours,
+        selectedHours: data.data.selectedHours
+      })
+    }).catch(e => {
+      console.log(e)
+    })
+  },
+  /**
+   * 点击事件--去选课页面
+   */
+  goToSelectCourse() {
+    var context = this
+    if (context.data.remainingPeriod <= 0) {
+      return
+    }
+    app.constant.classDetailSceneType = 4
+    wx.navigateTo({
+      url: '/pages/choiceCourseModule/selectedCourse/selectedCourse?' + "trainingClassId=" + context.data.trainingClassId
+    })
+  },
+  /**
+   * 考核配置业务逻辑
+   */
+  filledDataFortab(data) {
+    data.selectConfiguration = this.renewLogSort(data.selectConfiguration)
+    for (let index = 0; index < data.selectConfiguration.length; index++) {
+      let item = data.selectConfiguration[index]
+      switch (item) {
+        case "1": {
+          this.setData({
+            isShowProgressCircle: true
+          })
+          break
+        }
+        case "2": {
+
+          break
+        }
+        case "3": {
+
+          break
+        }
+      }
+    }
+  },
+  /**
+    * 重排数据
+    */
+  renewLogSort: function (array) {
+    // 冒泡排序
+    var len = array.length
+    if (len == 0) {
+      return []
+    }
+    for (var i = 0; i < len; i++) {
+      for (var j = 0; j < len - 1 - i; j++) {
+        if (parseInt(array[j]) > parseInt(array[j + 1])) {
+          var temp = array[j]
+          array[j] = array[j + 1]
+          array[j + 1] = temp
+        }
+      }
+    }
+    return array
+  },
+  /**
+   * 画圆  
+   * @params  index 0--代表初始化  1---代表数据返回 
+   */
+  drawCircle() {
+    // 使用 wx.createContext 获取绘图上下文 context
+    if (this.data.trainDetail.selectedCoursed) {
+      // 使用 wx.createContext 获取绘图上下文 context
+      var firstCanvas = wx.createCanvasContext('firstCanvas')
+      var secondCanvas = wx.createCanvasContext('secondCanvas')
+
+      firstCanvas.setStrokeStyle('#ffffff');
+      firstCanvas.setLineWidth(1);
+      firstCanvas.arc(51, 51, 50, 0, 2 * Math.PI, false);
+      firstCanvas.stroke();
+      firstCanvas.draw();
+      secondCanvas.setStrokeStyle("#ffffff")
+      secondCanvas.setLineWidth(4)
+      if (this.data.trainDetail.completePercent == undefined || this.data.trainDetail.completePercent == '') {
+        secondCanvas.arc(51, 51, 44, -0.5 * Math.PI, (0.01 * 0 - 0.25) * 2 * Math.PI, false)
+      } else {
+        secondCanvas.arc(51, 51, 44, -0.5 * Math.PI, (0.01 * this.data.trainDetail.completePercent - 0.25) * 2 * Math.PI, false)
+
+      }
+      secondCanvas.stroke()
+      secondCanvas.draw()
+    } else {
+      this.setData({
+        isShowProgressCircle: false
+      })
+    }
+
+    if (this.data.trainDetail.haveExam
+      == true || this.data.trainDetail.havePopuPQuestionAssess == true) {
+      var thirdCanvas = wx.createCanvasContext('thirdCanvas')
+      var fourCanvas = wx.createCanvasContext('fourCanvas')
+      thirdCanvas.setStrokeStyle('#ffffff');
+      thirdCanvas.setLineWidth(1);
+      thirdCanvas.arc(51, 51, 50, 0, 2 * Math.PI, false);
+      thirdCanvas.stroke();
+      thirdCanvas.draw();
+      fourCanvas.setStrokeStyle("#ffffff")
+      fourCanvas.setLineWidth(4)
+      fourCanvas.arc(51, 51, 44, -0.5 * Math.PI, (0.01 * 0 - 0.25) * 2 * Math.PI, false)
+      if (!this.data.trainDetail.haveExam
+        && this.data.trainDetail.havePopuPQuestionAssess) {
+        if (this.data.trainDetail.popQuestionScore >= 0) {
+          fourCanvas.arc(51, 51, 44, -0.5 * Math.PI, (this.data.trainDetail.popQuestionScore / this.data.assessInformation.assessPassScore - 0.25) * 2 * Math.PI, false)
+        }
+
+      } else if (this.data.trainDetail.haveExam
+        && !this.data.trainDetail.havePopuPQuestionAssess) {
+
+        if (this.data.trainDetail.examScore >= 0) {
+          fourCanvas.arc(51, 51, 44, -0.5 * Math.PI, (this.data.trainDetail.examScore / this.data.assessInformation.assessPassScore - 0.25) * 2 * Math.PI, false)
+        }
+
+      } else if (this.data.trainDetail.haveExam
+        && this.data.trainDetail.havePopuPQuestionAssess) {
+        if (this.data.trainDetail.examScore >= 0 && this.data.trainDetail.popQuestionScore >= 0) {
+
+          fourCanvas.arc(51, 51, 44, -0.5 * Math.PI, ((this.data.trainDetail.examScore + this.data.trainDetail.popQuestionScore) / (this.data.assessInformation.assessPassScore) - 0.25) * 2 * Math.PI, false)
+
+        } else if (this.data.trainDetail.examScore >= 0 && this.data.trainDetail.popQuestionScore < 0) {
+
+          fourCanvas.arc(51, 51, 44, -0.5 * Math.PI, (this.data.trainDetail.examScore / this.data.assessInformation.assessPassScore - 0.25) * 2 * Math.PI, false)
+
+        } else if (this.data.trainDetail.examScore < 0 && this.data.trainDetail.popQuestionScore >= 0) {
+
+          fourCanvas.arc(51, 51, 44, -0.5 * Math.PI, (this.data.trainDetail.popQuestionScore / this.data.assessInformation.assessPassScore - 0.25) * 2 * Math.PI, false)
+        }
+      }
+      fourCanvas.stroke()
+      fourCanvas.draw()
+    } else {
+      this.setData({
+        isShowExamPassCircle: false
+      })
+    }
+  },
+  /**
+    * 判断考核是否通过画圆圈
+    */
+  calculationCircle(exercisesAssessmentScore, popQuestionRequireScore, examAssessmentScore, assessmentScore) {
+    if (exercisesAssessmentScore > popQuestionRequireScore && examAssessmentScore < assessmentScore) {
+      return popQuestionRequireScore + examAssessmentScore
+    } else if (exercisesAssessmentScore < popQuestionRequireScore && examAssessmentScore > assessmentScore) {
+      return exercisesAssessmentScore + assessmentScore
+    } else {
+      return exercisesAssessmentScore + examAssessmentScore
+    }
+  }
+})

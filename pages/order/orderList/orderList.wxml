@@ -1,0 +1,33 @@
+<!--pages/order/orderList/orderList.wxml-->
+<!--报名清单-交易关闭-->
+<view class="contain">
+  <!--tab-->
+  <view class="hb-tab-tit-2">
+    <view class="tab-tit-items {{currentTab==0 ? 'current' : ''}}" data-current="0" bindtap="swichNav">
+      <text class="items-name">未支付</text>
+      <image class="current-img" src="/image/tab-current-bg.jpg" />
+    </view>
+    <view class="tab-tit-items {{currentTab==1 ? 'current' : ''}}" data-current="1" bindtap="swichNav">
+      <text class="items-name">已支付</text>
+      <image class="current-img" src="/image/tab-current-bg.jpg" />
+    </view>
+    <view class="tab-tit-items {{currentTab==2 ? 'current' : ''}}" data-current="2" bindtap="swichNav">
+      <text class="items-name">交易关闭</text>
+      <image class="current-img" src="/image/tab-current-bg.jpg" />
+    </view>
+  </view>
+  <!--class='top-90'-->
+  <view>
+    <unpay-list style="display:{{currentTab == 0?'block':'none'}};" id="unpayList" bind:tipCanNotPayEvenet="_tipCanNotPayAction" bind:refreashDataEvent="_refreashDataAction"></unpay-list>
+    <paid-list style="display:{{currentTab == 1?'block':'none'}};" id="paidList"></paid-list>
+    <close-list style="display:{{currentTab == 2?'block':'none'}};" id="closeList"></close-list>
+  </view>
+  <!--返回顶部-->
+  <view class="layer-box" bindtap="returnTop">
+    <view class="a-items">
+      <image class="img" src="/image/icon-top.png" alt=" " />
+    </view>
+  </view>
+  <!--/返回顶部-->
+</view>
+<alert id='alert'></alert>

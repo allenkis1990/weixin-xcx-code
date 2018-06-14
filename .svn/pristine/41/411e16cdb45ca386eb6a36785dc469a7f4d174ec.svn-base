@@ -1,0 +1,17 @@
+/* pages/order/orderList/closeListComponent/closeListComponent.wxss */
+@import "/app.wxss";
+.loading-tips {
+  display: flex;
+  align-items: center;
+  padding: 40rpx 100rpx;
+}
+.loading-tips .line {
+  flex: 1;
+  margin: 0 20rpx;
+  height: 1rpx;
+  background-color: #ddd;
+}
+.loading-tips .txt {
+  font-size: 26rpx;
+  color: #999;
+}

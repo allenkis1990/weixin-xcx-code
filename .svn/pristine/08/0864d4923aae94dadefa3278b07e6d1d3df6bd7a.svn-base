@@ -1,0 +1,115 @@
+<scroll-view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="exam-panel-hd">
+      <view class="hd-info">判断题</view>
+      <view class="question-num cb" bindtap='switchShowAnswer' wx:if="{{examOrCheckResult==1}}">{{showAnswer==true?'显示答案':'答题模式'}}</view>
+    </view>
+    <view class="exam-panel exam-panel-1">
+      <view class="exam-panel-bd">
+        <view style="display:flex;align-items: flex-start;line-height: 1.8;">
+          <view>{{currentQuestionIndex + 1}}/{{allQuestionIndex}}、 </view>
+          <rich-text class="question-tit" nodes="{{question.topic}}"></rich-text>
+        </view>
+        <view class="question-select" wx:if="{{!showAnswer}}">
+          <view class="{{userAnswer === undefined || userAnswer == -1?'select-items':userAnswer?'select-items selected':'select-items'}}" data-result="{{true}}" bindtap='chooseAnswer'>
+            <view class="items-num">A</view>
+            <view class="items-txt">正确</view>
+          </view>
+          <view class="{{userAnswer === undefined || userAnswer == -1?'select-items':userAnswer?'select-items':'select-items selected'}}" data-result="{{false}}" bindtap='chooseAnswer'>
+            <view class="items-num">B</view>
+            <view class="items-txt">错误</view>
+          </view>
+        </view>
+
+        <view class="question-select" wx:if="{{showAnswer}}">
+          <!--选中的选项添加 selected-->
+          <view wx:if="{{showResult}}">
+            <view wx:if="{{userAnswer&&userAnswer!=-1}}" class="{{correctAnswer === userAnswer ?'select-items right':'select-items wrong'}}">
+              <view class="items-num">A</view>
+              <view class="items-txt">正确</view>
+            </view>
+            <view wx:if="{{userAnswer&&userAnswer!=-1}}" class="{{correctAnswer !== userAnswer?'select-items right':'select-items'}}">
+              <view class="items-num">B</view>
+              <view class="items-txt">错误</view>
+            </view>
+
+            <view wx:if="{{userAnswer == false && userAnswer!=undefined}}" class="{{correctAnswer !== userAnswer?'select-items right':'select-items'}}">
+              <view class="items-num">A</view>
+              <view class="items-txt">正确</view>
+            </view>
+            <view wx:if="{{userAnswer == false && userAnswer!=undefined}}" class="{{correctAnswer === userAnswer?'select-items right':'select-items wrong'}}">
+              <view class="items-num">B</view>
+              <view class="items-txt">错误</view>
+            </view>
+
+            <view wx:if="{{userAnswer === undefined||userAnswer === -1}}" class="{{correctAnswer ?'select-items right':'select-items'}}">
+              <view class="items-num">A</view>
+              <view class="items-txt">正确</view>
+            </view>
+            <view wx:if="{{userAnswer === undefined||userAnswer === -1}}" class="{{!correctAnswer ?'select-items right':'select-items'}}">
+              <view class="items-num">B</view>
+              <view class="items-txt">错误</view>
+            </view>
+          </view>
+          <view wx:if="{{!showResult}}">
+            <view wx:if="{{userAnswer}}" class="{{correctAnswer === userAnswer ?'select-items right':'select-items wrong'}}">
+              <view class="items-num">A</view>
+              <view class="items-txt">正确</view>
+            </view>
+            <view wx:if="{{userAnswer}}" class="select-items">
+              <view class="items-num">B</view>
+              <view class="items-txt">错误</view>
+            </view>
+            <view wx:if="{{userAnswer == false && userAnswer!=undefined}}" class="select-items">
+              <view class="items-num">A</view>
+              <view class="items-txt">正确</view>
+            </view>
+            <view wx:if="{{userAnswer == false && userAnswer!=undefined}}" class="{{correctAnswer === userAnswer?'select-items right':'select-items wrong'}}">
+              <view class="items-num">B</view>
+              <view class="items-txt">错误</view>
+            </view>
+            <view wx:if="{{userAnswer === undefined}}" class="select-items">
+              <view class="items-num">A</view>
+              <view class="items-txt">正确</view>
+            </view>
+            <view wx:if="{{userAnswer === undefined}}" class="{{!correctAnswer ?'select-items right':'select-items wrong'}}">
+              <view class="items-num">B</view>
+              <view class="items-txt">错误</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="question-analysis" wx:if="{{showDescription}}">
+        <view class="question-analysis-bd">
+          <view class="flex mb10">
+            <view class="question-result right" wx:if="{{!showResult}}">
+              <view wx:if="{{userAnswer === correctAnswer}}" class="flex">
+                <image class="img" src="/image/icon-right.png" alt=" " />回答正确
+              </view>
+              <view wx:if="{{userAnswer !== correctAnswer}}" class="flex">
+                <image class="img" src="/image/icon-error.png" alt=" " />回答错误
+              </view>
+            </view>
+            <view wx:if="{{showResult}}">
+              <text class="c9">正确答案</text>
+              <text class="cb ml10" wx:if="{{correctAnswer}}">正确</text>
+              <text class="cb ml10" wx:if="{{!correctAnswer}}">错误</text>
+            </view>
+            <view>
+              <text class="c9 ml30">我的答案</text>
+              <!--回答错误-->
+              <text wx:if="{{userAnswer && userAnswer!=-1}}" class="{{userAnswer === correctAnswer?'cb ml10':'ci ml10'}}">正确</text>
+              <!--回答正确-->
+              <text wx:if="{{!userAnswer && userAnswer!== undefined}}" class="{{userAnswer === correctAnswer?'cb ml10':'ci ml10'}}">错误</text>
+              <text wx:if="{{userAnswer === undefined || userAnswer==-1}}" class="ci ml10">无</text>
+            </view>
+          </view>
+          <view class="mt10">
+            <view class="c9">解析</view>
+            <rich-text class="analysis-txt" nodes="{{question.description}}"></rich-text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

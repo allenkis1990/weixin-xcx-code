@@ -1,0 +1,63 @@
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view class="contain">
+  <view class="hb-box-bd">
+    <view class="view-pos">
+      <view class="course-detail-hd">
+        <view class="course-detail-img">
+          <image class="img" wx:if="{{trainDetail.trainingClassImg==undefined}}" src="/image/course-img.jpg" alt=" " binderror='errImage' mode='aspectFill' />
+          <image class="img" wx:if="{{trainDetail.trainingClassImg!=undefined}}" src="{{trainDetail.trainingClassImg}}" alt=" " binderror='errImage' mode='aspectFill' />
+        </view>
+        <view class="year-label-box" bindtap='interestClick'>
+          <image class="img" src="/image/year-label.png" alt=" " />
+          <text class="year-label">{{trainDetail.trainingYear}}</text>
+        </view>
+        <view class="seal">
+          <image class="img" wx:if="{{trainDetail.assessResult == 1}}" src="/image/seal-pass.png" alt=" " />
+        </view>
+        <view class="course-info">
+          <image class="mask" src="/image/course-img-mask.png" alt=" " />
+          <view class="course-name">{{trainDetail.trainingClassName}}</view>
+          <view class="inspection-situation" bindtap='goToAccessmentInfomation'>
+            <image class="img" src="/image/icon-test-intro.png" alt=" " />考核情况</view>
+        </view>
+      </view>
+      <!--tab切换布局-->
+      <view class="course-detail-tab">
+        <view class="tab-items {{currentNavtab==item.value ? 'current' : ''}}"
+              wx:if="{{item.show}}"
+              wx:for="{{navTab}}"
+              wx:key="{{item.value}}"
+              wx:for-item="item"
+              bindtap='switchTab'
+              data-item='{{item}}'>
+          <view class="ico">
+            <image class="img" src="{{currentNavtab==item.value ? '/image/course-tab-course-current.png' : '/image/course-tab-course.png'}}" wx:if="{{item.value==1}}" />
+            <image class="img" src="{{currentNavtab==item.value ? '/image/course-tab-exercise-current.png' : '/image/course-tab-exercise.png'}}" wx:if="{{item.value==2}}" />
+            <image class="img" src="{{currentNavtab==item.value ? '/image/course-tab-exam-current.png' : '/image/course-tab-exam.png'}}" wx:if="{{item.value==3}}" />
+          </view>
+          <image class="current-bg current-bg-2" src="/image/tab-current-bg.jpg" wx:if="{{currentNavtab==item.value}}" />
+          <view class="txt">
+            <view>{{item.name}}</view>
+            <view class="sub">{{item.textValue}}</view>
+          </view>
+        </view>
+      </view>
+      <!--tab切换布局-->
+    </view>
+
+    <view hidden="{{currentNavtab==1 ? '' : true}}">
+      <course courseList="{{courseList}}" choiceHourse="{{selectedHours}}" needHourse="{{remainingPeriod}}" condition="{{trainDetail.electiveCondition}}" trainingClassId="{{trainingClassId}}" hasInterestCourse="{{trainDetail.interestCourse}}" requireCourseHours="{{requireCourseHours}}" bind:goToChoiceCourseCallback="goToChoiceCourseCallback" hasSelectCourse="{{trainDetail.hasSelectCourse}}"></course>
+    </view>
+    <view hidden="{{currentNavtab==2 ? '' : true}}" scroll-y="true">
+      <test train-detail="{{trainDetail}}" bind:enterPracticeEvent='_enterPracticeCallBackAction' bind:enterHistoryPracticeEvent='_enterHistoryPracticeCallBackAction'></test>
+    </view>
+    <view hidden="{{currentNavtab==3 ? '' : true}}" scroll-y="true">
+      <exam examList="{{examList}}" bind:enterExamEvent='_enterExamCallBackAction'  bind:enterHistoryExamEvent='_enterHistoryExamCallBackAction' trainingClassDetail="{{trainDetail}}" examPassScore="{{examPassScore}}"></exam>
+    </view>
+  </view>
+    <!--提示框-->
+<alert id='alert'></alert>
+</view>

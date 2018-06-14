@@ -1,0 +1,61 @@
+<!--pages/order/orderPaySuccess/orderPaySuccess.wxml-->
+<!--结算成功-->
+<wxs module="orderPaySuccessUtil" src="./orderPaySuccessUtil.wxs"></wxs>
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="hb-msg bor-b20">
+      <image class="icon-success" src="/image/icon-success.png" />
+      <view class="fs30 mt20">支付成功</view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">订单信息</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view>
+              <text class="tit">订单号</text>{{orderInfo.orderNo}}</view>
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view>
+              <text class="tit">下单时间</text>
+              <text class="ml10">{{orderInfo.createTime}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view>
+              <text class="tit">实付金额</text>
+              <text class="ml10 ci">¥{{orderPaySuccessUtil.priceChangetoDecimal2(orderInfo.totalAmount)}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">培训内容</view>
+      <view class="weui-panel__bd">
+
+        <view class="hb-media-box" wx:for="{{orderInfo.subOrderList}}" wx:key="{{item.subOrderNo}}">
+          <view class="hb-media-box-hd">
+            <image class="hb-media-box-thumb" src="{{item.photoPath}}" />
+          </view>
+          <view class="hb-media-box-bd">
+            <view class="hb-media-box-title">{{item.skuName}}</view>
+            <view class="hb-media-box-desc">年度：{{orderPaySuccessUtil.getSkuValueWithKeyFromSkuArray('继续教育年度',item.skuPropertyNameList)}}年</view>
+            <view class="hb-media-box-desc">科目：{{orderPaySuccessUtil.getSkuValueWithKeyFromSkuArray('科目',item.skuPropertyNameList)}}</view>
+            <view class="hb-media-box-desc">学时：{{item.trainingPeriod}}</view>
+          </view>
+        </view>
+
+      </view>
+    </view>
+  </view>
+
+  <view class="hb-tabbar">
+    <view class="hb-btn hb-btn-3" bindtap='goToOrderDetailAction'>查看订单详情</view>
+    <view class="hb-btn-w hb-btn-3" bindtap='goToMyStudyListAction'>进入我的学习</view>
+  </view>
+</view>

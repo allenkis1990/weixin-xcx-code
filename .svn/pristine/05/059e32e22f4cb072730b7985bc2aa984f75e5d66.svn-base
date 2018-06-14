@@ -1,0 +1,12 @@
+/* pages/certificate/certificateList/certificateList.wxss */
+.center{
+  position: fixed;
+  top: 38%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.no-data-txt2 {
+  color: #999;
+  font-size: 32rpx;
+}

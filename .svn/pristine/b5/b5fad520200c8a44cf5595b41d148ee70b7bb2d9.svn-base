@@ -1,0 +1,34 @@
+<!--登录-->
+<view class="contain">
+  <view class="hb-form-cells">
+    <view class="h1">欢迎登录</view>
+    <view class="weui-cells weui-cells_form">
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label">帐　号</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="text" placeholder="请输入您的帐号" class="weui-input" bindinput='accountInput' />
+        </view>
+      </view>
+      <!-- <view class="weui-cell">
+                <view class="weui-cell__hd"><text class="weui-label">验证码</text></view>
+                <view class="weui-cell__bd"><input type="password" placeholder="请输入图形验证码" class="weui-input" /></view>
+                <view class="weui-cell__ft"><image class="img" src="/image/code.jpg" class="weui-vcode-img" /></view>
+            </view> -->
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label">密　码</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="password" placeholder="请输入登录密码" class="weui-input" bindinput='passwordInput' />
+        </view>
+      </view>
+    </view>
+    <!-- <view class="form-other mt15">
+       <view class="weui-check__label cb" catchtap='registeredClick'>注册新用户</view> 
+       <view class="tr a-forget" catchtap='forgotClick'>找回密码</view> 
+    </view> -->
+    <view class="btn-full tc mt25" catchtap='LoginClick'>立即登录</view>
+  </view>
+</view>

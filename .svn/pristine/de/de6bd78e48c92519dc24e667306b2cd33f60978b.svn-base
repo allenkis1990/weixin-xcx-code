@@ -1,0 +1,46 @@
+<wxs module="m1">
+  var getClassImg = function(src) {
+    if (src === undefined || src === '') {
+      return '/image/course-img.jpg'
+    }
+    return src
+  }
+  module.exports.getClassImg = getClassImg;
+</wxs>
+<view class="contain">
+  <view class="view-pos">
+    <view class="course-detail-hd">
+      <view class="course-detail-img">
+        <image class="img" mode="widthFix" src="{{m1.getClassImg(classDetail.trainingClassImg)}}" alt=" " />
+      </view>
+      <view class="status-label-box ing">{{classDetail.trainingState===0?"未开始":classDetail.trainingState===1 ? "进行中":"已结束"}}</view>
+      <view class="seal" wx:if="{{classDetail.assessResult===1}}">
+        <image class="img" src="/image/seal-pass.png" alt=" " />
+      </view>
+      <!-- <view class="course-info">
+        <image class="mask" src="/image/course-img-mask.png" alt=" " />
+        <view class="course-name">
+          <image class="img" src="/image/icon-address.png" alt=" " />当前位置：{{location}}</view>
+      </view> -->
+    </view>
+    <view class="exam-panel-hd" wx:if="{{classDetail.haveExam}}">
+      <view class="hd-info">
+        <image class="img" src="/image/icon-star.png" alt=" " />本班级包含线下考试</view>
+      <view class="hd-info-1" wx:if="classDetail.score!=-1">考试：已得
+        <text class="cb">{{classDetail.userExamScore==-1?'-':classDetail.userExamScore}}</text> 分</view>
+    </view>
+  </view>
+  <wxtab navTab="{{navTab}}" bind:tabClick="tabEvent"></wxtab>
+  <view hidden="{{currentTabIndex==0 ? '' : true}}">
+    <course-list  lng="{{lng}}"  lat="{{lat}}" hasExam="{{classDetail.haveExam}}" id="courseList" courseList="{{courseList}}" bind:enterScanEvent="_enterScanEvent"></course-list>
+  </view>
+  <view hidden="{{currentTabIndex==1?'':true}}">
+    <mealTicket hasExam="{{classDetail.haveExam}}" trainingClassId="{{trainingClassId}}" id="mealTicketComponent" bind:enterScanEvent="_enterScanEvent"></mealTicket>
+  </view>
+  <view hidden="{{currentTabIndex==2?'':true}}">
+    <class-information classInfo="{{classDetail}}" hasExam="{{classDetail.haveExam}}"></class-information>
+  </view>
+  <view hidden="{{currentTabIndex==3?'':true}}">
+    <assess-condition classInfo="{{classDetail}}" hasExam="{{classDetail.haveExam}}"></assess-condition>
+  </view>
+</view>

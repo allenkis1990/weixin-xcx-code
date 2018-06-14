@@ -1,0 +1,13 @@
+/* pages/course/popupQuestionComponent/popupQuestionContainer/popupQuestionContainer.wxss */
+.cover-cavas{
+  width:100%;
+  height:400rpx;
+  background-color:transparent;
+  position:absolute;
+  top:0px;
+}
+.cover-context{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+}

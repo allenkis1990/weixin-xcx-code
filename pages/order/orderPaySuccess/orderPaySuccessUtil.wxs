@@ -1,0 +1,37 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray == undefined ||skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var priceChangetoDecimal2 = function (x) {
+  if (x == undefined) {
+    return '0.00'
+  }
+  var f = parseFloat(x);
+  if (isNaN(f)) {
+    return false;
+  }
+  var f = Math.round(x * 100) / 100;
+  var s = f.toString();
+  var rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= rs + 2) {
+    s += '0';
+  }
+  return s;
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  priceChangetoDecimal2: priceChangetoDecimal2
+}

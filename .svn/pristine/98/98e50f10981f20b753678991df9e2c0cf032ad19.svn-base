@@ -1,0 +1,78 @@
+<!--pages/course/popupQuestionComponent/judge.wxml-->
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view class="pop-questions-box">
+  <scroll-view scroll-y bindscroll="{{crollAction}}" class="hb-box-bd" style='height:{{winHeight-100-400}}rpx;'>
+    <view class="exam-panel" style='position:relative;'>
+      <view class="exam-panel-bd">
+        <view class="question-tit">{{question.topic+"（ ）"}}</view>
+
+        <view class="question-select" wx:if="{{!showAnswer}}">
+          <!--选中的选项添加 selected-->
+          <view class="{{userAnswer === ''?'select-items':userAnswer == 'true'?'select-items selected':'select-items'}}" data-result="{{'true'}}" bindtap='chooseAnswer'>
+            <view class="items-num">A</view> <view>{{aaa}}</view>
+            <view class="items-txt">正确</view>
+          </view>
+          <view class="{{userAnswer === ''?'select-items':userAnswer == 'true'?'select-items':'select-items selected'}}" data-result="{{'false'}}" bindtap='chooseAnswer'>
+            <view class="items-num">B</view>
+            <view class="items-txt">错误</view>
+          </view>
+        </view>
+
+        <view class="question-select" wx:if="{{showAnswer}}">
+          <!--选中的选项添加 selected-->
+          <view wx:if="{{userAnswer}}" class="{{correctAnswer === userAnswer ?'select-items right':'select-items wrong'}}">
+            <view class="items-num">A</view>
+            <view class="items-txt">正确</view>
+          </view>
+          <view wx:if="{{userAnswer}}" class="{{correctAnswer !== userAnswer?'select-items right':'select-items'}}">
+            <view class="items-num">B</view>
+            <view class="items-txt">错误</view>
+          </view>
+
+          <view wx:if="{{userAnswer == false && userAnswer!=''}}" class="{{correctAnswer !== userAnswer?'select-items right':'select-items'}}">
+            <view class="items-num">A</view>
+            <view class="items-txt">正确</view>
+          </view>
+          <view wx:if="{{userAnswer == false && userAnswer!=''}}" class="{{correctAnswer === userAnswer?'select-items right':'select-items wrong'}}">
+            <view class="items-num">B</view>
+            <view class="items-txt">错误</view>
+          </view>
+
+          <view wx:if="{{userAnswer === ''}}" class="{{correctAnswer ?'select-items right':'select-items'}}">
+            <view class="items-num">A</view>
+            <view class="items-txt">正确</view>
+          </view>
+          <view wx:if="{{userAnswer === ''}}" class="{{!correctAnswer ?'select-items right':'select-items'}}">
+            <view class="items-num">B</view>
+            <view class="items-txt">错误</view>
+          </view>
+
+        </view>
+      </view>
+      <view class="question-analysis" wx:if="{{!isReplying}}">
+        <view class="question-analysis-bd">
+          <view>
+            <text class="c6">本次回答</text>
+            <text class="ci ml10">错误</text>
+            <text class="c6 ml10">。</text>
+            <text class="c6 ml10" wx:if="{{canAnswerTimes != -1}}">您还有</text>
+            <text class="ci ml10" wx:if="{{canAnswerTimes != -1}}">{{remainAnswerTimes}}</text>
+            <text class="c6 ml10" wx:if="{{canAnswerTimes != -1}}">次答题机会。</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="hb-tabbar hb-tabbar-1">
+    <view class="hb-btn"  wx:if="{{!isReplying && !isEndReply}}"  bindtap='reAnswerQuestionAction'>
+      <text>重新答题</text>
+    </view>
+    <view class="hb-btn" wx:if="{{isReplying}}" bindtap='submitAnswerAction'>
+      <text>提交</text>
+    </view>
+    <view class="hb-btn" wx:if="{{isEndReply}}" bindtap='closeAction'>
+      <text>关闭</text>
+    </view>
+  </view>
+</view>

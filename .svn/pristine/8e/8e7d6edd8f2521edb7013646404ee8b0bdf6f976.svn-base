@@ -1,0 +1,100 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray == undefined || skuPropertyArray.length == 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var getShowClassGoodsAssessConditionText = function (itemDetail) {
+  if (itemDetail == undefined || itemDetail.assessMode == undefined || itemDetail.assessInformation == undefined) {
+    return ''
+  }
+  switch (itemDetail.assessMode) {
+    case 1: {
+      return '课程学习进度=' + itemDetail.assessInformation.assessTrainingComplete + '%，考试成绩≥' + itemDetail.assessInformation.assessPassScore
+      break
+    }
+    case 2: {
+      return '课程学习进度=' + itemDetail.assessInformation.assessTrainingComplete + '%'
+      break
+    }
+    case 3: {
+      return '课程学习进度=' + itemDetail.assessInformation.assessTrainingComplete + '%，课后练习得分≥' + itemDetail.assessInformation.courseTestPassScore
+      break
+    }
+    case 4: {
+      return '课程学习进度=' + itemDetail.assessInformation.assessTrainingComplete + '%，课后练习得分≥' + itemDetail.assessInformation.courseTestPassScore + '，考试成绩≥' + itemDetail.assessInformation.assessPassScore
+      break
+    }
+  }
+  return ''
+}
+var getShowCourseGoodsAssessConditionText = function (itemDetail) {
+  if (itemDetail == undefined || itemDetail.assessMode == undefined || itemDetail.courseRequire == undefined) {
+    return ''
+  }
+  switch (itemDetail.assessMode) {
+    case 1: {
+      return '课程学习进度=' + itemDetail.courseRequire.rateOfProgress + '%，课后测验成绩≥' + itemDetail.courseRequire.practicePaperScore + '分'
+      break
+    }
+    case 2: {
+      return '课程学习进度=' + itemDetail.courseRequire.rateOfProgress + '%'
+      break
+    }
+    case 3: {
+      return '课程学习进度=' + itemDetail.courseRequire.rateOfProgress + '%，课后练习得分≥' + itemDetail.courseRequire.popupQuestionScore
+      break
+    }
+    case 4: {
+      return '课程学习进度=' + itemDetail.courseRequire.rateOfProgress + '%，课后练习得分≥' + itemDetail.courseRequire.popupQuestionScore + '，课后测验成绩≥' + itemDetail.courseRequire.practicePaperScore + '分'
+      break
+    }
+  }
+  return ''
+}
+var getShowBottomButtonClass = function (hasBuy) {
+  if (hasBuy == undefined) {
+    return ''
+  }
+  if (hasBuy) {
+    return 'disabled'
+  } else {
+    return ''
+  }
+  return ''
+}
+var isShowSubjectText = function (courseDetail) {
+  if (courseDetail == undefined || courseDetail.categoryType == undefined) {
+    return false
+  }
+  if (courseDetail.categoryType == 'COURSE_SUPERMARKET_GOODS' && getSkuValueWithKeyFromSkuArray('trainingSubject', courseDetail.skuPropertyNameList) == '专业课') {
+    return true
+  }
+  return false
+
+}
+var isShowYearText = function (courseDetail) {
+  if (courseDetail == undefined || courseDetail.categoryType == undefined) {
+    return true
+  }
+  if (courseDetail.categoryType == 'COURSE_SUPERMARKET_GOODS' && getSkuValueWithKeyFromSkuArray('trainingSubject', courseDetail.skuPropertyNameList) == '专业课') {
+    return false
+  }
+  return true
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  getShowClassGoodsAssessConditionText: getShowClassGoodsAssessConditionText,
+  isShowSubjectText: isShowSubjectText,
+  isShowYearText: isShowYearText,
+  getShowBottomButtonClass: getShowBottomButtonClass,
+  getShowCourseGoodsAssessConditionText: getShowCourseGoodsAssessConditionText
+
+}

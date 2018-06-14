@@ -1,0 +1,15 @@
+var showWholeNeedHours = function (optionalPackageRequires, wholeRemainingHours, periodType) {
+  if (!optionalPackageRequires){
+    if (periodType==2){
+      if (wholeRemainingHours==0){
+        return true
+      }
+    }
+  }
+  return false
+} 
+
+
+module.exports = {
+  showWholeNeedHours: showWholeNeedHours
+};

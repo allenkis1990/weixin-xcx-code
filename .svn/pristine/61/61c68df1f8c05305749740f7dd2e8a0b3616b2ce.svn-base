@@ -1,0 +1,52 @@
+<!--pages/course/popupQuestionComponent/multiple/multiple.wxml-->
+
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view class="pop-questions-box">
+  <scroll-view scroll-y bindscroll="{{crollAction}}" class="hb-box-bd" style='height:{{winHeight-100-400}}rpx;'>
+    <view class="exam-panel" style='position:relative;'>
+      <view class="exam-panel-bd">
+        <view class="question-tit">{{question.topic+"（ ）"}}</view>
+        <!--多选题添加 multiple-choice-->
+        <view class="question-select multiple-choice" wx:if="{{!showAnswer}}">
+          <view class="{{itemClass[index]}}" wx:for="{{question.items}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" data-optionId="{{item.optionId}}" data-index="{{index}}" bindtap="chooseItem">
+            <view class="items-num">{{EnglishArray[index]}}</view>
+            <view class="items-txt">{{item.content}}</view>
+          </view>
+        </view>
+
+        <view class="question-select multiple-choice" wx:if="{{showAnswer}}">
+          <view class="{{showAnswerItemClass[index]}}" wx:for="{{question.items}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.optionId}}" data-optionId="{{item.optionId}}" data-index="{{index}}">
+            <view class="items-num">{{EnglishArray[index]}}</view>
+            <view class="items-txt">{{item.content}}</view>
+          </view>
+        </view>
+
+      </view>
+      <view class="question-analysis" wx:if="{{!isReplying}}">
+        <view class="question-analysis-bd">
+          <view>
+            <text class="c6">本次回答</text>
+            <!-- <text class="cb ml10">正确</text> -->
+            <text class="ci ml10">错误</text>
+            <text class="c6 ml10">。</text>
+            <text class="c6 ml10" wx:if="{{canAnswerTimes != -1}}">您还有</text>
+            <text class="ci ml10" wx:if="{{canAnswerTimes != -1}}">{{remainAnswerTimes}}</text>
+            <text class="c6 ml10" wx:if="{{canAnswerTimes != -1}}">次答题机会。</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="hb-tabbar hb-tabbar-1">
+   <view class="hb-btn"  wx:if="{{!isReplying && !isEndReply}}"  bindtap='reAnswerQuestionAction'>
+      <text>重新答题</text>
+    </view>
+    <view class="hb-btn" wx:if="{{isReplying}}" bindtap='submitAnswerAction'>
+      <text>提交</text>
+    </view>
+    <view class="hb-btn" wx:if="{{isEndReply}}" bindtap='closeAction'>
+      <text>关闭</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,47 @@
+<wxs module="m1" src="./course.wxs">
+</wxs>
+<view class="course-detail-tab-bd {{hasExam ? 'course-detail-tab-bd-1' : 'course-detail-tab-bd-2'}}" style='padding-bottom: 100rpx;'>
+  <view class="sign-in-list">
+    <!--空数据-->
+    <view class="p25" wx:if="{{courseList.length===undefined||courseList.length===0}}">
+      <view class="no-data-box">
+        <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+        <view class="no-data-txt">本班级暂课程！</view>
+      </view>
+    </view>
+    <!--/空数据-->
+    <view class="sign-in-items" wx:if="{{courseList.length!==undefined && courseList.length!==0}}" wx:for="{{courseList}}" wx:key="key" wx:index-for="{{idx}}" data-idx="{{idx}}" data-item="{{item}}" bindtap='itemClick'>
+      <view class="sign-in-hd">{{item.courseName}}</view>
+      <view class="sign-in-bd">
+        <view class="label">上课时间</view>
+        <view class="bd">{{item.startTime}}-{{m1.getTime(item.endTime)}}</view>
+      </view>
+      <view class="sign-in-bd">
+        <view class="label">培训教室</view>
+        <view class="bd">{{item.classRoomAddress}}</view>
+      </view>
+      <view class="sign-in-bd" wx:if="{{item.hasSignIn}}">
+        <view class="label">签到时间</view>
+        <view class="bd">{{item.signInStartTime}}-{{item.signInEndTime}}</view>
+        <view class="cb fs14" wx:if="{{m1.hasSignInRulesType(item.pointList)==0}}">已签到</view>
+        <view class="cb fs14" wx:if="{{m1.hasSignInRulesType(item.pointList)==1}}">漏签</view>
+        <view class="hcb fs14" wx:if="{{m1.hasSignInRulesType(item.pointList)==2}}">未签到</view>
+      </view>
+      <view class="sign-in-bd" wx:if="{{item.hasSignOut}}">
+        <view class="label">签退时间</view>
+        <view class="bd">{{item.signOutStartTime}}-{{item.signOutEndTime}}</view>
+        <view class="cb fs14" wx:if="{{m1.hasReturnRulesType(item.pointList)==0}}">已签退</view>
+        <view class="cb fs14" wx:if="{{m1.hasReturnRulesType(item.pointList)==1}}">漏签</view>
+        <view class="cb fs14" wx:if="{{m1.hasReturnRulesType(item.pointList)==2}}">未签退</view>
+      </view>
+      <view class="sign-in-bd" wx:if="{{item.hasRefenceMaterial}}">
+        <view class="label">参考资料</view>
+        <view class="bd">本课程包含{{item.refenceMaterialNum}}份参考资料</view>
+        <view class="hb-btn" catchtap='refenceMatrialClick' data-item="{{item}}">前往下载</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="hb-tabbar" bindtap='scanClick'>
+  <view class="hb-btn">扫一扫</view>
+</view>

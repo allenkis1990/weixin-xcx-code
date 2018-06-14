@@ -1,0 +1,27 @@
+<view class="contain">
+  <view class="exam-history-box" wx:if="{{practiceList.length > 0}}">
+    <view class="exam-history-hd">
+      <view class="col-1">得分(分)</view>
+      <view class="col-2">提交时间</view>
+      <view class="col-3">操作</view>
+    </view>
+    <view class="exam-history-bd">
+      <view bindtap='checkEnterExam' data-data='{{item}}' data-historypaper="{{item}}" class="items" wx:for="{{practiceList}}" wx:for-item="item" wx:key="{{item.practiseAnswerExamPaperId}}">
+        <view class="col-1">{{item.score}}</view>
+        <view class="col-2">{{item.submitPaperTime}}</view>
+        <view class="col-3">
+          <view class="op">题析</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="p25" wx:if="{{practiceList.length==0 }}">
+    <view class=" contain ">
+      <view class="no-data-box ">
+        <image class="no-data-img " src="/image/no-data-img.png " alt=" " />
+        <view class="no-data-txt ">暂时还没有数据~</view>
+      </view>
+    </view>
+  </view>
+</view>

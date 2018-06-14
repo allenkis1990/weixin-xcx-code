@@ -1,0 +1,52 @@
+var getTime = function (str) {
+  return str.split(" ")[1]
+}
+var hasSignInRule = function (pointList) {
+  if (pointList === undefined || pointList.length === 0) {
+    return false
+  }
+  for (var i = 0; i < pointList.length; i++) {
+    if (pointList[i].customRuleType == 1) {
+      return true
+    }
+  }
+  return false
+}
+var hasReturnRules = function (pointList) {
+  if (pointList === undefined || pointList.length === 0) {
+    return false
+  }
+  for (var i = 0; i < pointList.length; i++) {
+    if (pointList[i].customRuleType == 2) {
+      return true
+    }
+  }
+  return false
+}
+var hasReturnRulesType = function (pointList) {
+  if (pointList === undefined || pointList.length === 0) {
+    return -1
+  }
+  for (var i = 0; i < pointList.length; i++) {
+    if (pointList[i].customRuleType == 2) {
+      return pointList[i].poinState
+    }
+  }
+  return -1
+}
+var hasSignInRulesType = function (pointList) {
+  if (pointList === undefined || pointList.length === 0) {
+    return -1
+  }
+  for (var i = 0; i < pointList.length; i++) {
+    if (pointList[i].customRuleType == 1) {
+      return pointList[i].poinState
+    }
+  }
+  return -1
+}
+module.exports.getTime = getTime;
+module.exports.hasSignInRule = hasSignInRule;
+module.exports.hasReturnRules = hasReturnRules;
+module.exports.hasReturnRulesType = hasReturnRulesType;
+module.exports.hasSignInRulesType = hasSignInRulesType;

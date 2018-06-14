@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "注册",
+  "usingComponents": {
+    "address-picker":"/component/addressChoosePicker/addressChoosePicker"
+  }
+}

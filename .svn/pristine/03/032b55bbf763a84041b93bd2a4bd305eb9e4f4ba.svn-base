@@ -1,0 +1,354 @@
+const app = getApp()
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    courseList: [
+      {
+        "courseId": "20160721001",
+        "courseName": "小二郎",
+        "period": 1,
+        "lecturerList": [
+          "老师"
+        ],
+        "courseLength": "1:09:18"
+      },
+      {
+        "courseId": "20160721001",
+        "courseName": "小二郎",
+        "period": 2,
+        "lecturerList": [
+          "老师"
+        ],
+        "courseLength": "1:09:18",
+      }, {
+        "courseId": "20160721001",
+        "courseName": "小二郎",
+        "period": 3,
+        "lecturerList": [
+          "老师"
+        ],
+        "courseLength": "1:09:18",
+      }, {
+        "courseId": "20160721001",
+        "courseName": "小二郎",
+        "period": 4,
+        "lecturerList": [
+          "老师"
+        ],
+        "courseLength": "1:09:18",
+      },
+      {
+        "courseId": "20160721001",
+        "courseName": "小二郎",
+        "period": 10,
+        "lecturerList": [
+          "老师"
+        ],
+        "courseLength": "1:09:18"
+      }
+    ],
+    courseWrapList: [
+      {
+        "electiveWrapName": "我是课程包名称全称全称全称1",
+        "electiveWrapId": "01",
+        "hourStandard": false,
+        "remainingHours": 2,
+        "requireHours": 20,
+        "selectedHours": 18,
+      }, {
+        "electiveWrapName": "我是课程包名称全称全称全称2",
+        "electiveWrapId": "02",
+        "hourStandard": true,
+        "remainingHours": 0,
+        "requireHours": 5,
+        "selectedHours": 5,
+      },
+      {
+        "electiveWrapName": "我是课程包名称全称全称全称3",
+        "electiveWrapId": "03",
+        "hourStandard": false,
+        "remainingHours": 5,
+        "requireHours": 5,
+        "selectedHours": 0,
+      }, {
+        "electiveWrapName": "课程我是课程包名称全称全称全称4",
+        "electiveWrapId": "04",
+        "hourStandard": false,
+        "remainingHours": 1,
+        "requireHours": 5,
+        "selectedHours": 4,
+      }
+    ],
+    standardCourseWrapList: [],
+    noStandardCourseWrapList: [],
+    selectCourseWrapState: false,
+    currentWrapId: '01',
+    currentWrapName: '我是课程包名称全称全称全称1',
+    currentWrapIndex: 0,
+    selecCoursetHours: 0,
+    needCourseHours:0,
+    hasStandardCourseWrap: true,
+    listHeight: 0,
+    hasRequireInfo: false
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    // 初始化toast
+    new app.AlertMessage()
+    new app.WeToast()
+    var that = this
+    wx.getSystemInfo({
+      success: function (res) {
+        console.log(res.model)
+        console.log(res.pixelRatio)
+        console.log(res.windowWidth)
+        console.log(res.windowHeight)
+        console.log(res.language)
+        console.log(res.version)
+        var newHeight = res.windowHeight - 90
+        that.setData({
+          listHeight: newHeight
+        })
+      }
+    })
+    var courseWrapList = this.data.courseWrapList
+    var standardCourseWrapList = []
+    var noStandardCourseWrapList = []
+    for (var i = 0; i < courseWrapList.length; i++) {
+      if (courseWrapList[i].hourStandard) {
+        standardCourseWrapList.push(courseWrapList[i])
+      } else {
+        noStandardCourseWrapList.push(courseWrapList[i])
+      }
+    }
+    this.setData({
+      standardCourseWrapList: standardCourseWrapList
+    })
+    this.setData({
+      noStandardCourseWrapList: noStandardCourseWrapList
+    })
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+  loadMore() {
+    
+  },
+  onPullDownRefresh() {
+    this.wetoast.toast({ title: '刷新！' })
+    setTimeout(function () {
+      wx.stopPullDownRefresh()
+    }, 1000)
+    // wx.showNavigationBarLoading()
+  },
+  onReachBottom() {
+    this.wetoast.toast({ title: '加载！' })
+    var data = [{
+      "courseId": "20160721001",
+      "courseName": "小三郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18",
+    }, {
+      "courseId": "20160721001",
+      "courseName": "小四郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18",
+    }, {
+      "courseId": "20160721001",
+      "courseName": "小五郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18",
+    }, {
+      "courseId": "20160721001",
+      "courseName": "小六郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18"
+    },
+    {
+      "courseId": "20160721001",
+      "courseName": "小七郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18",
+    }, {
+      "courseId": "20160721001",
+      "courseName": "小八郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18",
+    }, {
+      "courseId": "20160721001",
+      "courseName": "小九郎",
+      "period": 10,
+      "lecturerList": [
+        "老师"
+      ],
+      "courseLength": "1:09:18",
+    }]
+    let newList = this.data.courseList.concat(data)
+    var that = this
+    setTimeout(function () {
+      that.setData({
+        courseList: newList
+      })
+      // wx.stopRecord()
+    }, 1000)
+    // wx.showNavigationBarLoading()
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+  /**
+   * 选课包下拉菜单点击事件
+   */
+  courseWrapClick() {
+    this.setData({
+      selectCourseWrapState: !this.data.selectCourseWrapState
+    })
+  },
+  /**
+   * 点击课程包item
+   */
+  courseWrapItemClick(e) {
+    this.setData({
+      currentWrapId: e.currentTarget.dataset.item.electiveWrapId,
+      currentWrapName: e.currentTarget.dataset.item.electiveWrapName,
+      currentWrapIndex: e.currentTarget.dataset.idx,
+      selecCoursetHours:0,
+      needCourseHours: e.currentTarget.dataset.item.remainingHours,
+      selectCourseWrapState: false
+    })
+  },
+  selectedCourseRequireClick() {
+
+  },
+  /**
+   * 课程item选择事件
+   */
+  courseItemClick(e) {
+    var item = e.currentTarget.dataset.item
+    var idx = e.currentTarget.dataset.idx
+    var state = false
+    if (item.checkState == undefined || item.checkState == false) {
+      //获取当前课程包的还需要多少学时
+      var remainingHours = this.data.courseWrapList[this.data.currentWrapIndex].remainingHours
+      //判断选的课程学时是否超过需要学时   当前打钩未算在内
+      if (this.data.selecCoursetHours > remainingHours) {
+        return this.alertmessage.message({ title: '当前勾选的课程，已达到本课程要求的学时，无须再添加课程！' })
+      }
+      //选课程已勾选学时 当前打钩算在内
+      var hours = this.data.selecCoursetHours + item.period
+      //赋值当前已选学时字段
+      this.setData({ selecCoursetHours: hours })
+      //计算还需选多少学时  如果大于0 选课学时没超  小于学时超过，需选学时设置为0
+      var needCourseHous=remainingHours - hours
+      if (needCourseHous>0){
+        this.setData({ needCourseHours: needCourseHous})
+      }else{
+        this.setData({ needCourseHours: 0 })
+      }
+      state = true
+    } else {
+      //当前取消勾选  选课学时
+      var hours = this.data.selecCoursetHours - item.period
+      //课程包还需要多少学时
+      var remainingHours = this.data.courseWrapList[this.data.currentWrapIndex].remainingHours
+      //赋值当前已选学时
+      this.setData({ selecCoursetHours: hours })
+      //赋值当前需选学时   课程包需选学时-当前已勾选选课学时
+      this.setData({ needCourseHours: remainingHours - hours})
+      state = false
+    }
+    var modifyItem = 'courseList[' + idx + '].checkState'
+    this.setData({
+      [modifyItem]: state
+    })
+  },
+  /**
+   * 课程播放
+   */
+  playCourseClick() {
+  
+  },
+  /**
+   * 确认选择事件
+   */
+  confirmClick() {
+    this.alertmessage.message({ title: '本课程包已达到选课要求，无需继续选课！' })
+    wx.showModal({
+      title: '已选X学时课程，请确认！',
+      content: '选课成功后，暂不支持删除课程，请谨慎选课！',
+      showCancel: true,
+      cancelText: '确定选择',
+      confirmText: '暂不选择',
+      confirm() { },
+      cancel() {
+
+      }
+    })
+  },
+  /**
+   * 显示选课要求
+   */
+  showRequireInfo() {
+    this.setData({
+      hasRequireInfo: true
+    })
+  },
+  hideRequireInfo() {
+    this.setData({
+      hasRequireInfo: false
+    })
+  }
+})

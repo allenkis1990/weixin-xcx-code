@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "报名清单",
+  "usingComponents": {
+    "close-list": "./closeListComponent/closeListComponent",
+    "unpay-list": "./unpayListComponent/unpayListComponent",
+    "paid-list":"./paidListComponent/paidListComponent",
+    "alert": "/component/alert/alert"
+  },
+  "enablePullDownRefresh": true
+}

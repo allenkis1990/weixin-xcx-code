@@ -1,0 +1,19 @@
+<!-- wetoast.wxml -->
+<template name="alertMessage">
+  <view class="wetoast {{reveal ? 'wetoast_show' : ''}}">
+    <view class="wetoast__mask"></view>
+    <!-- animation="{{animationData}}" -->
+    <view class="hd-dialog" >
+      <view class="weui-dialog">
+        <view class="weui-dialog__hd">
+          <view class="ico">
+            <image class="img" src="/image/icon-warning.png" alt=" " />
+          </view>
+        </view>
+        <block wx:if="{{title}}">
+          <view class="weui-dialog__bd">{{title}}</view>
+        </block>
+      </view>
+    </view>
+  </view>
+</template>

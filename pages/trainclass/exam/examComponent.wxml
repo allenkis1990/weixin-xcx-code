@@ -1,0 +1,48 @@
+<alert id="alert"></alert>
+<view class="course-detail-tab-bd">
+  <view wx:for="{{examList}}" wx:key="key" data-item="{{item}}">
+    <view class="course-detail-exam-info block-box">
+      <view class="fs15 to">{{item.examRoundName}}</view>
+      <view class="info-bd">
+        <view>考试达标要求：成绩>={{examPassScore}}分</view>
+        <view>剩余考试次数：
+          <text class="ci" wx:if="{{item.allowExamCount!=-1}}">{{item.restExamCount}}次</text>
+          <text class="ci" wx:if="{{item.allowExamCount==-1}}">不限</text>
+        </view>
+        <view>考试时长：
+          <text class="ci">{{item.examRoundDuration}}</text>分钟
+        </view>
+        <view>考试最高分：
+          <text class="ci">{{item.score == -1 ? '-': item.score}}</text>分
+        </view>
+      </view>
+
+      <view class="seal" wx:if="{{item.examStatus === 3}}">
+        <image class="img" src="/image/seal-exam-g.png" alt=" " />
+      </view>
+
+    </view>
+
+    <view class="block-box">
+      <view class="exam-enter-box">
+        <view class="exam-enter" data-data="{{item}}" bindtap='gotoExamEntrance'>
+          <view class="ico ico-enter"></view>
+          <view>进入考试</view>
+        </view>
+        <view class="exam-enter" data-data="{{item}}" bindtap='gotoExamHistory'>
+          <view class="ico ico-history"></view>
+          <view>历史考试记录</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="p25" wx:if="{{examList.length==0 }}">
+    <view class="contain">
+      <view class="no-data-box">
+        <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+        <view class="no-data-txt">暂时还没有数据~</view>
+      </view>
+    </view>
+    </view>
+
+    </view>

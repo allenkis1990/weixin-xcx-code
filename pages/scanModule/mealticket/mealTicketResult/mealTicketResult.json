@@ -1,0 +1,6 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mealTicket-list": "/pages/scanModule/mealticket/mealTicketComponent/mealTicketComponent"
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText": "我的线上班",
+    "enablePullDownRefresh": true,
+    "usingComponents": {
+      "empty": "/pages/trainclass/trainingClassEmpty/trainingClassEmpty",
+      "alert": "/component/alert/alert",
+      "toast":"/component/toast/toast"
+    }
+}

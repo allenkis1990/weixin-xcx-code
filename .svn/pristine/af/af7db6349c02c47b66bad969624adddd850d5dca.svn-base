@@ -1,0 +1,85 @@
+<!--pages/exam/examContainer/examContainer.wxml-->
+<!-- 0查看卷子  1考试 -->
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view wx:if="{{examOrCheckResult === 0 && showResultCard}}" class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="tips-box-b">提交时间：{{paper.completeTime}}</view>
+    <view class="views-block question-views">
+      <image class="bg" src="/image/exam-detail-bg.png" alt=" " />
+      <view>成绩</view>
+      <view class="score tc">{{paper.score}}
+        <text class="fs13">分/{{paper.totalScore}}分</text>
+      </view>
+      <view class="tc">答对 {{answerRightCount}} 题 | 答错 {{questionArray.length - answerRightCount}} 题</view>
+      <image wx:if="{{examPassScore <= paper.score}}" class="seal" src="/image/seal-exam-w.png" alt=" " />
+    </view>
+    <scroll-view scroll-y="{{true}}"  class="exam-panel exam-panel-2">
+      <view class="exam-panel-hd">
+        <view class="hd-info">答题卡
+          <view bindtap='showTips' class="info-tips">?</view>
+        </view>
+      </view>
+      <view class="questions-card-panel clear">
+        <!--已答num-b，答对 num-g，答错num-r-->
+        <view class="items" wx:for="{{questionArray}}" wx:for-index="index" data-index="{{index}}" wx:for-item="item" wx:key="{{item.questionId}}" bindtap="gotoQuestion">
+          <view class="{{item.answersResultState === 1 ? 'num num-g':'num num-r'}}">{{index + 1}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="hb-tabbar" bindtap='showAllAnswers'>
+    <view class="hb-btn">全部题析</view>
+  </view>
+</view>
+
+
+<view wx:if="{{!showResultCard&&!showAnswerCard}}" class="contain hb-box" bindtouchmove='swipeView'>
+  <judge wx:if="{{currentQuestionInfo.type == 1}}" title="{{currentQuestionInfo}}" question="{{currentAnswerQuestion}}" index="{{index}}" subIndex="{{subIndex}}" showAnswer="{{showAnswer}}" showDescription="{{showDescription}}" showResult="{{showResult}}" currentQuestionIndex="{{currentQuestionIndex}}" allQuestionIndex="{{allQuestionIndex}}"></judge>
+  <single wx:if="{{currentQuestionInfo.type == 2}}" title="{{currentQuestionInfo}}" question="{{currentAnswerQuestion}}" index="{{index}}" subIndex="{{subIndex}}" showAnswer="{{showAnswer}}" showDescription="{{showDescription}}" showResult="{{showResult}}" currentQuestionIndex="{{currentQuestionIndex}}" allQuestionIndex="{{allQuestionIndex}}"></single>
+  <multi wx:if="{{currentQuestionInfo.type == 3}}" title="{{currentQuestionInfo}}" question="{{currentAnswerQuestion}}" index="{{index}}" subIndex="{{subIndex}}" showAnswer="{{showAnswer}}" showDescription="{{showDescription}}" showResult="{{showResult}}" currentQuestionIndex="{{currentQuestionIndex}}" allQuestionIndex="{{allQuestionIndex}}"></multi>
+  <view class="hb-tabbar hb-tabbar-1">
+    <view class="hb-btn-1  {{currentQuestionIndex==1 ?'disabled' : ''}}" bindtap='previousQuestion'>
+      <view class="ico">
+        <image class="img" src="/image/exam-prev.png" wx:if="{{currentQuestionIndex !==1}}"/>
+        <image class="img" src="/image/exam-prev-disabled.png" wx:if="{{currentQuestionIndex ===1}}"/>
+      </view>
+      <text>上一题</text>
+    </view>
+    <view class="hb-btn-1" bindtap='showAnswerCard'>
+      <view class="ico">
+        <image class="img" src="/image/exam-card.png" alt=" " />
+      </view>
+      <text>答题卡</text>
+    </view>
+    <view class="hb-btn-1 {{currentQuestionIndex==allQuestionIndex ?'disabled' : ''}}" bindtap='nextQuestion'>
+      <text>下一题</text>
+      <view class="ico ico-next">
+        <view class="ico">
+          <image class="img" src="/image/exam-next.png" wx:if="{{currentQuestionIndex !==allQuestionIndex}}"/>
+          <image class="img" src="/image/exam-next-disabled.png" wx:if="{{currentQuestionIndex==allQuestionIndex}}"/>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{showAnswerCard}}" class="contain hb-box" bindtouchmove='swipeView'>
+  <view class="hb-box-bd">
+    <view class="exam-panel-hd">
+      <view class="hd-info">{{paper.name}}</view>
+    </view>
+    <view class="exam-panel">
+      <view class="questions-card-panel clear">
+        <view class='items' wx:for="{{questionArray}}" wx:for-index="index" data-index="{{index}}" wx:for-item="item" wx:key="{{item.questionId}}" bindtap="gotoQuestion">
+          <view class="{{item.answered?'num num-b':'num'}}">{{index + 1}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="hb-tabbar" bindtap='commit'>
+    <view class="hb-btn">提交并查看结果</view>
+  </view>
+</view>

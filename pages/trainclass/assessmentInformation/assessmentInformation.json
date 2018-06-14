@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText":"班级考核情况",
+  "usingComponents": {
+    "circle-slider": "/component/circleSlider/circleSlider"
+  }
+}

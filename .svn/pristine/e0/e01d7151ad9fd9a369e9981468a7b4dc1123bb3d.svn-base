@@ -1,0 +1,174 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+
+  if (skuKey == undefined || skuPropertyArray == undefined || skuPropertyArray.length == 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var getShowSubmitButtonClass = function (supprotDistributionType, totalPrice, needInvoice, invoiceInfo, cerSendInfo, isCreatingOrder) {
+  // supprotDistributionType 1.只支持发票 2.只支持证书 3.只支持发票和证书配送 4.支持发票和证书配送|
+  if (totalPrice == undefined || supprotDistributionType == undefined || needInvoice == undefined || invoiceInfo == undefined || cerSendInfo == undefined) {
+    return 'disabled'
+  }
+  if (isCreatingOrder) {
+    return 'disabled'
+  }
+  // 0元订单
+  if (parseFloat(totalPrice) == 0) {
+    //1.只支持发票
+    if (supprotDistributionType == 1) {
+      return ''
+    } else if (supprotDistributionType == 2 || supprotDistributionType == 3 || supprotDistributionType == 4) {
+      if (cerSendInfo.deliverType == undefined) {
+        return 'disabled'
+      } else {
+        return ''
+      }
+    }
+  } // 非0元订单
+  else {
+    //1.只支持发票
+    if (supprotDistributionType == 1) {
+      if (needInvoice) {
+        if (invoiceInfo.invoiceType == undefined) {
+          return 'disabled'
+        } else {
+          if (invoiceInfo.invoiceType == 2) {
+            return ''
+          } else {
+            if (invoiceInfo.deliverType == undefined) {
+              return 'disabled'
+            } else {
+              return ''
+            }
+          }
+        }
+      } else {
+        return ''
+      }
+    } else if (supprotDistributionType == 2) {
+      if (cerSendInfo.deliverType == undefined) {
+        return 'disabled'
+      } else {
+        return ''
+      }
+    } else if (supprotDistributionType == 3 || supprotDistributionType == 4) {
+      if (needInvoice) {
+        if (invoiceInfo.invoiceType == undefined || cerSendInfo.deliverType == undefined) {
+          return 'disabled'
+        } else {
+          if (invoiceInfo.invoiceType == 2) {
+            return ''
+          } else {
+            if (invoiceInfo.deliverType == undefined) {
+              return 'disabled'
+            } else {
+              return ''
+            }
+          }
+        }
+      } else {
+        return ''
+      }
+    }
+  }
+  return 'disabled'
+}
+var isShowInvoiceInfo = function (totolPrice, canSendType) {
+  if (totolPrice !== undefined && totolPrice !== 0 && canSendType !== undefined && (canSendType == 1 || canSendType == 4)) {
+    return true
+  }
+  return false
+}
+var isShowCertificateSendInfo = function (canSendType) {
+  if (canSendType !== undefined && (canSendType == 2 || canSendType == 4)) {
+    return true
+  }
+  return false
+}
+var isShowGoodsSendInfo = function (totolPrice, canSendType) {
+  if (totolPrice !== undefined && totolPrice !== 0 && canSendType !== undefined && canSendType == 3) {
+    return true
+  }
+  return false
+}
+var isShowInvoiceSendCell = function (invoiceType) {
+  if (invoiceType !== undefined && invoiceType == 2) {
+    return false
+  }
+  return true
+}
+
+var getShowYearText = function (item) {
+  if (item == undefined || item.categoryType == undefined) {
+    return ''
+  }
+  if (item.categoryType == 'COURSE_SUPERMARKET_GOODS' && getSkuCodeValueWithKeyFromSkuArray('trainingSubject', item.skuPropertyNameList) == 'profession') {
+    return item.yearOptionValue
+  } else {
+    return getSkuValueWithKeyFromSkuArray('trainingYear', item.skuPropertyNameList)
+  }
+  return ''
+}
+
+var getSkuCodeValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray == undefined || skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyVlueCode = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyCode === skuKey) {
+      propertyVlueCode = skuPropertyObject.skuPropertyValueCode
+    }
+  }
+  return propertyVlueCode
+}
+var toDecimal2 = function (x) {
+  if (x == undefined) {
+    return '0.00'
+  }
+  var f = parseFloat(x);
+  if (isNaN(f)) {
+    return false;
+  }
+  var f = Math.round(x * 100) / 100;
+  var s = f.toString();
+  var rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= rs + 2) {
+    s += '0';
+  }
+  return s
+}
+var getShowSkuName = function (item) {
+  if (item == undefined || item.categoryType == undefined) {
+    return ''
+  }
+  if (item.categoryType == 'COURSE_SUPERMARKET_GOODS') {
+    return item.courseName
+  } else if (item.categoryType == 'TRAINING_CLASS_GOODS') {
+    return item.skuName
+  }
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  getShowSubmitButtonClass: getShowSubmitButtonClass,
+  isShowInvoiceInfo: isShowInvoiceInfo,
+  isShowCertificateSendInfo: isShowCertificateSendInfo,
+  isShowGoodsSendInfo: isShowGoodsSendInfo,
+  isShowInvoiceSendCell: isShowInvoiceSendCell,
+  getShowYearText: getShowYearText,
+  toDecimal2: toDecimal2,
+  getShowSkuName: getShowSkuName
+}

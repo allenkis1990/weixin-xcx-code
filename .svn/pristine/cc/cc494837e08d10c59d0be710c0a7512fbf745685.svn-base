@@ -1,0 +1,35 @@
+<!--pages/map/classInformationComponent/classInformationComponent.wxml-->
+<view class="course-detail-tab-bd {{hasExam ? 'course-detail-tab-bd-1' : 'course-detail-tab-bd-2'}}">
+  <view class="situation-info-box">
+    <view class="info-tit">培训时段</view>
+    <view class="info-desc">{{classInfo.trainingStartTime}} 至 {{classInfo.trainingEndTime}}</view>
+  </view>
+  <view class="situation-info-box">
+    <view class="info-tit">培训地址</view>
+    <view class="info-desc">{{classInfo.classLocation}}</view>
+    <!-- <view class="info-desc">工业路611号海峡技术转移中心 8楼-888教室</view> -->
+  </view>
+  <view class="situation-info-box">
+    <view class="info-tit">班主任</view>
+    <view class="info-desc info-desc-2">
+      <view class='teacher-name'>姓名：{{classInfo.headmasterName}} </view>
+      <view class="ml30" wx:if="{{classInfo.headmasterTelNumber.length}}">联系电话：{{classInfo.headmasterTelNumber}}</view>
+      <view class="take-call" wx:if="{{classInfo.headmasterTelNumber.length}}" bindtap='callTelPhoneAction'>
+        <image class="img" src="/image/icon-phone.png" alt=" " />
+      </view>
+    </view>
+  </view>
+    <view class="situation-info-box" wx:if="{{classInfo.haveExam}}">
+    <view class="info-tit">班级考试</view>
+    <view class="info-desc">考试时间：{{classInfo.examStartTime}} 至 {{classInfo.examEndTime}}</view>
+  </view>
+  <view class="situation-info-box">
+    <view class="info-tit">培训成果</view>
+    <view class="info-desc">1、班级学时：{{classInfo.period}}</view>
+    <view class="info-desc" wx:if="{{classInfo.haveTrainCertificate}}">2、本班级包含培训证明</view>
+  </view>
+  <view class="situation-info-box" wx:if="{{classInfo.desc.length}}">
+    <view class="info-tit">培训简介</view>
+    <view class="info-desc">{{classInfo.desc}}</view>
+  </view>
+</view>

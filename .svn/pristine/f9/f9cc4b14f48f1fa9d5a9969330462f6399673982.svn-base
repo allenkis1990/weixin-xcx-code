@@ -1,0 +1,70 @@
+<!--pages/order/orderChangeRecord/orderChangeRecord.wxml-->
+<!--获取sku值对比函数-->
+<wxs module="utils" src="../../../utils/commonUtil.wxs"></wxs>
+
+<!--报名清单-换班记录-->
+<view class="contain">
+    <view class="hb-wrap-box hb-wrap-box-4">
+    <view wx:for="{{recordOrder.initialOrderList}}" wx:key="{{index}}">
+        <view class="bg-g">原订单</view>
+          <view class="weui-panel hb-panel">
+              <view wx:for="{{item.subOrderList}}" wx:key="{{subItem.subOrderNo}}" wx:for-item="subItem">
+              <view class="order-info-box">
+                  <view>{{item.createTime}}</view>
+                  <view class="tr-2">订单号：{{subItem.subOrderNo}}</view>
+              </view>
+              <view class="hb-media-box hb-media-box-1">
+                  <view class="hb-media-box-hd">
+                      <image class="hb-media-box-thumb" wx:if="{{subItem.photoPath==undefined || subItem.photoPath==''}}" 
+                      src="/image/course-img.jpg" />
+                      <image class="hb-media-box-thumb" wx:if="{{subItem.photoPath!=undefined && subItem.photoPath!=''}}" 
+                      src="{{item.photoPath}}" /> 
+                  </view>
+                  <view class="hb-media-box-bd">
+                      <view class="hb-media-box-title">{{subItem.skuName}}</view>
+                      <view class="hb-media-box-desc">年度：{{utils.getSkuValueWithKeyFromSkuArray('trainingYear',subItem.skuPropertyNameList)}}年</view>
+                      <view class="hb-media-box-desc">科目：{{utils.getSkuValueWithKeyFromSkuArray('trainingSubject',subItem.skuPropertyNameList)}}</view>
+                      <view class="hb-media-box-desc">学时：{{subItem.trainingPeriod}}</view>
+                  </view>
+                  <view class="price">￥<text class="num">{{subItem.totalAmount}}</text></view>
+              </view>
+              </view>
+              <view class="order-info-box">
+                  <view></view>
+                  <view>总价<text class="ml10 ci fs32">¥ {{item.totalAmount}}</text> </view>
+              </view>
+          </view>
+        </view>
+        
+        <view wx:for="{{recordOrder.derivativeOrderList}}" wx:key="{{index}}">
+            <view class="bg-g">换班订单</view>
+            <view class="weui-panel hb-panel">
+              <view wx:for="{{item.subOrderList}}" wx:key="{{subItem.subOrderNo}}" wx:for-item="subItem">
+                <view class="order-info-box">
+                    <view>{{item.createTime}}</view>
+                    <view class="tr-2">订单号：{{subItem.subOrderNo}}</view>
+                </view>
+                <view class="hb-media-box hb-media-box-1">
+                    <view class="hb-media-box-hd">
+                        <image class="hb-media-box-thumb" wx:if="{{subItem.photoPath==undefined || subItem.photoPath==''}}" 
+                        src="/image/course-img.jpg" />
+                        <image class="hb-media-box-thumb" wx:if="{{subItem.photoPath!=undefined && subItem.photoPath!=''}}" 
+                        src="{{subItem.photoPath}}" /> 
+                    </view>
+                    <view class="hb-media-box-bd">
+                        <view class="hb-media-box-title">{{subItem.skuName}}</view>
+                        <view class="hb-media-box-desc">年度：{{utils.getSkuValueWithKeyFromSkuArray('trainingYear',subItem.skuPropertyNameList)}}年</view>
+                        <view class="hb-media-box-desc">科目：{{utils.getSkuValueWithKeyFromSkuArray('trainingSubject',subItem.skuPropertyNameList)}}</view>
+                        <view class="hb-media-box-desc">学时：{{subItem.trainingPeriod}}</view>
+                    </view>
+                    <view class="price">￥<text class="num">{{subItem.totalAmount}}</text></view>
+                </view>
+                </view>
+                <view class="order-info-box">
+                    <view></view>
+                    <view>总价<text class="ml10 ci fs32">¥ {{item.totalAmount}}</text> </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

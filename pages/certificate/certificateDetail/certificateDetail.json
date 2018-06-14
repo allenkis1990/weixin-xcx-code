@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "培训证明",
+  "usingComponents": {
+    "custom-modal": "/component/customModal/customModal"
+  }
+}

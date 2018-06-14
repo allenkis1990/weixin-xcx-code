@@ -1,0 +1,107 @@
+// pages/order/orderChangeRecord/orderChangeRecord.js
+const app = getApp();
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    subOrderNo:'',
+    recordOrder:{},
+    logType:''
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    debugger
+    this.setData({
+      subOrderNo: options.subOrderNo,
+      logType: options.logType
+    })
+    this.requestChangeRecord()
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+  
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+  
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+  
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+  
+  },
+
+
+  /**
+   * 网络请求--换班记录
+   */
+  requestChangeRecord() {
+    var comtext = this
+    wx.showLoading({ title: '加载中......', mask: true })
+    var param = {
+      subOrderNo: this.data.subOrderNo,
+      type: this.data.logType
+    }
+    app.requestData(app.config.changeRecord, param, "GET").then(data => {
+      wx.hideLoading()
+      if (data.head.code !== app.constant.network_result_success) {
+        //网络请求失败
+       wx.showToast({
+         title: data.head.message,
+         icon: 'none',
+         duration: 1000
+       })
+     }
+    
+      comtext.setData({
+        recordOrder:data.data
+      })
+
+    }).catch(e => {
+      wx.hideLoading()
+      console.log(e)
+    })
+  }
+
+})

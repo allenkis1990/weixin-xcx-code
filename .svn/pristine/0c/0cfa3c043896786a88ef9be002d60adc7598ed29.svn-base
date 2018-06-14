@@ -1,0 +1,17 @@
+function showWholeNeedHours(optionalPackageRequires, periodType, selecCoursetHours, needCourseHours,wholeRemainingHours){
+  if (!optionalPackageRequires){
+    if (periodType==2){
+      if (wholeRemainingHours==0)
+        return true
+      if (selecCoursetHours>0){
+        if (needCourseHours==0){
+          return true;
+        }
+      }
+    }
+  }
+  return false
+}
+module.exports = {
+  showWholeNeedHours: showWholeNeedHours
+};

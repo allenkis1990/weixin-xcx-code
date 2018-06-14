@@ -1,0 +1,116 @@
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <!--课程包选择-->
+    <view class="hb-year-box" bindtap='courseWrapClick'>
+      <view class="year-tit year-tit-1">当前课程包</view>
+      <view class="year-bd year-bd-1">
+        <view class="course-bag-name">{{currentWrapName}}</view>
+      </view>
+      <view class="change-label {{selectCourseWrapState ?'open':''}}">
+        <view class="arrow"></view>
+        <view class="dot" wx:if="{{hasStandardCourseWrap}}"></view>
+      </view>
+    </view>
+    <!--/课程包选择-->
+    <!--课程包展开-->
+    <view class="select-box" wx:if="{{selectCourseWrapState}}">
+      <view class="select-mask"></view>
+      <view class="select-panel">
+        <view class="select-bd">
+          <view class="select-box" wx:if="{{selectCourseWrapState}}">
+            <view class="select-mask"></view>
+            <view class="select-panel">
+              <view class="select-bd">
+                <view class="items {{item.electiveWrapId==currentWrapId ? 'current':''}} {{item.hourStandard ? '':'warning-bg'}}" wx:for="{{courseWrapList}}" wx:for-index="idx" wx:key="key" data-item="{{item}}" data-idx="{{idx}}" bindtap='courseWrapItemClick'>
+                  <view class="txt">{{item.electiveWrapName}}</view>
+                </view>
+              </view>
+              <view class="select-ft">
+                <view class="ci">说明：</view>
+                <view class="warning-bg"></view>选课未达标
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="select-ft">
+          <view class="ci">说明：</view>
+          <view class="warning-bg"></view>选课未达标
+        </view>
+      </view>
+    </view>
+    <!--/课程包展开-->
+    <!--课程列表展开-->
+    <view class="hb-wrap-box">
+      <scroll-view class="course-detail-list" scroll-y bindscrolltolower="loadMore" style="height:{{listHeight}}">
+        <!-- <view class="course-detail-list" style="height:{{listHeight}}"> -->
+        <view class="list-items" wx:for="{{courseList}}" wx:for-index="idx" wx:key="key">
+          <view class="items-hd" bindtap='courseItemClick' data-item="{{item}}" data-idx="{{idx}}">
+            <view class="hb-form">
+              <image class="img" src="/image/radio.png" alt=" " wx:if="{{!item.checkState}}" />
+              <image class="img" src="/image/radio-checked.png" alt=" " wx:if="{{item.checkState}}" />
+            </view>
+          </view>
+          <view class="items-bd" bindtap='courseItemClick' data-item="{{item}}" data-idx="{{idx}}">
+            <view class="items-bd-tit">{{item.courseName}}</view>
+            <view class="items-bd-desc">
+              <view class="label">{{item.period}}学时</view>
+              <view class="pr20">讲师：{{item.lecturerList[0]}}</view>
+              <view>时长：{{item.courseLength}}</view>
+            </view>
+          </view>
+          <view class="items-ft items-ft-1" bindtap='playCourseClick' data-item="{{item}}">
+            <view class="course-play">
+              <image class="img" src="/image/icon-play.png" />
+            </view>
+          </view>
+        </view>
+        <!-- </view> -->
+      </scroll-view>
+    </view>
+  </view>
+  <!--/课程列表展开-->
+  <view class="hb-tabbar">
+    <view class="left-box">当前已选
+      <text class="ci">{{selecCoursetHours}}</text> 学时，
+      <text class="ci">还需选{{needCourseHours}}学时</text>
+    </view>
+    <view class="hb-btn" bindtap='confirmClick'>确认选择</view>
+    <!--不可操作-->
+    <!--<view class="hb-btn disabled">确认选择</view>-->
+  </view>
+  <!--选课要求-->
+  <view class="hd-dialog" wx:if="{{hasRequireInfo}}">
+    <view class="weui-mask"></view>
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">选课要求</view>
+      </view>
+      <view class="weui-dialog__bd tl">
+        <view class="txt">本次培训要求，整体课程学时须>=X学时。其中必修课程=X学时，选课学时=X学时。选课学时要求分布如下：</view>
+        <view class="txt" wx:for="{{standardCourseWrapList}}" wx:for-index="idx">{{idx+1}}、{{item.electiveWrapName}}：需选{{item.requireHours}}学时；</view>
+        <view class="txt mt15 ci">未达标选课课程包</view>
+        <view class="txt" wx:for="{{standardCourseWrapList}}" wx:for-index="idx">{{idx+1}}、{{item.electiveWrapName}}：需选{{item.selectedHours}}学时，还需选{{item.remainingHours}}学时；</view>
+      </view>
+      <view class="weui-dialog__ft" bindtap='hideRequireInfo'>
+        <view class="weui-dialog__btn weui-dialog__btn_primary">确定</view>
+      </view>
+    </view>
+  </view>
+  <!--选课要求-->
+  <!--返回顶部-->
+  <view class="layer-box">
+    <view href="javascript:void(0);" class="a-items" bindtap='showRequireInfo'>
+      <image class="img" src="/image/icon-requirement.png" alt=" " bindtap='selectedCourseRequireClick' />
+    </view>
+    <view href="javascript:void(0);" class="a-items">
+      <image class="img" src="/image/icon-top.png" alt=" " />
+    </view>
+  </view>
+  <!--/返回顶部-->
+</view>
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{..._alertmessage_}}" />

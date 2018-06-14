@@ -1,0 +1,101 @@
+{
+  "pages": [
+    "pages/account/loginFail/loginFail",
+    "pages/account/login/login",
+    "pages/account/registered/registered",
+    "pages/index/index",
+    "pages/trainclass/trainclassDetail/trainclassDetail",
+    "pages/trainclass/trainingClassList/trainingClassList",
+    "pages/account/entry/entry",
+    "pages/account/forgotPW/forgotPW",
+    "pages/trainclass/assessmentInformation/assessmentInformation",
+    "pages/course/coursedetail/courseDetail",
+    "pages/trainclass/choiceCourses/choiceCourses",
+    "pages/exam/examEntrance/examEntrance",
+    "pages/exam/examPreview/examPreview",
+    "pages/exam/examContainer/examContainer",
+    "pages/exam/examHistory/examHistory",
+    "pages/account/argreement/argreenment",
+    "pages/trainclass/selectedInterestCourse/selectedInterestCourse",
+    "pages/trainclass/interestCourse/interestCourse",
+    "pages/linetrainclass/trainclassDetail/trainclassDetail",
+    "pages/linetrainclass/lineTrainClassList/lineTrainClassList",
+    "pages/linetrainclass/lineCourseDetail/lineCourseDetail",
+    "pages/certificate/certificateDetail/certificateDetail",
+    "pages/certificate/certificateList/certificateList",
+    "pages/testModule/testContainer/testContainer",
+    "pages/testModule/testEntrance/testEntrance",
+    "pages/testModule/testHistory/testHistory",
+    "pages/scanModule/sign/signResult/signResult",
+    "pages/scanModule/mealticket/mealTicketResult/mealTicketResult",
+    "pages/account/forgotPW/forgetPasswordSuccess/forgetPasswordSuccess",
+    "pages/choiceCourseModule/selectedCourse/selectedCourse",
+    "pages/findtraining/trainingDetail/trainingDetail",
+    "pages/findtraining/trainingList/trainingList",
+    "pages/mine/mine/mine",
+    "pages/mine/personInfo/personInfo",
+    "pages/mine/shippingAddress/shippingAddress",
+    "pages/webview/webView",
+    "pages/order/orderList/orderList",
+    "pages/order/orderDetail/orderDetail",
+    "pages/order/orderCreat/orderCreat",
+    "pages/order/confirmOrder/confirmOrder",
+    "pages/order/orderTrainingContentList/orderTrainingContentList",
+    "pages/order/orderInvoice/orderInvoice",
+    "pages/order/orderInvoiceSend/orderInvoiceSend",
+    "pages/order/orderPay/orderPay",
+    "pages/order/orderPaySuccess/orderPaySuccess",
+    "pages/order/goodsSend/goodsSend",
+    "pages/order/orderChangeRecord/orderChangeRecord",
+    "pages/order/perfectDeliveryOrderInfo/perfectDeliveryOrderInfo",
+    "pages/order/orderCreatContentList/orderCreatContentList",
+    "pages/order/orderStatusChangeLog/orderStatusChangeLog",
+    "pages/order/certificateSend/certificateSend",
+    "pages/order/orderRefundLog/orderRefundLog"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#cb1919",
+    "navigationBarTextStyle": "#fff",
+    "navigationBarTitleText": "泉州提高教育预览",
+    "backgroundColor": "#cb1919",
+    "backgroundTextStyle": "light",
+    "onReachBottomDistance": 50
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#cb1919",
+    "borderStyle": "#black",
+    "list": [
+      {
+        "pagePath": "pages/trainclass/trainingClassList/trainingClassList",
+        "iconPath": "image/tabbar-xs.png",
+        "selectedIconPath": "image/tabbar-xs-current.png",
+        "text": "我的班级"
+      },
+      {
+        "pagePath": "pages/findtraining/trainingList/trainingList",
+        "iconPath": "image/tabbar-xx.png",
+        "selectedIconPath": "image/tabbar-xx-current.png",
+        "text": "报名培训"
+      },
+      {
+        "pagePath": "pages/certificate/certificateList/certificateList",
+        "iconPath": "image/tabbar-zm.png",
+        "selectedIconPath": "image/tabbar-zm-current.png",
+        "text": "培训证明"
+      },
+      {
+        "pagePath": "pages/mine/mine/mine",
+        "iconPath": "image/tabbar-mine.png",
+        "selectedIconPath": "image/tabbar-mine-current.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 100000,
+    "downloadFile": 10000
+  }
+}

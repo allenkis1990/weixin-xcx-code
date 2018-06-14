@@ -1,0 +1,9 @@
+/* component/AddressChoosePicker/AddressChoosePicker.wxss */
+@import "/app.wxss"; 
+.color-black {
+  color: black;
+}
+.color-gray {
+  color: #808080;
+}
+

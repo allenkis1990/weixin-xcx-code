@@ -1,0 +1,14 @@
+<!--component/AddressChoosePicker/AddressChoosePicker.wxml-->
+<view catchtap='showPickerAction'>
+  <picker mode="multiSelector"
+          disabled="{{disabledPicker}}"
+          bindchange="bindMultiPickerChange"
+          bindcolumnchange="bindMultiPickerColumnChange"
+          value="{{currentIndex}}"
+          range="{{objectMultiArray}}"
+          range-key="{{'name'}}">
+    <view class="picker {{haveSelectedValue?'color-black':'color-gray'}}" style=''>
+      <text>{{showValueText}}</text>
+    </view>
+  </picker>
+</view>

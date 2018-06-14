@@ -1,0 +1,10 @@
+<!--我的班级-培训班列表空数据-->
+<view class="contain">
+  <view class="p25">
+    <view class="no-data-box">
+      <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+      <view class="no-data-txt">亲爱的学员，当前暂无可报名的培训哦</view>
+      <view class="no-data-txt">敬请期待，即将发布~</view>
+    </view>
+  </view>
+</view>

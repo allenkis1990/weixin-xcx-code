@@ -1,0 +1,36 @@
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<!--pages/exam/examEntrance/examEntrance.wxml-->
+<view class="contain exam-enter-panel">
+  <view class="countdown-box" wx:if="{{examInfo.examState == 0 && examInfo.timeElapsed != -1}}">
+        <view class="ico"><image class="img" src="/image/exam-countdown.png" alt=" " /></view>
+        <view class="txt">考试已用时间：{{examInfo.timeElapsed}}</view>
+    </view>
+
+    <view class="p25">
+        <image class="exam-img" src="/image/exam-enter-icon.png" alt=" " />
+        <view class="exam-name">{{examInfo.examRoundName}}</view>
+        <view class="exam-info">
+            <view>
+                <view class="ico">
+                    <image class="img" src="/image/exam-time.png" alt=" " />
+                </view>
+                <text>考试时长：{{examInfo.examTimeLength}}分钟</text>
+            </view>
+            <view>
+                <view class="ico">
+                    <image class="img" src="/image/exam-num.png" alt=" " />
+                </view>
+                <text wx:if="{{examInfo.allowExamCount != - 1}}">考试剩余次数：{{examInfo.restExamCount}}次</text>
+                <text wx:if="{{examInfo.allowExamCount == - 1}}">考试剩余次数：无限次</text>
+                </view>
+        </view>
+        <!-- <view class="line-process">
+            <view class="info">已答22题/总题数100题</view>
+            <view class="process-bd"><view class="current" style="width: 22%"></view></view>
+        </view> -->
+        <view bindtap='beginExam' class="btn-full">进入考试</view>
+    </view>
+</view>

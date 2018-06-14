@@ -1,0 +1,17 @@
+var getRequirePackageTypeText = function (packageType) {
+  var text = ''
+  switch(packageType){
+    case 1:{
+      text = '必修包'
+      break;
+    }
+    case 2:{
+      text = '选修包'
+      break
+    }
+  }
+  return text
+}
+module.exports = {
+  getRequirePackageTypeText: getRequirePackageTypeText
+}

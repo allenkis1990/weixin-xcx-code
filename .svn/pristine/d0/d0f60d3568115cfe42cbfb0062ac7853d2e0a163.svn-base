@@ -1,0 +1,19 @@
+<wxs module="trainingDetailUtil" src="../trainingDetailUtil.wxs"></wxs>
+<scroll-view scroll-y style='width:100%;height:100%;'>
+  <view class="block-box situation-info-box">
+    <view class="info-tit">考核要求</view>
+    <view class="info-desc" wx:if="{{courseDetailInfo.categoryType!== undefined && courseDetailInfo.categoryType== 'TRAINING_CLASS_GOODS'}}">{{trainingDetailUtil.getShowClassGoodsAssessConditionText(courseDetailInfo)}}</view>
+     <view class="info-desc" wx:if="{{courseDetailInfo.categoryType!== undefined && courseDetailInfo.categoryType== 'COURSE_SUPERMARKET_GOODS'}}">{{trainingDetailUtil.getShowCourseGoodsAssessConditionText(courseDetailInfo)}}</view>
+  </view>
+  <view class="block-box situation-info-box" wx:if="{{courseDetailInfo.categoryType!== undefined && courseDetailInfo.categoryType== 'TRAINING_CLASS_GOODS'}}">
+    <view class="info-tit">选课要求</view>
+    <view class="info-desc">本年度继续教育学习中选课学时数须≥{{courseDetailInfo.assessInformation.trainingHours}} 学时</view>
+  </view>
+  <view class="block-box situation-info-box">
+    <view class="info-tit">班级培训信息</view>
+    <view class="info-desc">科目：{{courseDetailInfo.skuPropertyNameList[1].skuPropertyValueName}}</view>
+    <view class="info-desc">年度：{{courseDetailInfo.skuPropertyNameList[0].skuPropertyValueName}}年</view>
+    <view class="info-desc">学时：{{courseDetailInfo.trainingPeriod}}</view>
+    <view class="info-desc">培训起止时间：{{(courseDetailInfo.trainingStartTime == undefined || !courseDetailInfo.trainingStartTime.length)?'-':courseDetailInfo.trainingStartTime}} 至 {{(courseDetailInfo.trainingEndTime == undefined || !courseDetailInfo.trainingEndTime.length)?'-':courseDetailInfo.trainingEndTime}}</view>
+  </view>
+</scroll-view>

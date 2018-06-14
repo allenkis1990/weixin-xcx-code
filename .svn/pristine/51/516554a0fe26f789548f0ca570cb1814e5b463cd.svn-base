@@ -1,0 +1,17 @@
+/* pages/account/registered/registered.wxss */
+
+.margin-btm {
+  margin-bottom: 40rpx;
+}
+
+.padding-right {
+  padding-right: 15rpx;
+}
+
+.color-black {
+  color: black;
+}
+
+.color-gray {
+  color: #808080;
+}

@@ -1,0 +1,95 @@
+  <!--我的-收货地址-->
+  <view class="contain hb-box" hidden="{{currentNavtab==1 ? '' : true}}">
+    <view class="hb-box-bd">
+        <!--
+        <view class="hb-warm-tips">
+            <image class="ico-tips" src="/image/icon-tips.png" />
+            <text class="tips-txt">请正确填写您的收件地址，以便下一次报名培训班级时作为发票/证书的邮寄地址，感谢您的配合！</text>
+        </view>
+        -->
+        <view class="weui-panel hb-panel">
+            <view class="weui-cells">
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit-2">收件人</text></view>
+                    <view class="weui-cell__bd">{{recipient.receiverName}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit-2">手机号</text></view>
+                    <view class="weui-cell__bd">{{recipient.mobileNo}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit-2">收件地区</text></view>
+                    <view class="weui-cell__bd">{{recipient.provinceName}}-{{recipient.cityName}}-{{recipient.districtName}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access weui-cell-start">
+                    <view class="weui-cell__hd"><text class="tit-2">详细地址</text></view>
+                    <view class="weui-cell__bd">{{recipient.addressDetails}}</view>
+                </view>
+                <view class="weui-cell weui-cell_access">
+                    <view class="weui-cell__hd"><text class="tit-2">邮政编码</text></view>
+                    <view class="weui-cell__bd">{{recipient.postCode}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="hb-tabbar" catchtap='shippingAddressOnclick'>
+        <view class="hb-btn hb-btn-3">编辑收货地址</view>
+    </view>
+</view>
+
+<!--编辑收货地址-->
+  <view class="contain hb-box" hidden="{{currentNavtab==2 ? '' : true}}">
+    <view class="hb-box-bd">
+        <!--
+        <view class="hb-warm-tips">
+            <image class="ico-tips" src="/image/icon-tips.png" />
+            <text class="tips-txt">请正确填写您的收件地址，以便下一次报名培训班级时作为发票/证书的邮寄地址，感谢您的配合！</text>
+        </view>
+        -->
+        
+          <view class="weui-panel hb-panel">
+              <view class="weui-cells weui-cells_form">
+                  <view class="weui-cell">
+                      <view class="weui-cell__hd"><view class="tit-2">收件人</view></view>
+                      <view class="weui-cell__bd">
+                          <input class="weui-input" type="text" placeholder="请输入收件人姓名" bindinput="inputStringOclick" data-input-key="inputUserName" value="{{recipient.receiverName}}"/>
+                      </view>
+                  </view>
+                  <view class="weui-cell">
+                      <view class="weui-cell__hd"><view class="tit-2">手机号</view></view>
+                      <view class="weui-cell__bd">
+                          <input class="weui-input" type="text" placeholder="请输入手机号" bindinput="inputStringOclick" data-input-key="inputPhoneNumber" value="{{recipient.mobileNo}}"/>
+                      </view>
+                  </view>
+                  <view class="weui-cell weui-cell_access">
+                      <view class="weui-cell__hd"><view class="tit-2">收件地区</view></view>
+                      <view class="weui-cell__bd">
+                      <address-choose-picker colom-num="3" 
+                                              area-info="{{areaInfo}}"
+                                             bindconfirmAction="_pickerConfirmAction"
+                                             pre-selected-index="{{prePickerIndex}}"></address-choose-picker>
+                      </view>
+                      <view class="weui-cell__ft"></view>
+                  </view>
+                  <view class="weui-cell weui-cell-start">
+                      <view class="weui-cell__hd"><view class="tit-2">详细地址</view></view>
+                      <view class="weui-cell__bd">
+                          <textarea class="weui-textarea"  placeholder="请输入详细地址" bindinput="inputStringOclick" data-input-key="inputAddress" value="{{recipient.addressDetails}}"></textarea>
+                      </view>
+                  </view>
+                  <view class="weui-cell">
+                      <view class="weui-cell__hd"><view class="tit-2">邮政编码</view></view>
+                      <view class="weui-cell__bd">
+                          <input class="weui-input" type="text" placeholder="请输入邮政编码" bindinput="inputStringOclick" data-input-key="inputPostalCode" value="{{recipient.postCode}}"/>
+                      </view>
+                  </view>
+              </view>
+          </view>
+        <!--/编辑-->
+
+        <view class="hb-tabbar" catchtap='editShippingAddressOnclick'>
+            <view class="{{buttonStyleFlag?'hb-btn hb-btn-3':'hb-btn-3 btn'}}">保存</view>
+        </view>
+  </view>
+</view>

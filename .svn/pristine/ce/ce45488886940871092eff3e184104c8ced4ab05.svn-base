@@ -1,0 +1,66 @@
+  <!--获取sku值对比函数-->
+<wxs module="utils" src="../../../utils/commonUtil.wxs"></wxs>
+
+<view class="contain">
+  <!--年度选择-->
+  <view class="hb-year-box">
+    <view class="year-tit">年度</view>
+    <view class="year-bd">
+      <text class="items {{item.yearId===currentYearId?'current':''}}" wx:for="{{yearList}}" wx:for-item="item" wx:key="key" data-item='{{item}}' bindtap='yearItemClick'>{{item.name}}</text>
+    </view>
+  </view>
+  <!--/年度选择-->
+  <!--班级列表-->
+
+
+  <scroll-view class="hb-wrap-box" scroll-y scroll-top="{{scrollTop}}" style="height:{{mainContentH}}rpx;overflow:inherit">
+    <view class="hb-panel">
+      <!--空数据-->
+      <view class="no-data-box" wx:if="{{trainingList.length == 0}}">
+        <empty></empty>
+      </view>
+      <!--空数据-->
+      <view class="hb-panel-bd" wx:if="{{trainingList.length != 0}}">
+        <view class="hb-media-box" wx:for="{{trainingList}}" wx:for-index="idx" wx:key="key" data-item="{{item}}" bindtap='itemClick'>
+          <view class="hb-media-box-hd">
+            <image class="hb-media-box-thumb" wx:if="{{item.trainingClassImg==undefined}}" src="/image/course-img.jpg" data-err-img="{{item.trainingClassImg}}" data-err-idx="{{idx}}" />
+            <image class="hb-media-box-thumb" wx:if="{{item.trainingClassImg!=undefined}}" src="{{item.trainingClassImg}}" data-err-img="{{item.trainingClassImg}}" data-err-idx="{{idx}}" />
+          </view>
+          <view class="hb-media-box-bd">
+            <view class="hb-media-box-title">{{item.trainingClassName}}</view>
+            <view class="hb-media-box-desc">年度：{{item.trainingYear}}年</view>
+            <view class="hb-media-box-desc">科目：{{item.trainingSubject}}</view>
+            <view class="hb-media-box-desc">学时：{{item.period}}</view>
+          </view>
+          <!--已通过印章-->
+          <view class="seal" hidden="{{item.assessResult==1 ? '' : true}}">
+            <image class="img " src="/image/seal-pass.png " alt=" " />
+          </view>
+        </view>
+      </view>
+
+
+      <view class="loading-tips">
+        <text class="line"></text>
+        <text class="txt">已经到最底部啦</text>
+        <text class="line"></text>
+      </view>
+    </view>
+  </scroll-view>
+
+
+
+
+  <!--/班级列表-->
+
+
+  <!--返回顶部-->
+  <view class="layer-box" bindtap="returnTop">
+    <view class="a-items">
+      <image class="img" src="/image/icon-top.png" alt=" " />
+    </view>
+  </view>
+  <!--/返回顶部-->
+  <alert id='alert'></alert>
+  <toast id="toast"></toast>
+</view>

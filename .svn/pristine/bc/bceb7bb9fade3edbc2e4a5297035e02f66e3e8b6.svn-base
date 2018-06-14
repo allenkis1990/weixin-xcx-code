@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "single": "../singleComponent/singleComponent",
+    "multi": "../multiComponent/multiComponent",
+    "judge": "../judgeComponent/judgeComponent"
+  }
+}

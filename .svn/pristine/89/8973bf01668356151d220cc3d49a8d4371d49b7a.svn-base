@@ -1,0 +1,15 @@
+/**
+ * 判断是否显示“-”
+ */
+var judgeFristUI = function (number) {
+  if (number == -1) {
+    return '-'
+  } else {
+    return number
+  }
+}
+
+
+module.exports = {
+  judgeFristUI: judgeFristUI
+};

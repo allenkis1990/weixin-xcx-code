@@ -1,0 +1,9 @@
+<!--我的班级-培训班列表空数据-->
+<view class="contain">
+  <view class="p25">
+    <view class="no-data-box">
+      <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+      <view class="no-data-txt">亲爱的学员，目前版本暂不支持购买，请通过电脑访问http://www.qzjxjy.com进行购买</view>
+    </view>
+  </view>
+</view>

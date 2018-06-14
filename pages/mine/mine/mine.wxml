@@ -1,0 +1,66 @@
+<!--我的-->
+<view class="contain">
+    <view class="hb-user-img">
+        <image class="user-img" src="{{userInfo.displayPhotoUrl}}" />
+        <view class="mt10">{{userInfo.userName}}</view>
+    </view>
+    <view class="weui-cells hb-panel hb-personal-center">     
+
+        <!--个人信息-->
+        <view class="weui-cell weui-cell_access" catchtap='personInfoClick'>
+            <view class="weui-cell__hd">
+                <image class="img" src="/image/mine-info.png" />
+            </view>
+            <view class="weui-cell__bd">
+                <view class="bd-items fs30">个人信息</view>
+            </view>
+            <view class="weui-cell__ft"></view>
+        </view>
+
+        <!--收件信息-->
+        <view class="weui-cell weui-cell_access" catchtap='shippingAddressClick'>
+            <view class="weui-cell__hd">
+                <image class="img" src="/image/mine-address.png" />
+            </view>
+            <view class="weui-cell__bd">
+                <view class="bd-items fs30">收件信息</view>
+            </view>
+            <view class="weui-cell__ft"></view>
+        </view>
+        
+        
+        <!--修改密码-->
+        <!-- <view class="weui-cell weui-cell_access" catchtap='changePasswordClick'>
+            <view class="weui-cell__hd">
+                <image class="img" src="/image/mine-password.png" />
+            </view>
+            <view class="weui-cell__bd">
+                <view class="bd-items fs30">修改密码</view>
+            </view>
+            <view class="weui-cell__ft"></view>
+        </view> -->
+
+        <!--报名清单-->
+        <view class="weui-cell weui-cell_access" catchtap='registrationListClick' wx:if="{{isShowBuy}}">
+            <view class="weui-cell__hd">
+                <image class="img" src="/image/mine-list.png" />
+            </view>
+            <view class="weui-cell__bd">
+                <view class="bd-items fs30">报名清单</view>
+            </view>
+            <view class="weui-cell__ft">
+            </view>
+        </view>
+
+        <!--常见问题-->
+        <view class="weui-cell weui-cell_access" catchtap='commonProblemsClick'>
+            <view class="weui-cell__hd">
+                <image class="img" src="/image/mine-question.png" />
+            </view>
+            <view class="weui-cell__bd">
+                <view class="bd-items fs30">常见问题</view>
+            </view>
+            <view class="weui-cell__ft"></view>
+        </view>
+    </view>
+</view>

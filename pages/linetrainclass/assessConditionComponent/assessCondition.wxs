@@ -1,0 +1,87 @@
+var getSignInConditionText = function (signInType) {
+  switch (signInType) {
+    case 0: {
+      return '无';
+    }
+    case 11: {
+      return '每门课程开始授课前'
+    }
+    case 12: {
+      return '第一门课程开始授课前'
+    }
+  }
+}
+var getSignOutConditionText = function (signOutType) {
+  switch (signOutType) {
+    case 0: {
+      return '无';
+    }
+    case 21: {
+      return '每门课程授课结束后'
+    }
+    case 22: {
+      return '最后一门课程授课结束后'
+    }
+  }
+}
+var isShowSignInText = function (signInType) {
+  switch (signInType) {
+    case 0: {
+      return false;
+    }
+    case 11: {
+      return true;
+    }
+    case 12: {
+      return true;
+    }
+  }
+}
+var isShowSignOutText = function (signOutType) {
+  switch (signOutType) {
+    case 0: {
+      return false;
+    }
+    case 21: {
+      return true;
+    }
+    case 22: {
+      return true;
+    }
+  }
+}
+var getLocationSignInText = function (signInType, signOutType, accuracy) {
+  if (signInType == 0 && signOutType == 0) {
+    return '无';
+  }
+  if (signInType != 0) {
+    return '本班级要求定位签到，允许位置微调' + accuracy + '米';
+  }
+  if (signInType == 0 && signOutType != 0) {
+    return '本班级要求定位签退，允许位置微调' + accuracy + '米';
+  }
+  return '';
+}
+var getExamAssessConditionIndex = function (assessMode) {
+  switch (assessMode) {
+    case 0: {
+      return '2.';
+    }
+    case 1: {
+      return '1.';
+    }
+    case 2: {
+      return '2.';
+    }
+  }
+  return '';
+}
+
+module.exports = {
+  getSignInConditionText: getSignInConditionText,
+  getSignOutConditionText: getSignOutConditionText,
+  isShowSignInText: isShowSignInText,
+  isShowSignOutText: isShowSignOutText,
+  getLocationSignInText: getLocationSignInText,
+  getExamAssessConditionIndex: getExamAssessConditionIndex
+}

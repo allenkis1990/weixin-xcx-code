@@ -1,0 +1,18 @@
+<wxs module="m1" src="./mealTicket.wxs">
+</wxs>
+<view class="hb-wrap-box hb-wrap-box-4" style="margin-bottom: 100rpx">
+  <view class="course-detail-list">
+    <view class="list-items" wx:for="{{trainingClassList}}" wx:index="idx" wx:key="key" data-index="{{index}}" data-item="{{item}}" bindtap='itemClick'>
+      <view class="items-bd">
+        <view class="items-bd-tit-2">{{item.trainingClassName}}</view>
+        <view class="items-bd-desc">本班级有{{item.mealTicketTotal}}张餐券 | 已使用
+          <text class="ci">{{item.useMealTicketNum}}</text>张</view>
+      </view>
+      <view class="items-hd-2">
+        <view class="hb-form">
+          <image class="img" src="{{index==currentIndex ? '/image/radio-checked.png':'/image/radio.png'}}" alt=" " />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

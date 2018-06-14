@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "发现培训",
+  "usingComponents": {
+    "training-list":"../trainingListComponent/trainingListComponent",
+    "empty": "/pages/findtraining/trainingClassEmpty/trainingClassEmpty",
+        "guide": "/pages/findtraining/trainingGuideBuy/trainingGuideBuy"
+  },
+  "enablePullDownRefresh": true
+}

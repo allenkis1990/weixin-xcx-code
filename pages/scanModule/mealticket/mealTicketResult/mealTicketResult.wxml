@@ -1,0 +1,34 @@
+<!--我的线下班-班级详情页-扫码签到-->
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="p15 tc">
+      <view class="sign-in-list-2">
+        <view wx:if="{{!isShow}}">
+          <image class="sign-in-pass" src="/image/mealticket-ico.png" alt=" " />
+          <view style='height:140rpx'></view>
+        </view>
+        <view class="p15 tc" wx:if="{{isShow}}">
+          <image class="sign-in-pass" src="/image/sign-in-pass.png" alt=" " wx:if="{{hasSuccessful}}" />
+          <image class="sign-in-pass" src="/image/sign-in-fail.png" alt=" " wx:if="{{!hasSuccessful}}" />
+          <view class="ci fs16" wx:if="{{useState===0}}">本次没有可用餐券</view>
+          <view class="ci fs16" wx:if="{{useState===1}}">本次使用餐券1张</view>
+          <view class="ci fs16" wx:if="{{useState===2}}">已经使用过（30分钟后可再次使用）</view>
+          <view class="ci fs16" wx:if="{{useState===3}}">当前剩余可用餐券0张。</view>
+          <view class="ci fs16" wx:if="{{useState===4}}">餐券使用时段已过期</view>
+            <view class="ci fs16" wx:if="{{useState===5}}">本次餐券使用失败</view>
+          <view class="ci fs14" wx:if="{{useState===1}}">当前时间：{{useMealTicketTime}}</view>
+        </view>
+        <view class="sign-in-items ">
+          <view class="sign-in-bd sign-in-bd-2 ">
+            <view class="bd ">
+              <text class="b ">餐厅位置：</text>{{restaurantInfo.restaurantAddress}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <mealTicket-list trainingClassList="{{restaurantInfo.trainingClassList}}" restaurantId="{{restaurantId}}" hasAutomaticUse="{{hasAutomaticUse}}" isShow="{{isShow}}" id="mealTicket" bind:useResultState="useResultStateCallBack" bind:useMealTicketTime="useMealTicketTimeCallBack"></mealTicket-list>
+  </view>
+  <view class="hb-tabbar" bindtap='sumbitMealTicketClick'>
+    <view class="hb-btn ">使用餐券</view>
+  </view>
+</view>

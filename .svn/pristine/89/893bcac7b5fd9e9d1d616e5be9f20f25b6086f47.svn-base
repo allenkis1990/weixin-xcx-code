@@ -1,0 +1,17 @@
+<!--我的-常见问题-->
+<wxs module="utils" src="../../../utils/commonUtil.wxs"></wxs>
+<scroll-view class="course-detail-list" scroll-y style="height: 100%;">
+  <view class="list-items" wx:for="{{messageList}}" wx:for-index="idx" wx:key="key">
+    <view class="items-bd" bindtap='listItemClick' data-item="{{item}}">
+      <view class="items-bd-tit">{{item.noticeTitle}}</view>
+      <view class="items-bd-desc" >
+        <view style="height:35px;overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">
+          {{item.content}}
+        </view>
+      </view>
+      <view class="items-bd-desc">
+        <image class="publish-time" src="../../../image/clock-ico.png"></image>{{item.publicTime}}
+      </view>
+    </view>
+  </view>
+</scroll-view>

@@ -1,0 +1,71 @@
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyName === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var getShowYearText = function (item) {
+  if (item == undefined) {
+    return ''
+  }
+  if (item.categoryType == 2 && item.selectedYear.skuPropertyValueId !== undefined) {
+    return item.selectedYear.skuPropertyValueName
+  } else {
+    return getSkuValueWithKeyFromSkuArray('继续教育年度', item.skuPropertyNameList)
+  }
+  return ''
+}
+var isShowYearText = function (item) {
+  if (item == undefined) {
+    return true
+  }
+  if (item.categoryType == 2 && getSkuValueWithKeyFromSkuArray('科目', itme.skuPropertyNameList) == '专业课') {
+    return false
+  }
+  return true
+}
+var priceChangetoDecimal2 = function (x) {
+  if (x == undefined) {
+    return '0.00'
+  }
+  var f = parseFloat(x);
+  if (isNaN(f)) {
+    return false;
+  }
+  var f = Math.round(x * 100) / 100;
+  var s = f.toString();
+  var rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= (rs + 2)) {
+    s += '0';
+  }
+  return s;
+}
+var getShowYearText = function (item) {
+  if (item == undefined || item.categoryType == undefined) {
+    return ''
+  }
+  if (item.categoryType == 'COURSE_SUPERMARKET_GOODS' && getSkuCodeValueWithKeyFromSkuArray('trainingSubject', item.skuPropertyNameList) == 'profession') {
+    return item.yearOptionValue
+  } else {
+    return getSkuValueWithKeyFromSkuArray('trainingYear', item.skuPropertyNameList)
+  }
+  return ''
+}
+module.exports = {
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  getShowYearText: getShowYearText,
+  isShowYearText: isShowYearText,
+  priceChangetoDecimal2: priceChangetoDecimal2,
+  getShowYearText: getShowYearText
+}

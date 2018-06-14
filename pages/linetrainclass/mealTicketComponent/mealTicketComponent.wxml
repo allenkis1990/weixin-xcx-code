@@ -1,0 +1,22 @@
+<view class="course-detail-tab-bd {{hasExam ? 'course-detail-tab-bd-1' : 'course-detail-tab-bd-2'}}" style='padding-bottom: 100rpx;'>
+  <view class="situation-info-box">
+    <view class="info-tit">共有
+      <text class="ci">{{lineMealTicketInfo.mealTicketTotal}}</text>张餐券 | 已使用
+      <text class="ci">{{lineMealTicketInfo.useMealTicketNum}}</text>张</view>
+    <view class="info-desc">餐厅位置：
+      <text wx:for="{{lineMealTicketInfo.restaurant}}" wx:for-index="idx" wx:key="key" data-item="{{item}}">{{item.address}}<text wx:if="{{idx+1<lineMealTicketInfo.restaurant.length}}">、</text></text>
+    </view>
+  </view>
+  <view class="sign-in-list">
+    <view class="sign-in-items" wx:for="{{mealTicketList}}" wx:for-index="idx" wx:key="key" data-item="{{item}}">
+      <view class="sign-in-hd">使用时间</view>
+      <view class="sign-in-bd">
+        <view class="label">餐券{{idx+1}}</view>
+        <view class="bd">{{item.useMealTicketTime}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="hb-tabbar" bindtap='scanClick'>
+  <view class="hb-btn">扫一扫</view>
+</view>

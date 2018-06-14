@@ -1,0 +1,72 @@
+<alert id="alert"></alert>
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <!--课程包选择-->
+    <view class="hb-year-box" bindtap='switchCourseWrap'>
+      <view class="year-tit year-tit-1">当前课程包</view>
+      <view class="year-bd year-bd-1">
+        <view class="course-bag-name {{currentWraphourStandard?'':'warning-bg'}}">{{currentWrapName}}</view>
+      </view>
+      <view class="change-label {{selectCourseWrapState ?'open':''}}">
+        <view class="arrow"></view>
+        <view class="dot" wx:if="{{hasStandardCourseWrap}}"></view>
+      </view>
+    </view>
+    <!--/课程包选择 END-->
+    <!--课程包展开-->
+    <courseWrapComponent courseWrapList="{{courseWrapList}}" currentWrapId="{{currentWrapId}}" id="courseWrapComponent" bind:courseWrapClick="courseWrapEvent" optionalPackageRequires="{{optionalPackageRequires}}"></courseWrapComponent>
+    <!--课程包展开 END-->
+    <!--空视图-->
+    <emptyComponent wx:if="{{courseList.length==undefined || courseList.length==0 ? true:false}}"></emptyComponent>
+    <!--空视图  END-->
+    <!--课程列表展开-->
+    <view class="hb-wrap-box hb-wrap-box-1" wx:if="{{courseList.length==undefined || courseList.length==0 ? false:true}}">
+      <scroll-view class="course-detail-list" scroll-y bindscrolltolower="loadMore" style="height:{{listHeight}}">
+        <view class="list-items" wx:for="{{courseList}}" wx:for-index="idx" wx:key="key">
+          <view class="items-hd" bindtap='courseItemClick' data-item="{{item}}" data-idx="{{idx}}">
+            <view class="hb-form">
+              <image class="img" src="/image/radio.png" alt=" " wx:if="{{!item.checkState}}" />
+              <image class="img" src="/image/radio-checked.png" alt=" " wx:if="{{item.checkState}}" />
+            </view>
+          </view>
+          <view class="items-bd" bindtap='courseItemClick' data-item="{{item}}" data-idx="{{idx}}">
+            <view class="items-bd-tit">{{item.courseName}}</view>
+            <view class="items-bd-desc">
+            <view class="label">{{item.period}}学时</view>
+              <view class="pr40 txt-limit">讲师：{{item.lecturerList[0]}}</view>
+              <view>时长：{{item.courseLength}}</view>
+            </view>
+          </view>
+          <view class="items-ft items-ft-1" catchtap='playCourseClick' data-item="{{item}}">
+            <view class="course-play">
+              <image class="img" src="/image/icon-play.png" />
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <!--课程列表展开 END-->
+  </view>
+  <!--课程包要求-->
+  <requirementComponent id="requirementComponent" standardCourseWrapList="{{standardCourseWrapList}}" unStandardCourseWrapList="{{noStandardCourseWrapList}}" assessmentRequirementObject="{{assessmentRequirementObject}}" optionalPackageRequires="{{optionalPackageRequires}}" wholeRemainingHours="{{wholeRemainingHours}}" courseWrapList="{{courseWrapList}}"></requirementComponent>
+  <!--课程包要求 END-->
+   <!--底部选课信息-->
+  <view class="hb-tabbar">
+    <view class="left-box" wx:if="{{selecCoursetHours<requireHours}}">当前已选
+      <text class="ci">{{selecCoursetHours}}</text> 学时，
+      <text class="ci">还需选{{needCourseHours}}学时</text>
+    </view>
+    <view class="left-box" wx:if="{{selecCoursetHours>=requireHours}}" >当前已选
+       <text class="ci">{{selecCoursetHours}}</text> 学时，
+       <text class="ci">本次培训需选满{{requireHours}}学时，可根据个人需要继续选课！</text>
+    </view> 
+    <view class="hb-btn" bindtap='confirmClick' wx:if="{{selecCoursetHours>0}}">确认选择</view>
+    <view class="hb-btn disabled" wx:if="{{selecCoursetHours==0}}">确认选择</view>
+  </view>
+  <!--底部选课信息 END-->
+  <view class="layer-box">
+    <view href="javascript:void(0);" class="a-items" bindtap='showRequireInfo'>
+      <image class="img" src="/image/icon-requirement.png" alt=" " bindtap='selectedCourseRequireClick' />
+    </view>
+  </view>
+</view>

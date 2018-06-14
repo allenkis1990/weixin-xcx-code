@@ -1,0 +1,58 @@
+<!--pages/findtraining/trainingDetail/trainingDetail.wxml-->
+<!--发现培训-培训班详情-目录-->
+<wxs module="trainingDetailUtil" src="./trainingDetailUtil.wxs"></wxs>
+<view class="contain hb-box">
+  <view class="hb-box-bd">
+    <view class="view-pos">
+      <view class="course-detail-hd">
+        <view class="course-detail-img">
+          <image class="img" mode="widthFix" wx:if="{{classDetailInfo.photoPath !== undefined && classDetailInfo.photoPath.length}}" src="{{classDetailInfo.photoPath}}" alt=" " />
+        </view>
+        <view class="year-label-box">
+          <image class="img" src="/image/year-label.png" alt=" " />
+          <text class="year-label">{{classDetailInfo.skuPropertyNameList[1].skuPropertyValueName}}</text>
+        </view>
+        <view class="course-info">
+          <image class="mask" src="/image/course-img-mask.png" alt=" " />
+          <view class="course-name">{{classDetailInfo.trainingClassName}}</view>
+        </view>
+      </view>
+      <!--tab-->
+      <view class="hb-tab-tit" style='top:300rpx;'>
+        <view class="tab-tit-items {{currentTab==0 ? 'current' : ''}}" data-current="0" bindtap="swichNav">
+          培训信息
+        </view>
+        <view class="tab-tit-items {{currentTab==1 ? 'current' : ''}}" data-current="1" bindtap="swichNav">
+          课程目录
+        </view>
+      </view>
+      <!--/tab-->
+    </view>
+
+    <swiper wx:if="{{categoryType == 'TRAINING_CLASS_GOODS'}}" class="course-detail-tab-bd course-detail-tab-bd-2" current="{{currentTab}}" duration="300" style="height:{{winHeight-100-390}}rpx;" bindchange="bindChange">
+      <swiper-item>
+        <training-detail-info course-detail-info="{{classDetailInfo}}" category-type="{{categoryType}}"></training-detail-info>
+      </swiper-item>
+      <swiper-item>
+        <training-detail-directory course-package-list="{{courseList}}" training-item-info="{{trainingItem}}"></training-detail-directory>
+      </swiper-item>
+    </swiper>
+
+    <swiper wx:if="{{categoryType == 'COURSE_SUPERMARKET_GOODS'}}" class="course-detail-tab-bd course-detail-tab-bd-2" current="{{currentTab}}" duration="300" style="height:{{winHeight-100-390}}rpx;" bindchange="bindChange">
+      <swiper-item>
+        <training-detail-info course-detail-info="{{classDetailInfo}}" category-type="{{categoryType}}"></training-detail-info>
+      </swiper-item>
+      <swiper-item>
+        <training-detail-course-directory chapter-list="{{courseList}}" course-detail-info="{{classDetailInfo}}"></training-detail-course-directory>
+      </swiper-item>
+    </swiper>
+
+  </view>
+  <view class="hb-tabbar">
+    <view class="left-box">
+      <text class="ci fs16 b">￥ {{priceString}}元</text>
+    </view>
+    <view class="hb-btn {{trainingDetailUtil.getShowBottomButtonClass(classDetailInfo.hasBuy)}}" catchtap='joinRightNowAction'>立即报名</view>
+  </view>
+</view>
+<year-picker id="yearPicker" year-data-source="{{classDetailInfo.optionYearList}}" bind:confirmEvent="_yearPickerConfirmAction"></year-picker>

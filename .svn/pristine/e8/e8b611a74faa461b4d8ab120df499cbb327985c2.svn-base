@@ -1,0 +1,291 @@
+var getOrderStatusText = function (status) {
+  switch (status) {
+    case 1: {
+      return '未支付'
+    }
+    case 2: {
+      return '未支付'
+    }
+    case 3: {
+      return '开通中'
+    }
+    case 4: {
+      return '开通中'
+    }
+    case 5: {
+      return '开通中'
+    }
+    case 6: {
+      return '交易成功'
+    }
+    case 7: {
+      return '交易关闭'
+    }
+    case 8: {
+      return '支付中'
+    }
+  }
+}
+var isShowCancelOrderButton = function (status) {
+  if (status === 1 || status === 2 || status === 8) {
+    return true
+  } else {
+    return false
+  }
+}
+var getInvoicePrintTypeText = function (makeOutType) {
+  //开票方式 true：电子发票；false: 纸质发票
+  switch (makeOutType) {
+    case true:
+      return '电子发票';
+    case false:
+      return '纸制发票';
+
+    default:
+      return '-'
+  }
+}
+var getDeliverTypeText = function (deliverType) {
+  if (deliverType === 1) {
+    return '邮寄'
+  } else if (deliverType === 2) {
+    return '自取'
+  } else {
+    return '-'
+  }
+}
+var getInvoiceTitleTypeText = function (titleType) {
+  if (titleType === 1 || titleType === '1') {
+    return '个人'
+  } else if (titleType === 2 || titleType === '2') {
+    return '单位'
+  } else {
+    return '-'
+  }
+}
+var getOrderTypeText = function (businessType) {
+  switch (businessType) {
+    case 'NORMAL':
+      return '购买订单'
+    case 'SWAP_OUT':
+      return '购买订单'
+    case 'SWAP_IN':
+      return '换班订单'
+    case 'SWAP_IN_AND_OUT':
+      return '换班订单'
+    default:
+      return ''
+  }
+}
+// 是否显示原订单号
+var isShowOriginalOrderNo = function (businessType, originalOrderNo) {
+  if (businessType == undefined || originalOrderNo == undefined || originalOrderNo == null) {
+    return false
+  }
+  if (businessType == 'NORMAL') {
+    return false
+  } else if (businessType == 'SWAP_OUT') {
+    return false
+  } else if (businessType == 'SWAP_IN_AND_OUT') {
+    return true
+  } else if (businessType == 'SWAP_IN') {
+    return true
+  }
+  return false
+}
+var getPaymentChannelText = function (payType, tradeChannelName, depositBank) {
+  if (payType == undefined || tradeChannelName == undefined) {
+    return '-'
+  }
+  var showString = ''
+  if (payType == 1) {
+    showString = '线上支付-'
+  } else if (payType == 2) {
+    showString = '线下支付-'
+  }
+  // | String | 付款渠道 | WEB：web端 ANDROID：android客户端 IOS：ios客户端 WECHAT_OFFICIAL_ACCOUNTS：微信公众号（订阅号）WECHAT_MINI_PROGRAMS：微信小程序 PRESENT：导入开通 COLLECTIVE: 单位缴费 | 
+  // switch (paymentChannel) {
+  //   case 'WEB':
+  //     return showString + '网页支付'
+  //   case 'ANDROID':
+  //     return showString + '客户端支付'
+  //   case 'IOS':
+  //     return showString + '客户端支付'
+  //   case 'PERSONAL':
+  //     return showString + '个人缴费'
+  //   case 'WECHAT_OFFICIAL_ACCOUNTS':
+  //     return showString + '微信支付'
+  //   case 'WECHAT_MINI_PROGRAMS':
+  //     return showString + '微信支付'
+  //   case 'PRESENT':
+  //     return showString + '管理员现场开通'
+  //   case 'COLLECTIVE':
+  //     return showString + '管理员集体缴费'
+  //   case 'WECHAT':
+  //     return showString + '微信支付'
+  //   default:
+  //     return showString
+  // }
+  if (tradeChannelName.length) {
+    showString += tradeChannelName
+  }
+  if (depositBank != undefined && depositBank.length) {
+    showString += '-'
+    showString += depositBank
+  }
+  return showString
+}
+var getSkuValueWithKeyFromSkuArray = function (skuKey, skuPropertyArray) {
+  if (skuPropertyArray.length === 0) {
+    return ''
+  }
+  var propertyName = ''
+  for (var i = 0; i < skuPropertyArray.length; i++) {
+    var skuPropertyObject = skuPropertyArray[i]
+    if (skuPropertyObject.skuPropertyName === skuKey) {
+      propertyName = skuPropertyObject.skuPropertyValueName
+    }
+  }
+  return propertyName
+}
+var isShowSeeInvoice = function (invoiceInfo) {
+  if (invoiceInfo == undefined || invoiceInfo == null) {
+    // 没有发票
+    return false;
+  }
+  if (invoiceInfo.electron && (invoiceInfo.state == 1 || invoiceInfo.state == 2) && invoiceInfo.pdfPath !== undefined && invoiceInfo.pdfPath.length) {
+    return true;
+  }
+  return false;
+}
+// 是否显示复制和物流进度按钮
+var isShowExpressMessage = function (invoiceInfo) {
+  if (invoiceInfo == undefined || invoiceInfo.trackingNumber == undefined) {
+    return false
+  }
+  if (invoiceInfo.trackingNumber.length && invoiceInfo.expressCompanyUrl.length) {
+    return true
+  }
+  return false
+}
+var dealWithShowString = function (showString) {
+  if (showString == undefined) {
+    return '-'
+  }
+  if (showString !== undefined && showString.length) {
+    return showString
+  }
+  return '-'
+}
+var getShowReceiveUserText = function (receiveUserName, mobileNumber) {
+  if (receiveUserName == undefined && mobileNumber == undefined) {
+    return '-'
+  }
+  if (receiveUserName !== undefined && !receiveUserName.length && mobileNumber !== undefined && !mobileNumber.length) {
+    return '-'
+  }
+  if (receiveUserName !== undefined && receiveUserName.length && mobileNumber !== undefined && mobileNumber.length) {
+    return receiveUserName + ' , ' + mobileNumber
+  }
+  if (receiveUserName !== undefined && receiveUserName.length && (mobileNumber == undefined || !mobileNumber.length)) {
+    return receiveUserName
+  }
+  return '-'
+}
+var getShowReceiveAddressText = function (receiveAddress, receivePostCode) {
+  if (receiveAddress == undefined && receivePostCode == undefined) {
+    return '-'
+  }
+  if (receiveAddress !== undefined && !receiveAddress.length && receivePostCode !== undefined && !receivePostCode.length) {
+    return '-'
+  }
+  if (receiveAddress !== undefined && receiveAddress.length && receivePostCode !== undefined && receivePostCode.length) {
+    return receiveAddress + ' , ' + receivePostCode
+  }
+  if (receiveAddress !== undefined && receiveAddress.length && (receivePostCode == undefined || !receivePostCode.length)) {
+    return receiveAddress
+  }
+  return '-'
+}
+
+var getPayType=function(detail){
+  if(detail.tradeChannelCode){
+    var tradeChannelCode=detail.tradeChannelCode;
+    switch (tradeChannelCode){
+      case 'WXPAY':
+            return '微信';
+            //break;
+      case 'ALIPAY':
+            return '支付宝';
+            //break;
+      case 'CCB':
+            return '建设银行';
+            //break;
+      case 'CCB_B2B':
+            return '建设银行B2B支付';
+            //break;
+      case 'WX_PUBLIC_NO_PAY':
+            return '微信公众号支付';
+            //break;
+      default:
+            return '-';
+    }
+  }else{
+    return '-';
+  }
+}
+
+var getInvoiceState=function(state){
+  var invoiceState='';
+  switch (state){
+      case '0':
+      invoiceState='未打印';
+      break;
+      case '1':
+      invoiceState='已打印';
+      break;
+      case '2':
+      invoiceState='已发货';
+      break;
+      case '3':
+      invoiceState='已作废';
+      break;
+
+      default :
+      invoiceState='-';
+  }
+
+  return invoiceState;
+}
+
+
+var getIfBillNo=function(billNo){
+    var ifBillNo='';
+    if(billNo){
+        ifBillNo='电子发票已发往您指定的邮箱,请查收';
+    }else{
+        ifBillNo='-';
+    }
+
+    return ifBillNo;
+}
+
+module.exports = {
+  getOrderStatusText: getOrderStatusText,
+  isShowCancelOrderButton: isShowCancelOrderButton,
+  getInvoicePrintTypeText: getInvoicePrintTypeText,
+  getDeliverTypeText: getDeliverTypeText,
+  getInvoiceTitleTypeText: getInvoiceTitleTypeText,
+  getOrderTypeText: getOrderTypeText,
+  getPaymentChannelText: getPaymentChannelText,
+  getSkuValueWithKeyFromSkuArray: getSkuValueWithKeyFromSkuArray,
+  isShowSeeInvoice: isShowSeeInvoice,
+  isShowOriginalOrderNo: isShowOriginalOrderNo,
+  isShowExpressMessage: isShowExpressMessage,
+  dealWithShowString: dealWithShowString,
+  getShowReceiveUserText: getShowReceiveUserText,
+  getShowReceiveAddressText: getShowReceiveAddressText,
+  getPayType:getPayType,
+  getInvoiceState:getInvoiceState,
+  getIfBillNo:getIfBillNo
+}

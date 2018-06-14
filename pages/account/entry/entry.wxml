@@ -1,0 +1,15 @@
+<view class="contain">
+  <view class="p25 tc">
+    <image class="login-img" src="/image/login-bg.png" alt=" " />
+    <view class="fs16">请登录账号，获取培训班级！</view>
+    <view class="btn-full mt30" bindtap='login'>登 录</view>
+    <view class="qr-code-box">
+      <image class="qr-code" src="/image/qrcode.png" alt=" " />
+      <view class="info">
+        <view>若无平台帐号，请关注
+          <text class="cb">微信公众号：在线学习</text>进行注册。</view>
+        <view class="hb-btn">点击保存二维码</view>
+      </view>
+    </view>
+  </view>
+</view>

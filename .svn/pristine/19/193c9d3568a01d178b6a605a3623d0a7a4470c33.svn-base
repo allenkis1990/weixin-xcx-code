@@ -1,0 +1,55 @@
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view class="contain hb-box">
+  <view class="guide-tips guide-tips-1" wx:if="{{courseWrapList.length==0}}">尚未选择 兴趣课程哟，请先去选课吧~</view>
+  <view class="hb-box-bd">
+    <!--空数据-->
+    <view class="p25" wx:if="{{courseWrapList.length==0}}">
+      <view class="no-data-box">
+        <image class="no-data-img" src="/image/no-data-img.png" alt=" " />
+        <view class="no-data-txt">亲爱的学员，您还没有选择兴趣课程哦！</view>
+      </view>
+    </view>
+    <!--/空数据-->
+    <!--课程包选择-->
+    <view class="hb-year-box hb-year-box-3" wx:if="{{courseWrapList.length!=0}}">
+      <scroll-view class="year-bd" scroll-x="true" bindscrolltolower="scrollLeft" bindscrolltoupper="scrollRight" bindscroll="scroll">
+        <view class="items {{currentWrapIndex==idx ? 'current':''}}" wx:for="{{courseWrapList}}" wx:for-index="idx" wx:index="idx" data-item="{{item}}" data-idx="{{idx}}" wx:key="key" bindtap='courseWrapItemClick'>{{item.packageName}}</view>
+      </scroll-view>
+      <view class="change-label-4" wx:if="{{!scrollLeft}}">
+        <view class="arrow"></view>
+      </view>
+    </view>
+    <!--/课程包选择-->
+    <view class="hb-wrap-box">
+      <view class="course-detail-list">
+        <view class="list-items" bindtap='playCourseClick' wx:for="{{courseList}}" wx:for-index="idx" data-item="{{item}}" data-idx="{{idx}}" wx:key="key">
+          <view class="items-bd">
+            <view class="items-bd-tit">{{item.courseName}}</view>
+            <!-- <view class="items-bd-desc">
+              <view class="pr20">讲师：{{item.teacherName}}</view>
+              <view>时长：{{item.timeLength}}</view>
+            </view> -->
+            <view class="line-process">
+              <view class="process-bd">
+                <view class="current" style="width: {{item.schedule}}%;"></view>
+              </view>
+              <view class="process-ft">{{item.schedule}}%</view>
+            </view>
+          </view>
+          <view class="items-ft items-ft-1" data-item="{{item}}">
+            <view class="course-play">
+              <image class="img" src="/image/icon-play.png" alt=" " />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="hb-tabbar">
+    <view class="left-box">你可根据个人喜好，选择兴趣课程</view>
+    <view class="hb-btn" bindtap='selectedInterestCourseClick'>去选课</view>
+  </view>
+</view>

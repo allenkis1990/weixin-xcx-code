@@ -1,0 +1,28 @@
+<view class="hd-dialog" wx:if="{{hasShow}}" animation="{{animationData}}">
+  <view class="weui-mask"></view>
+  <view class="weui-dialog">
+    <view class="weui-dialog__hd">
+      <view class="weui-dialog__title">选课要求</view>
+    </view>
+    <view class="weui-dialog__bd tl">
+
+      <view class="txt" wx:if="{{assessmentRequirementObject.electiveCourseInfo.compulsoryCourseRequireHours!=null}}">本次培训要求，整体课程学时须>={{assessmentRequirementObject.electiveCourseInfo.compulsoryCourseRequireHours+assessmentRequirementObject.electiveCourseInfo.courseRequireHours}}学时。其中必修课程={{assessmentRequirementObject.electiveCourseInfo.compulsoryCourseRequireHours}}学时，选课学时={{assessmentRequirementObject.electiveCourseInfo.courseRequireHours}}学时。选课学时要求分布如下：</view>
+
+      <view class="txt" wx:if="{{assessmentRequirementObject.electiveCourseInfo.compulsoryCourseRequireHours==null}}">本次培训要求，整体课程学时须>={{assessmentRequirementObject.electiveCourseInfo.courseRequireHours}}学时。其中选课学时={{assessmentRequirementObject.electiveCourseInfo.courseRequireHours}}学时。选课学时要求分布如下：</view>
+
+      <view wx:if="{{optionalPackageRequires}}">
+        <view class="txt" wx:for="{{standardCourseWrapList}}" wx:for-index="idx" wx:key="key">{{idx+1}}、{{item.electiveWrapName}}：选{{item.selectedHours}}学时；</view>
+        <view class="txt mt30 ci">未达标选课课程包</view>
+        <view class="txt" wx:for="{{unStandardCourseWrapList}}" wx:for-index="idx" wx:key="key">{{idx+1}}、{{item.electiveWrapName}}：已选{{item.selectedHours}}学时，还需选{{item.remainingHours}}学时；</view>
+      </view>
+      <view wx:if="{{!optionalPackageRequires}}">
+        <view class="txt" wx:for="{{courseWrapList}}" wx:for-index="idx" wx:key="key">{{idx+1}}、{{item.electiveWrapName}}：已选{{item.selectedHours}}学时；</view>
+        <view class="txt mt30 ci">选课结果</view>
+        <view class="txt">选课学时要求选{{assessmentRequirementObject.electiveCourseInfo.courseRequireHours}}学时，已选{{assessmentRequirementObject.electiveCourseInfo.courseChooseHours}}学时，还需选{{assessmentRequirementObject.electiveCourseInfo.courseNeedHours}}学时；</view>
+      </view>
+    </view>
+    <view class="weui-dialog__ft" bindtap='close'>
+      <view class="weui-dialog__btn weui-dialog__btn_primary">确定</view>
+    </view>
+  </view>
+</view>

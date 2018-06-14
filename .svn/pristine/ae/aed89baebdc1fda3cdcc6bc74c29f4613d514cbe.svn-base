@@ -1,0 +1,264 @@
+//获取应用实例
+const app = getApp()
+const FIRSTTRAININGDETAIL = 'FIRSTTRAININGDETAIL'
+Page({
+  data: {
+    currentNavtab: '0',
+    currentYearObject: {},
+    yearList: [],
+    trainingList: [],
+    centerType: 0 ,  //1 进入详情
+
+    currentYearId:'',
+    scrollTop:0,
+    mainContentH:0
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.requestYearList(0)
+
+    
+    let app = getApp()
+    /*1011	扫描二维码
+      1012	长按图片识别二维码
+      1013	手机相册选取二维码
+    */
+    switch (app.scene){
+      case 1011:
+      case 1012:
+      case 1013:{
+        //扫描二维码进入小程序
+        var objectUrl = wx.getStorageSync('objectUrl')
+        console.log("目标页面》》"+objectUrl)
+        if(objectUrl !== undefined && objectUrl !== ''){
+          //先复位
+          wx.setStorage({
+            key: 'objectUrl',
+            data: ''
+          })
+          //跳转到目标页面
+          wx.navigateTo({
+            url: objectUrl,
+          })
+        }
+        break;
+      }
+    }
+
+
+    var that=this;
+    wx.getSystemInfo({
+        success: function (res) {
+            that.data.mainContentH = res.windowHeight * 2 - 80
+            that.setData({
+                mainContentH:that.data.mainContentH
+            });
+            //console.log(res);
+        }
+    })
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    //通过id 获取控件
+    this.alert = this.selectComponent("#alert")
+    this.toast = this.selectComponent("#toast")
+  },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+    if(app.refreshMyTraining){
+        this.requestClassList(0);
+        app.refreshMyTraining=false;
+    }
+
+
+    //详情页返回---班级列表刷新数据
+    if (this.data.centerType == 1) {
+      this.requestClassList(2)
+      this.setData({
+        centerType: 0
+      })
+    }
+  },
+  /**
+   * 刷新
+   */
+  onPullDownRefresh() {
+    wx.showNavigationBarLoading()
+    this.requestYearList(1);
+    this.requestClassList(1);
+  },
+  /**
+   * 网络请求------年度列表
+   * @param index 0 默认 1 下拉刷新
+   */
+  requestYearList(index) {
+    var that=this;
+    wx.showLoading({ title: '加载中......', mask: true })
+    app.requestData(app.config.getAllTrainingYears, {}, "GET").then(data => {
+        wx.hideLoading()
+        if (data.head.code === app.constant.network_result_success) {
+            that.data.yearList=data.data.trainingYearList;
+            that.data.yearList.unshift({name:'全部',yearId:''});
+            that.setData({
+                yearList:that.data.yearList
+            });
+            that.requestClassList(0);
+        }else{
+            that.toast.show(data.head.message);
+            return false;
+        }
+
+
+        console.log(data);
+    }).catch(e => {
+        wx.hideLoading()
+        console.log(e)
+    })
+
+
+
+  },
+  /**
+   * 网络请求--------培训班列表
+   * @param item 年份对象  
+   * @param index 0 默认 1 触顶刷新 2 详情返回
+   */
+  requestClassList(index) {
+    //详情页返回---刷新数据（加载视图不显示）
+    if (index != 2) {
+      wx.showLoading({ title: '加载中......', mask: true })
+    }
+    //wx.showLoading({ title: '加载中......', mask: true })
+
+    var that=this;
+    // 参数
+    var param = {
+      yearId:that.data.currentYearId
+    }
+    app.requestData(app.config.getMyClassInfo, param, "GET").then(data => {
+      wx.hideLoading();
+      //wx.hideNavigationBarLoading();
+      //wx.stopPullDownRefresh();
+      if (index == 1) {
+        wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
+      }
+      if (data.head.code === app.constant.network_result_success) {
+          console.log(data);
+          that.data.trainingList=data.data.trainingList;
+          that.setData({
+              trainingList:that.data.trainingList
+          });
+      }else{
+        this.toast.show(data.head.message);
+        return false;
+      }
+    }).catch(e => {
+      wx.hideLoading()
+      //wx.hideNavigationBarLoading()
+      //wx.stopPullDownRefresh()
+      if (index == 1) {
+        wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
+      }
+      console.log(e)
+    })
+  },
+  /**
+   * 点击事件---年份切换
+   */
+  yearItemClick: function (e) {
+    var that=this;
+    var item = e.currentTarget.dataset.item;
+    if(this.data.currentYearId===item.yearId){
+      return false;
+    }
+    this.data.currentYearId=item.yearId;
+    this.setData({
+        currentYearId:that.data.currentYearId
+    });
+    this.requestClassList(0);
+  },
+  /**
+   * 点击事件---进入详情页（业务逻辑判断）
+   * trainingState         培训班状态       0-待培训   1-培训中   2-培训结束
+   * trainingItemStatus    物品池状态       0-正常     1-冻结     2-失效
+   * assessResult          培训班考核结果   -1-未考核   0-不合格   1-合格
+   */
+  itemClick(e) {
+    var _this = this
+    var item = e.currentTarget.dataset.item;
+
+    if (item.trainingState == 0) {
+      return this.alert.show('培训尚未开始，未开放学习！')
+    } else if (item.trainingState == 2) {
+      return this.alert.show('培训已结束！')
+    } else if (item.trainingItemStatus == 1) {
+      return this.alert.show('班级锁定中，暂无法学习！')
+    } else if (item.trainingItemStatus == 2) {
+      return this.alert.show('培训已失效！')
+    }
+    //判断是否要第一次进入详情页
+    wx.getStorage({
+      key: FIRSTTRAININGDETAIL,
+      success: function (res) {
+        if (res.data = '1') {
+          _this.goToTrainingDetail(item.trainingClassId)
+        } else {
+          _this.firstTrainingDetail(item.trainingClassId)
+        }
+      },
+      fail: function (res) {
+        _this.firstTrainingDetail(item.trainingClassId)
+      }
+    })
+  },
+
+
+  returnTop:function(){
+      var that = this;
+      that.data.scrollTop = 0;
+      that.setData({
+          scrollTop: that.data.scrollTop
+      });
+  },
+  /**
+   * TO-班级详情
+   */
+  goToTrainingDetail(trainingClassId) {
+    this.setData({
+      centerType: 1
+    })
+    wx.navigateTo({
+      url: '../trainclassDetail/trainclassDetail' + "?trainingClassId=" + trainingClassId,
+    })
+  },
+  /**
+   * 提示框(第一次进入班级详情)
+   */
+  firstTrainingDetail(trainingClassId) {
+    var _this = this
+    wx.showModal({
+      content: '亲爱的学员，班级学习进度>0即无法申请退款！',
+      showCancel: true,
+      cancelText: '返回',
+      confirmText: '进入班级',
+      success: function (res) {
+        wx.setStorage({
+          key: FIRSTTRAININGDETAIL,
+          data: '1'
+        })
+        if (res.confirm) {
+          _this.goToTrainingDetail(trainingClassId)
+        }
+      }
+    })
+  }
+})

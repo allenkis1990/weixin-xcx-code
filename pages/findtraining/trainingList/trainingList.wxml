@@ -1,0 +1,28 @@
+<!--发现培训-培训班学习-->
+<view class="contain" wx:if="{{isShowBuy}}">
+  <!--年度选择-->
+  <view class="hb-year-box">
+    <view class="year-tit">年度</view>
+    <view class="year-bd">
+      <text class="items {{currentNavtab==idx ? 'current' : ''}}" wx:for="{{yearList}}" wx:for-index="idx" wx:key="key" data-idx="{{idx}}" data-item='{{item}}' bindtap='yearItemClick'>{{item.skuPropertyValueName}}</text>
+    </view>
+  </view>
+  <!--/年度选择-->
+  <view class="hb-wrap-box-8">
+    <view class="no-data-box" wx:if="{{trainingClassList.length == 0}}">
+        <empty></empty>
+    </view>
+     <training-list window-height="{{winHeight}}" id="trainigClass" trainingClassList="{{trainingClassList}}" isFinish="{{isFinish}}"></training-list> 
+  </view>
+
+  <!--返回顶部-->
+  <view class="layer-box" catchtap='backToTopAction'>
+    <view class="a-items">
+      <image class="img" src="/image/icon-top.png" alt=" " />
+    </view>
+  </view>
+  <!--/返回顶部-->
+</view>
+
+<guide class="contain" wx:if="{{!isShowBuy}}">
+</guide>

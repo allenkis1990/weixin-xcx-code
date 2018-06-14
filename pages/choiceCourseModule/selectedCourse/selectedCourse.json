@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "选择课程",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "requirementComponent": "/pages/choiceCourseModule/requirementComponent/requirementComponent",
+    "courseWrapComponent":"/pages/choiceCourseModule/courseWrapComponent/courseWrapComponent",
+    "emptyComponent":"/pages/choiceCourseModule/emptyComponent/emptyComponent",
+    "alert":"/component/alert/alert",
+    "star": "/component/star/star"
+  }
+}

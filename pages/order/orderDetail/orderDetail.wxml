@@ -1,0 +1,392 @@
+<!--pages/order/orderDetail/orderDetail.wxml-->
+<!--订单详情-->
+<wxs module="orderDetailUtil" src="./orderDetailUtil.wxs"></wxs>
+<view class="contain">
+  <scroll-view scroll-y style="width:100%;height:100%;">
+    <view class="hb-wrap-box hb-wrap-box-5">
+      <!--订单状态-->
+      <view class="weui-cells hb-panel bor-b20">
+        <view class="weui-cell hb-order-status weui-cell_access">
+          <view class="weui-cell__hd">
+            <image class="hb-ico" src="/image/status-trading-success.png" />
+          </view>
+          <view class="weui-cell__bd">
+            <view class="fs30">订单状态：
+              <text class="ci">{{orderDetailUtil.getOrderStatusText(orderDetailInfo.status)}}</text>
+            </view>
+            <view class="time">{{orderDetailInfo.createTime}}</view>
+          </view>
+          <view class="weui-cell__ft" bindtap='goToSeeModeOrderStatusAction' wx:if="{{!orderDetailUtil.isShowCancelOrderButton(orderDetailInfo.status)}}">更多状态</view>
+          <view class="btn-bar">
+            <view class="hb-btn-s" bindtap='cancelOrderAction' wx:if='{{orderDetailUtil.isShowCancelOrderButton(orderDetailInfo.status)}}'>取消订单</view>
+            <view class="hb-btn-s current" catchtap='payOrderAction' wx:if='{{orderDetailUtil.isShowCancelOrderButton(orderDetailInfo.status)}}'>立即支付</view>
+          </view>
+        </view>
+      </view>
+      <!--订单状态-->
+
+
+
+      <!-- <view class="weui-panel hb-panel bor-b20" wx:for="{{orderDetailInfo.cerDeliverInfo}}" wx:key="{{item.cerNo}}">
+      <view class="weui-panel__hd">证书物流信息</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="bd-items">
+              <text class="tit-1">证书名称：</text>
+              <text class="txt">{{item.cerName}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">证书编码：</text>
+              <text class="txt">{{item.cerNo}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">快递公司：</text>
+              <text class="txt">{{item.expressCompany}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">快递单号：</text>
+              <view class="txt">{{item.trackingNumber}}</view>
+              <view class="btn-bar">
+                <view class="hb-btn-s">复制</view>
+                <view class="hb-btn-s current" bindtap='goToSeeLogisticsScheduleAction' data-express-companyUrl='{{item.expressCompanyUrl}}'>物流进度</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">证书配送信息</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="bd-items">
+              <text class="tit-1">配送方式：</text>
+              <text class="txt">{{orderDetailUtil.getInvoicePrintTypeText(cetDeliverFirstInfo.deliverType)}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">收货人：</text>
+              <text class="txt">{{orderDetailUtil.getShowReceiveUserText(cetDeliverFirstInfo.receiverName,cetDeliverFirstInfo.mobileNo)}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">收货地址：</text>
+              <text class="txt">{{orderDetailUtil.getShowReceiveAddressText(cetDeliverFirstInfo.addressDetails,cetDeliverFirstInfo.postCode)}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">取件地址：</text>
+              <text class="txt">{{orderDetailUtil.dealWithShowString(cetDeliverFirstInfo.selfPickupAddress)}}</text>
+            </view>
+            <view class="bd-items">
+              <text class="tit-1">自取时间：</text>
+              <text class="txt">{{orderDetailUtil.dealWithShowString(cetDeliverFirstInfo.selfPickupDate)}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel hb-panel bor-b20">
+      <view class="weui-panel__hd">发票及证书配送信息</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="bd-items">
+              <text class="tit-1">配送方式：</text>
+              <text class="txt">{{orderDetailUtil.getDeliverTypeText(orderDetailInfo.orderInvoice.deliverType)}}</text>
+            </view>
+            <view class="bd-items" wx:if='{{orderDetailInfo.orderInvoice.deliverType !== undefined && orderDetailInfo.orderInvoice.deliverType ==1}}'>
+                <text class="tit-1">收货人：</text>
+                <text class="txt">{{orderDetailUtil.getShowReceiveUserText(orderDetailInfo.orderInvoice.receiverName,orderDetailInfo.orderInvoice.mobileNo)}}</text>
+              </view>
+              <view class="bd-items" wx:if='{{orderDetailInfo.orderInvoice.deliverType !== undefined && orderDetailInfo.orderInvoice.deliverType ==1}}'>
+                <text class="tit-1">收货地址：</text>
+                <text class="txt">{{orderDetailUtil.getShowReceiveAddressText(orderDetailInfo.orderInvoice.postAddress,orderDetailInfo.orderInvoice.postCode)}}</text>
+              </view>
+              <view class="bd-items" wx:if='{{orderDetailInfo.orderInvoice.deliverType !== undefined && orderDetailInfo.orderInvoice.deliverType ==2}}'>
+                <text class="tit-1">取件地址：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.orderInvoice.selfPickupAddress)}}</text>
+              </view>
+              <view class="bd-items" wx:if='{{orderDetailInfo.orderInvoice.deliverType !== undefined && orderDetailInfo.orderInvoice.deliverType ==2}}'>
+                <text class="tit-1">自取时间：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.orderInvoice.selfPickupDate)}}</text>
+              </view>
+          </view>
+        </view>
+      </view>
+    </view>  -->
+
+      <view class="weui-panel hb-panel bor-b20">
+        <view class="weui-panel__hd">订单信息</view>
+        <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">
+              <view class="bd-items">
+                <text class="tit-1">订单类型：</text>
+                <text class="txt">{{orderDetailUtil.getOrderTypeText(orderDetailInfo.businessType)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">订单号：</text>
+                <text class="txt">{{orderDetailInfo.orderNo}}</text>
+              </view>
+              <view class="bd-items" wx:if="{{orderDetailUtil.isShowOriginalOrderNo(orderDetailInfo.businessType,orderDetailInfo.originalOrderNo)}}">
+                <text class="tit-1">原订单号：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.originalOrderNo)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">下单时间：</text>
+                <text class="txt">{{orderDetailInfo.createTime}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">支付方式：</text>
+                <text class="txt">{{orderDetailUtil.getPayType(orderDetailInfo)}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+      <!--发票抬头为个人-->
+      <view class="weui-panel hb-panel bor-b20" wx:if="{{(orderDetailInfo.totalAmount!== undefined && orderDetailInfo.totalAmount!==null &&orderDetailInfo.totalAmount!== 0) && orderDetailInfo.invoiceDeliverInfo && orderDetailInfo.invoiceDeliverInfo.titleType== 1}}">
+        <view class="weui-panel__hd">发票信息</view>
+        <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">
+
+              <view class="bd-items">
+                <text class="tit-1">开票状态：</text>
+                <text class="txt">{{orderDetailUtil.getInvoiceState(orderDetailInfo.invoiceDeliverInfo.state)}}</text>
+              </view>
+
+              <view class="bd-items">
+                <text class="tit-1">开票方式：</text>
+                <text class="txt">{{orderDetailUtil.getInvoicePrintTypeText(orderDetailInfo.invoiceDeliverInfo.electron)}}</text>
+                <!-- <view class="hb-btn-s current" style='position:relative;top:5rpx;height:60rpx;' wx:if="{{orderDetailUtil.isShowSeeInvoice(orderDetailInfo.orderInvoice)}}" catchtap='goToSeeEletronInvoiceAction'>查看发票</view> -->
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">抬头类型：</text>
+                <text class="txt">{{orderDetailUtil.getInvoiceTitleTypeText(orderDetailInfo.invoiceDeliverInfo.titleType)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">发票抬头：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.invoiceDeliverInfo.title)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">电子邮箱：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.email}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">发送状态：</text>
+                <text class="txt">{{orderDetailUtil.getIfBillNo(orderDetailInfo.invoiceDeliverInfo.billNo)}}</text>
+              </view>
+
+              <!--<view class="bd-items" wx:if='{{orderDetailInfo.orderInvoice.invoiceType!== 4 && orderDetailInfo.orderInvoice.titleType !== undefined && orderDetailInfo.orderInvoice.titleType == 2 }}'>
+                <text class="tit-1">纳税人识别号：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.orderInvoice.taxpayerNo)}}</text>
+              </view>
+              <view class="bd-items" wx:if="{{orderDetailInfo.orderInvoice.electron && (orderDetailInfo.orderInvoice.state == 1 || orderDetailInfo.orderInvoice.state == 2)}}">
+                <text class="tit-1">查询验证码：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.orderInvoice.verifyCode)}}</text>
+              </view>
+              <view class="bd-items" wx:if="{{orderDetailInfo.orderInvoice.electron && (orderDetailInfo.orderInvoice.state == 1 || orderDetailInfo.orderInvoice.state == 2)}}">
+                <text class="tit-1">发票代码：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.orderInvoice.code)}}</text>
+              </view>
+              <view class="bd-items" wx:if="{{orderDetailInfo.orderInvoice.invoiceNo != undefined && orderDetailInfo.orderInvoice.invoiceNo.length}}">
+                <text class="tit-1 tit-3">发票号：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.orderInvoice.invoiceNo)}}</text>
+              </view>-->
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!--发票抬头为单位-->
+      <view class="weui-panel hb-panel bor-b20" wx:if="{{(orderDetailInfo.totalAmount!== undefined  && orderDetailInfo.totalAmount!==null && orderDetailInfo.totalAmount!== 0) && orderDetailInfo.invoiceDeliverInfo && orderDetailInfo.invoiceDeliverInfo.titleType== 2}}">
+        <view class="weui-panel__hd">发票信息</view>
+        <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">
+
+              <view class="bd-items">
+                <text class="tit-1">开票状态：</text>
+                <text class="txt">{{orderDetailUtil.getInvoiceState(orderDetailInfo.invoiceDeliverInfo.state)}}</text>
+              </view>
+
+
+              <view class="bd-items">
+                <text class="tit-1">开票方式：</text>
+                <text class="txt">{{orderDetailUtil.getInvoicePrintTypeText(orderDetailInfo.invoiceDeliverInfo.electron)}}</text>
+              </view>
+
+              <view class="bd-items">
+                <text class="tit-1">抬头类型：</text>
+                <text class="txt">{{orderDetailUtil.getInvoiceTitleTypeText(orderDetailInfo.invoiceDeliverInfo.titleType)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">发票抬头：</text>
+                <text class="txt">{{orderDetailUtil.dealWithShowString(orderDetailInfo.invoiceDeliverInfo.title)}}</text>
+              </view>
+
+              <view class="bd-items">
+                <text class="tit-1">统一社会信用代码：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.taxpayerNo?orderDetailInfo.invoiceDeliverInfo.taxpayerNo:'-'}}</text>
+              </view>
+
+              <view class="bd-items">
+                <text class="tit-1">电子邮箱：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.email}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">发送状态：</text>
+                <text class="txt">{{orderDetailUtil.getIfBillNo(orderDetailInfo.invoiceDeliverInfo.billNo)}}</text>
+              </view>
+
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+      <!--报名班级-->
+      <view class="weui-panel hb-panel">
+        <view class="weui-panel__hd">报名班级</view>
+        <view class="hb-media-box hb-media-box-1" wx:for="{{orderDetailInfo.subOrderList}}" wx:if="{{index == 0 || (index>=1 && isOpenMoreContent && isShowMoreTrainingContent)}}" wx:key="{{item.subOrderNo}}">
+          <view class="hb-media-box-hd">
+            <image class="hb-media-box-thumb" src="{{item.photoPath}}" />
+          </view>
+          <view class="hb-media-box-bd">
+            <view class="hb-media-box-title">{{item.skuName}}</view>
+            <view class="hb-media-box-desc">年度：{{orderDetailUtil.getSkuValueWithKeyFromSkuArray('继续教育年度',item.skuPropertyNameList)}}年</view>
+            <view class="hb-media-box-desc">科目：{{orderDetailUtil.getSkuValueWithKeyFromSkuArray('科目',item.skuPropertyNameList)}}</view>
+            <view class="hb-media-box-desc">学时：{{item.trainingPeriod}}</view>
+          </view>
+          <view class="price">￥
+            <text class="num">{{item.totalAmount}}</text>
+          </view>
+        </view>
+        <view class="weui-cells" wx:if="{{isShowMoreTrainingContent && !isOpenMoreContent}}" catchtap='changeIsOpenMoreContentAction'>
+          <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd"></view>
+            <view class="weui-cell__ft weui-cell__ft-1">查看更多</view>
+          </view>
+        </view>
+        <view class="weui-cells" wx:if="{{isShowMoreTrainingContent && isOpenMoreContent}}" catchtap='changeIsOpenMoreContentAction'>
+          <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd"></view>
+            <view class="weui-cell__ft weui-cell__ft-2">收起</view>
+          </view>
+        </view>
+        <view class="order-info-box">
+          <view></view>
+          <view>实付
+            <text class="ml10 ci">¥ {{totalPriceString}}</text> </view>
+        </view>
+      </view>
+
+
+
+      <!--发票配送信息(邮寄)-->
+      <view class="weui-panel hb-panel bor-b20" wx:if='{{(orderDetailInfo.totalAmount!== undefined && orderDetailInfo.totalAmount!== 0 && orderDetailInfo.totalAmount!==null) && ( orderDetailInfo.invoiceDeliverInfo && !orderDetailInfo.invoiceDeliverInfo.electron && orderDetailInfo.invoiceDeliverInfo.deliverType===1) }}'>
+        <view class="weui-panel__hd">发票配送信息</view>
+        <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">
+              <view class="bd-items">
+                <text class="tit-1">配送方式：</text>
+                <text class="txt">{{orderDetailUtil.getDeliverTypeText(orderDetailInfo.invoiceDeliverInfo.deliverType)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">收件人：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.receiverName?orderDetailInfo.invoiceDeliverInfo.receiverName:'-'}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">手机号：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.mobileNo?orderDetailInfo.invoiceDeliverInfo.mobileNo:'-'}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">收件地址：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.addressDetails?orderDetailInfo.invoiceDeliverInfo.addressDetails:'-'}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">邮政编码：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.postCode?orderDetailInfo.invoiceDeliverInfo.postCode:'-'}}</text>
+              </view>
+
+            </view>
+          </view>
+        </view>
+      </view>
+      <!--发票配送信息(自取)-->
+      <view class="weui-panel hb-panel bor-b20" wx:if='{{(orderDetailInfo.totalAmount!== undefined && orderDetailInfo.totalAmount!== 0 && orderDetailInfo.totalAmount!==null) && ( orderDetailInfo.invoiceDeliverInfo && !orderDetailInfo.invoiceDeliverInfo.electron && orderDetailInfo.invoiceDeliverInfo.deliverType===2) }}'>
+        <view class="weui-panel__hd">发票配送信息</view>
+        <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">
+              <view class="bd-items">
+                <text class="tit-1">配送方式：</text>
+                <text class="txt">{{orderDetailUtil.getDeliverTypeText(orderDetailInfo.invoiceDeliverInfo.deliverType)}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">自取点名称：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.selfAddressName?orderDetailInfo.invoiceDeliverInfo.selfAddressName:'-'}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">自取地址：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.selfPickUpAddress?orderDetailInfo.invoiceDeliverInfo.selfPickUpAddress:'-'}}</text>
+              </view>
+              <view class="bd-items">
+                <text class="tit-1">自取时间：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.selfPickUpDate?orderDetailInfo.invoiceDeliverInfo.selfPickUpDate:'-'}}</text>
+              </view>
+
+              <view class="bd-items">
+                <text class="tit-1">备注：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.remark?orderDetailInfo.invoiceDeliverInfo.remark:'-'}}</text>
+              </view>
+
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+      <!--发票物流-->
+      <view class="weui-panel hb-panel bor-b20" wx:if='{{(orderDetailInfo.totalAmount!== undefined && orderDetailInfo.totalAmount!== 0 && orderDetailInfo.totalAmount!==null) && ( orderDetailInfo.invoiceDeliverInfo && !orderDetailInfo.invoiceDeliverInfo.electron && orderDetailInfo.invoiceDeliverInfo.deliverType!==2) }}'>
+        <view class="weui-panel__hd">发票物流信息</view>
+        <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">
+              <view class="bd-items">
+                <text class="tit-1">快递公司：</text>
+                <text class="txt">{{orderDetailInfo.invoiceDeliverInfo.expressCompany?orderDetailInfo.invoiceDeliverInfo.expressCompany:'-'}}</text>
+            </view>
+              <view class="bd-items">
+                <text class="tit-1">快递单号：</text>
+                <view class="txt">{{orderDetailInfo.invoiceDeliverInfo.trackingNumber?orderDetailInfo.invoiceDeliverInfo.trackingNumber:'-'}}</view>
+                 <view class="btn-bar">
+                  <!--<view class="hb-btn-s" wx:if="{{orderDetailUtil.isShowExpressMessage(orderDetailInfo.orderInvoice)}}" bindtap='copyContentToClipboardAction' data-content="{{orderDetailInfo.orderInvoice.trackingNumber}}">复制</view>-->
+<!--
+                  <view class="hb-btn-s current" bindtap='goToSeeLogisticsScheduleAction' data-express-company-url='{{orderDetailInfo.invoiceDeliverInfo.expressCompanyUrl}}'>物流进度</view>
+-->
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+
+
+
+    </view>
+  </scroll-view>
+  <!--<view class="hb-tabbar" wx:if="{{isShowCompleteButton}}">
+    <view class="hb-btn hb-btn-3" bindtap='completeSendInfoAction'>完善配送信息 </view>
+  </view>-->
+</view>
+<!--提示框-->
+<alert id='alert'></alert>

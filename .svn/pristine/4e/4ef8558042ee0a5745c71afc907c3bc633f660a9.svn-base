@@ -1,0 +1,43 @@
+<wxs src="./courseComponentUtil.wxs" module="courseComponentUtil" />
+<import src="/component/alertMessage/alertMessage.wxml" />
+<template is="alertMessage" data="{{...__alertmessage__}}" />
+<import src="/component/wetoast/wetoast.wxml" />
+<template is="wetoast" data="{{...__wetoast__}}" />
+<view class="course-detail-tab-bd">
+  <view class="exam-panel-hd">
+    <view class="hd-info">当前必修课共{{requiredCourseHours}}学时 | 选修课共{{courseChooseHours}}学时</view>
+    <!--<view class="hd-info">当前课程共{{requireCourseHours}}学时</view>-->
+    <!-- <view class="hd-info" wx:if="{{!hasInterestCourse}}">您尚未选择兴趣课</view> -->
+    <view class="hd-btn" wx:if="{{hasInterestCourse}}" bindtap='interestClick'>兴趣课程</view>
+  </view>
+  <view class="course-detail-list">
+    <view class="list-items" wx:for="{{courseList}}" data-item="{{item}}" wx:key="key" bindtap='coursePlayClick'>
+      <view class="items-bd">
+        <view class="items-bd-tit">{{item.courseName}}</view>
+        <view class="items-bd-desc">
+          <view class="label">{{item.period}}学时</view>
+          <view class="label">{{item.courseType ==0 ? '必修课' : '选修课'}}</view>
+          <view class="course-bag-name">{{item.courseWrapName}}</view>
+        </view>
+        <view class="line-process">
+          <view class="process-bd">
+            <view class="current" style="width: {{item.schedule}}%;"></view>
+          </view>
+          <view class="process-ft">{{item.schedule}}%</view>
+        </view>
+      </view>
+      <view class="items-ft">
+        <view class="course-play">
+          <image class="img" src="/image/icon-play.png" alt=" " />
+        </view>
+      </view>
+    </view>
+  </view>
+   <view class="hb-tabbar" wx:if='{{hasSelectCourse>0}}'>
+    <view class="left-box" wx:if='{{needHourse>0 && !courseComponentUtil.showWholeNeedHours(optionalPackageRequires, wholeRemainingHours, periodType)}}'>已选{{choiceHourse}}学时，
+      <text class="ci">还需选{{needHourse}}学时</text>，请继续选课</view>
+     <view class="left-box" wx:if='{{needHourse<=0 && !courseComponentUtil.showWholeNeedHours(optionalPackageRequires, wholeRemainingHours, periodType)}}'>累计已选{{choiceHourse==-1?0:choiceHourse}}学时，无须继续选课</view> 
+     <view class="left-box" wx:if='{{courseComponentUtil.showWholeNeedHours(optionalPackageRequires, wholeRemainingHours, periodType)}}'>累计已选{{choiceHourse==-1?0:choiceHourse}}学时，本次培训只需选满{{courseRequireHours}}学时，可根据个人事迹继续选课</view> 
+    <view class="hb-btn  {{periodType==2 ? '':condition ? 'disabled':''}}" bindtap='goChoiceCourse'>去选课</view>
+  </view> 
+</view>

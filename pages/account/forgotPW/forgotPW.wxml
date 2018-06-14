@@ -1,0 +1,21 @@
+<!--找回密码-->
+<view class="contain">
+    <view class="tips-box">
+        <text class="ci">请输入姓名、身份证号，并提交。 提交成功后，您的密码将重置为000000，登录成功后请即时修改您的密码。</text>
+    </view>
+    <view class="hb-form-cells">
+        <view class="h1">找回密码</view>
+        <view class="weui-cells weui-cells_form">
+
+            <view class="weui-cell weui-cell_vcode">
+                <view class="weui-cell__hd"><text class="weui-label weui-label">姓　名</text></view>
+                <view class="weui-cell__bd"><input type="text" placeholder="请输入您的姓名" class="weui-input" bindinput='inputStringOclick' data-input-key="inputName"/></view>
+            </view>
+            <view class="weui-cell">
+                <view class="weui-cell__hd"><text class="weui-label">身份证</text></view>
+                <view class="weui-cell__bd"><input type="text" placeholder="请输入您的身份证号码" class="weui-input" bindinput='inputStringOclick' data-input-key="inputAccount"/></view>
+            </view>
+        </view>
+        <view class="btn-full tc mt25" catchtap='forgotClick'>找回密码</view>
+    </view>
+</view>

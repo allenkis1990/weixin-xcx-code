@@ -1,0 +1,6 @@
+<view class="contain exam-enter-panel">
+  <view class="countdown-box"></view>
+  <view class="p50">
+    <view class="btn-full" bindtap='testEnter'>进入练习</view>
+  </view>
+</view>

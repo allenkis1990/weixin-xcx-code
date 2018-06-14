@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "证明配送信息",
+  "usingComponents": {
+    "address-choose-picker": "/component/addressChoosePicker/addressChoosePicker"
+  },
+  "enablePullDownRefresh": false
+}

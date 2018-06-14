@@ -1,0 +1,77 @@
+<!--注册页-->
+<view class="contain">
+  <view class="hb-form-cells">
+    <view class="tit-box-1">
+      <view class="h1">新用户注册</view>
+    </view>
+    <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">帐号</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="text" placeholder="请输入身份证号" bindinput='inputStringOclick' data-input-key="inputAccount" class="weui-input" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">姓名</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="text" placeholder="请输入真实姓名" bindinput='inputStringOclick' data-input-key="inputName" class="weui-input" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">性别</text>
+        </view>
+        <picker class="weui-cell__bd c9" bindchange="bindSexChange" value="{{index}}" range="{{genderList}}" range-key='name'>
+          <view class="arrow"></view>
+          <view class="{{selectedGenderValue==-1?'color-gray':'color-black'}}">{{showGenderText}}</view>
+        </picker>
+        <view class="weui-cell__ft"></view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">单位</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="text" placeholder="请填写您所在单位全称" class="weui-input" bindinput='inputStringOclick' data-input-key="inputUnitName" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">证件</text>
+        </view>
+        <address-picker class="weui-cell__bd c9" area-info="{{areaInfo}}" bindconfirmAction="_pickerConfirmAction" show-value-text="请选择您的证件所在地区"></address-picker>
+        <view class="weui-cell__ft"></view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">手机</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="text" placeholder="请输入您的11位手机号" bindinput='inputStringOclick' data-input-key="inputPhoneNumber" class="weui-input" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2">密码</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="password" placeholder="请输入6~18位由字母、数字组成的密码" class="weui-input" bindinput='inputStringOclick' data-input-key="inputPassword" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <text class="weui-label weui-label-2 padding-right">确认密码</text>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="password" placeholder="请再次输入密码" class="weui-input" bindinput='inputStringOclick' data-input-key="inputAgainPassword" />
+        </view>
+      </view>
+
+    </view>
+    <view class="btn-primary mt40 margin-btm" catchtap='registeredClick'>立即注册</view>
+  </view>
+</view>

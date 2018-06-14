@@ -1,0 +1,69 @@
+var getStatusImageSrc = function (status) {
+  var src = ""
+  switch (status) {
+    case 0: {
+      src = "/image/record-submit.png"
+      break
+    }
+    case 1: {
+      src = "/image/record-submit.png"
+
+      break
+    }
+    case 3: {
+      src = "/image/record-paid.png"
+      break
+    }
+    case 5: {
+      src = "/image/record-send.png"
+      break
+    }
+    case 6: {
+      src = "/image/record-success.png"
+      break
+    }
+    case 7: {
+      src = "/image/record-submit.png"
+      break
+    }
+    default:
+      break
+  }
+  return src
+}
+var getStatusText = function (status) {
+  var str = ''
+  switch (status) {
+    case 0: {
+      str = '订单提交成功'
+      break
+    }
+    case 1: {
+      str = '下单成功'
+      break
+    }
+    case 3: {
+      str = '已付款'
+      break
+    }
+    case 5: {
+      str = '已发货'
+      break
+    }
+    case 6: {
+      str = '交易成功'
+      break
+    }
+    case 7: {
+      str = '交易关闭'
+      break
+    }
+    default:
+      break
+  }
+  return str
+}
+module.exports = {
+  getStatusImageSrc: getStatusImageSrc,
+  getStatusText: getStatusText
+}

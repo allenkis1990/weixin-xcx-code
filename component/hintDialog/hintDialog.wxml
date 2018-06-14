@@ -1,0 +1,17 @@
+<template name='hintDialog'>
+  <view class="contain" wx:if="{{isShow}}">
+    <view class="hd-dialog" bindtap='hideDailog'>
+      <view class="weui-mask"></view>
+      <view class="weui-dialog">
+        <view class="weui-dialog__hd">
+          <view class="weui-dialog__title">提示</view>
+        </view>
+        <view class="weui-dialog__bd">{{title}}</view>
+        <view class="weui-dialog__ft">
+          <view class="weui-dialog__btn weui-dialog__btn_default" catchtap='_hintdialog_right'>{{right}}</view>
+          <view class="weui-dialog__btn weui-dialog__btn_primary" catchtap='_hdialogpanel_left'>{{left}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
